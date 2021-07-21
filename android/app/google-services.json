@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "837958447167",
+    "project_id": "tcc-bora-show",
+    "storage_bucket": "tcc-bora-show.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837958447167:android:0949305f9bff1cd892888a",
+        "android_client_info": {
+          "package_name": "com.example.tcc_bora_show"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837958447167-0t833qlqbhq8bsqjh9p77kmhv8m3diek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tcc_bora_show",
+            "certificate_hash": "b4544f5b44fc514011882b67f4afc0992115e2b9"
+          }
+        },
+        {
+          "client_id": "837958447167-msdv6u03llb6aj7q9crj9e3up9o6tu5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwPAPBdx_1o7ak7NR5oaM6xgbxRrBY4jM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837958447167-msdv6u03llb6aj7q9crj9e3up9o6tu5t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
