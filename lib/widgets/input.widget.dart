@@ -7,6 +7,7 @@ class InputWidget extends StatelessWidget {
   final TextInputType keyboard;
   final bool autofocus;
   final bool obscure;
+  final int maxLines;
 
   const InputWidget({
     Key? key,
@@ -15,6 +16,7 @@ class InputWidget extends StatelessWidget {
     this.keyboard = TextInputType.text,
     this.autofocus = false,
     this.obscure = false,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class InputWidget extends StatelessWidget {
         keyboardType: keyboard,
         autofocus: autofocus,
         obscureText: obscure,
+        maxLines: maxLines,
         decoration: InputDecoration(
             hintText: placeholder,
             hintStyle: TextStyle(color: AppColors.textLight),

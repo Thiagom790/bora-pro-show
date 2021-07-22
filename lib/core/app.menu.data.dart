@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_bora_show/views/events.view.dart';
 import 'package:tcc_bora_show/views/profile.view.dart';
 
 final menuData = {
@@ -13,7 +14,11 @@ final menuData = {
       "page": Container(child: Text('Shows')),
       "icon": Icon(Icons.location_on)
     },
-    {"title": "Perfil", "page": ProfileView(), "icon": Icon(Icons.person)},
+    {
+      "title": "Perfil",
+      "page": ProfileView(),
+      "icon": Icon(Icons.person),
+    },
   ],
   "organizer": [
     {
@@ -22,11 +27,15 @@ final menuData = {
       "icon": Icon(Icons.location_on)
     },
     {
-      "title": "Gerência",
-      "page": Container(child: Text('Gerência')),
-      "icon": Icon(Icons.business_center)
+      "title": "Eventos",
+      "page": EventsView(),
+      "icon": Icon(Icons.festival),
     },
-    {"title": "Perfil", "page": ProfileView(), "icon": Icon(Icons.person)},
+    {
+      "title": "Perfil",
+      "page": ProfileView(),
+      "icon": Icon(Icons.person),
+    },
   ],
   "musician": [
     {
@@ -39,7 +48,11 @@ final menuData = {
       "page": Container(child: Text('Gerência')),
       "icon": Icon(Icons.business_center)
     },
-    {"title": "Perfil", "page": ProfileView(), "icon": Icon(Icons.person)},
+    {
+      "title": "Perfil",
+      "page": ProfileView(),
+      "icon": Icon(Icons.person),
+    },
   ],
 };
 
