@@ -49,6 +49,29 @@ class _ProfileViewState extends State<ProfileView> {
 
   void _onSelectProfile(ProfileViewModel profile) {
     print("Print de dentro de profileview " + profile.id);
+    setState(() {
+      this._isLoading = true;
+    });
+
+    _controller.changeCurrentUserProfile(profileId: profile.id).then((data) {
+      print("Datos apos a troca" + data.id);
+      _store.setProfile(
+        userUid: data.id,
+        role: data.role,
+        name: data.name,
+        id: data.id,
+      );
+
+      setState(() {
+        this._isLoading = false;
+      });
+    }).catchError((error) {
+      print("erro da tela" + error.message);
+
+      setState(() {
+        this._isLoading = false;
+      });
+    });
   }
 
   @override

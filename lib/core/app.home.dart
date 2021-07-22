@@ -19,7 +19,7 @@ class _AppHomeState extends State<AppHome> {
   final _controller = ProfileController();
   late ProfileStore _store;
   bool _isLoading = true;
-  int _currentIndex = 1;
+  int _currentIndex = 2;
 
   Future<void> _handleGetProfile() async {
     try {

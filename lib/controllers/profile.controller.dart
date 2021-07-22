@@ -15,6 +15,23 @@ class ProfileController {
     _authRepository = AuthRepository();
   }
 
+  Future<ProfileModel> changeCurrentUserProfile({
+    required String profileId,
+  }) async {
+    try {
+      String userID = await _authRepository.uidUserAuth();
+      await _userRepository.setCurrentUserProfile(
+        userID: userID,
+        profileID: profileId,
+      );
+
+      ProfileModel profile = await _profileRepository.select(profileId);
+      return profile;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<ProfileModel> createProfile(ProfileModel model) async {
     try {
       String profileID = await _profileRepository.create(model);
