@@ -48,7 +48,7 @@ class AuthController {
   Future<UserViewModel> register(AuthViewModel model) async {
     model.busy = true;
     final email = model.email;
-    final senha = model.email;
+    final senha = model.senha;
     final name = model.name;
     final role = "user";
 
