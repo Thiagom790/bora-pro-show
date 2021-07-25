@@ -10,7 +10,7 @@ final menuData = {
       "icon": Icon(Icons.home)
     },
     {
-      "title": "shows",
+      "title": "Shows",
       "page": Container(child: Text('Shows')),
       "icon": Icon(Icons.location_on)
     },
@@ -22,7 +22,7 @@ final menuData = {
   ],
   "organizer": [
     {
-      "title": "shows",
+      "title": "Shows",
       "page": Container(child: Text('Shows')),
       "icon": Icon(Icons.location_on)
     },
@@ -39,7 +39,7 @@ final menuData = {
   ],
   "musician": [
     {
-      "title": "shows",
+      "title": "Shows",
       "page": Container(child: Text('Shows')),
       "icon": Icon(Icons.location_on)
     },

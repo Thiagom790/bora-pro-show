@@ -72,7 +72,7 @@ class _CreateProfileViewState extends State<CreateProfileView> {
       Navigator.pop(context);
     }).catchError((error) {
       setState(() {
-        _erroMessage = error.message();
+        _erroMessage = error.message;
         _isBusy = false;
       });
     });
