@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:tcc_bora_show/controllers/location.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/models/address.model.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
 
 class CreateEventView extends StatefulWidget {
@@ -10,63 +13,14 @@ class CreateEventView extends StatefulWidget {
 }
 
 class _CreateEventViewState extends State<CreateEventView> {
-  final List<Step> steps = [
-    Step(
-      title: Text('Informações', style: TextStyle(color: Colors.white)),
-      isActive: true,
-      state: StepState.complete,
-      content: Column(
-        children: <Widget>[
-          InputWidget(
-            placeholder: "Nome do Evento",
-          ),
-          InputWidget(
-            placeholder: "Data e Horario",
-          ),
-          InputWidget(
-            placeholder: "Estilo",
-          ),
-          InputWidget(
-            placeholder: "Descrição do Evento",
-            maxLines: 8,
-          ),
-        ],
-      ),
-    ),
-    Step(
-      title: Text('Endereços', style: TextStyle(color: Colors.white)),
-      isActive: false,
-      state: StepState.complete,
-      content: Column(
-        children: <Widget>[
-          InputWidget(
-            placeholder: "Local",
-          ),
-          InputWidget(
-            placeholder: "Numero",
-          ),
-        ],
-      ),
-    ),
-    Step(
-      title: Text('Artistas', style: TextStyle(color: Colors.white)),
-      isActive: false,
-      state: StepState.complete,
-      content: Column(
-        children: <Widget>[
-          Text('Zeca baleiro'),
-          Text('Zeca baleiro'),
-          Text('Zeca baleiro'),
-        ],
-      ),
-    ),
-  ];
-
-  int _currentStep = 0;
+  final _controller = LocationController();
+  List<Step> _stepList = [];
+  bool _isLoadedSuggest = false;
+  int _currentStep = 1;
   bool _isComplete = false;
 
   _nextStep() {
-    _currentStep + 1 != steps.length
+    _currentStep + 1 != this._stepList.length
         ? _goTo(_currentStep + 1)
         : setState(() => _isComplete = true);
   }
@@ -81,8 +35,77 @@ class _CreateEventViewState extends State<CreateEventView> {
     setState(() => this._currentStep = step);
   }
 
+  Future<List<AddressModel>> _handleSuggestion(String location) async {
+    return await _controller.locationSuggestion(location);
+  }
+
+  Widget _builderSuggestion(BuildContext context, AddressModel model) {
+    return Text(
+      'Main: ${model.mainText} descrip: ${model.description}',
+    );
+  }
+
+  List<Step> _getStepList() {
+    return [
+      Step(
+        title: Text('Informações', style: TextStyle(color: Colors.white)),
+        isActive: true,
+        state: StepState.complete,
+        content: Column(
+          children: <Widget>[
+            InputWidget(
+              placeholder: "Nome do Evento",
+            ),
+            InputWidget(
+              placeholder: "Data e Horario",
+            ),
+            InputWidget(
+              placeholder: "Estilo",
+            ),
+            InputWidget(
+              placeholder: "Descrição do Evento",
+              maxLines: 8,
+            ),
+          ],
+        ),
+      ),
+      Step(
+        title: Text('Endereços', style: TextStyle(color: Colors.white)),
+        isActive: false,
+        state: StepState.complete,
+        content: Column(
+          children: <Widget>[
+            TypeAheadField(
+              suggestionsCallback: this._handleSuggestion,
+              itemBuilder: this._builderSuggestion,
+              onSuggestionSelected: (model) {},
+              keepSuggestionsOnLoading: this._isLoadedSuggest,
+            ),
+            InputWidget(
+              placeholder: "Numero",
+            ),
+          ],
+        ),
+      ),
+      Step(
+        title: Text('Artistas', style: TextStyle(color: Colors.white)),
+        isActive: false,
+        state: StepState.complete,
+        content: Column(
+          children: <Widget>[
+            Text('Zeca baleiro'),
+            Text('Zeca baleiro'),
+            Text('Zeca baleiro'),
+          ],
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    this._stepList = this._getStepList();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -113,7 +136,7 @@ class _CreateEventViewState extends State<CreateEventView> {
               ],
             );
           },
-          steps: steps,
+          steps: this._stepList,
         ),
       ),
     );
