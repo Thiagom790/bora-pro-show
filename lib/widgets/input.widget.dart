@@ -3,7 +3,7 @@ import 'package:tcc_bora_show/core/app.colors.dart';
 
 class InputWidget extends StatelessWidget {
   final String placeholder;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboard;
   final bool autofocus;
   final bool obscure;
@@ -11,7 +11,7 @@ class InputWidget extends StatelessWidget {
 
   const InputWidget({
     Key? key,
-    required this.controller,
+    this.controller,
     this.placeholder = "",
     this.keyboard = TextInputType.text,
     this.autofocus = false,

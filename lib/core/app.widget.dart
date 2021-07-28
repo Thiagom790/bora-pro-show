@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/core/app.auth.dart';
 import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
+// import 'package:tcc_bora_show/views/teste.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({
@@ -19,6 +20,7 @@ class AppWidget extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AppAuth(),
+        // home: Teste(),
       ),
     );
   }
