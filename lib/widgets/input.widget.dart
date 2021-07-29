@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 
@@ -8,6 +10,7 @@ class InputWidget extends StatelessWidget {
   final bool autofocus;
   final bool obscure;
   final int maxLines;
+  final void Function()? onTap;
 
   const InputWidget({
     Key? key,
@@ -17,6 +20,7 @@ class InputWidget extends StatelessWidget {
     this.autofocus = false,
     this.obscure = false,
     this.maxLines = 1,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -31,14 +35,16 @@ class InputWidget extends StatelessWidget {
         obscureText: obscure,
         maxLines: maxLines,
         decoration: InputDecoration(
-            hintText: placeholder,
-            hintStyle: TextStyle(color: AppColors.textLight),
-            filled: true,
-            fillColor: AppColors.container,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            contentPadding: EdgeInsets.all(20)),
+          hintText: placeholder,
+          hintStyle: TextStyle(color: AppColors.textLight),
+          filled: true,
+          fillColor: AppColors.container,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          contentPadding: EdgeInsets.all(20),
+        ),
+        onTap: this.onTap,
       ),
     );
   }

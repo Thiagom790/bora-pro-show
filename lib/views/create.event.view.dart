@@ -16,7 +16,7 @@ class _CreateEventViewState extends State<CreateEventView> {
   final _controller = LocationController();
   List<Step> _stepList = [];
   bool _isLoadedSuggest = false;
-  int _currentStep = 1;
+  int _currentStep = 0;
   bool _isComplete = false;
 
   _nextStep() {
@@ -36,12 +36,34 @@ class _CreateEventViewState extends State<CreateEventView> {
   }
 
   Future<List<AddressModel>> _handleSuggestion(String location) async {
-    return await _controller.locationSuggestion(location);
+    // return await _controller.locationSuggestion(location);
+    List<AddressModel> lista = [
+      AddressModel(description: "Descrição de teste maroto do mal"),
+      AddressModel(description: "Descrição de teste maroto do mal"),
+      AddressModel(description: "Descrição de teste maroto do mal"),
+    ];
+    return lista;
   }
 
   Widget _builderSuggestion(BuildContext context, AddressModel model) {
-    return Text(
-      'Main: ${model.mainText} descrip: ${model.description}',
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      color: AppColors.container,
+      child: Text(
+        '${model.description}',
+        style: TextStyle(fontSize: 15, color: AppColors.textLight),
+      ),
+    );
+  }
+
+  void _showDatePicker() async {
+    final initialDate = DateTime.now();
+
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: initialDate,
+      lastDate: DateTime(DateTime.now().year + 10),
     );
   }
 
@@ -57,7 +79,8 @@ class _CreateEventViewState extends State<CreateEventView> {
               placeholder: "Nome do Evento",
             ),
             InputWidget(
-              placeholder: "Data e Horario",
+              placeholder: "Data",
+              onTap: this._showDatePicker,
             ),
             InputWidget(
               placeholder: "Estilo",
@@ -75,11 +98,27 @@ class _CreateEventViewState extends State<CreateEventView> {
         state: StepState.complete,
         content: Column(
           children: <Widget>[
-            TypeAheadField(
-              suggestionsCallback: this._handleSuggestion,
-              itemBuilder: this._builderSuggestion,
-              onSuggestionSelected: (model) {},
-              keepSuggestionsOnLoading: this._isLoadedSuggest,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: TypeAheadField(
+                textFieldConfiguration: TextFieldConfiguration(
+                  style: TextStyle(fontSize: 20, color: AppColors.textLight),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppColors.container,
+                    hintText: "Endereço",
+                    hintStyle: TextStyle(color: AppColors.textLight),
+                    contentPadding: EdgeInsets.all(20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+                suggestionsCallback: this._handleSuggestion,
+                itemBuilder: this._builderSuggestion,
+                onSuggestionSelected: (model) {},
+                keepSuggestionsOnLoading: this._isLoadedSuggest,
+              ),
             ),
             InputWidget(
               placeholder: "Numero",
@@ -142,68 +181,3 @@ class _CreateEventViewState extends State<CreateEventView> {
     );
   }
 }
-
-//  SingleChildScrollView(
-//   padding: EdgeInsets.all(20),
-//   child: Column(
-//     children: <Widget>[
-//       InputWidget(
-//         controller: _controllerNomeShow,
-//         placeholder: "Nome do Show",
-//       ),
-//       InputWidget(
-//         controller: _controllerNomeShow,
-//         placeholder: "Local",
-//       ),
-//       InputWidget(
-//         controller: _controllerNomeShow,
-//         placeholder: "Data/Horario",
-//       ),
-//       InputWidget(
-//         controller: _controllerNomeShow,
-//         placeholder: "Descrição ",
-//         maxLines: 8,
-//       ),
-//       Container(
-//         width: double.infinity,
-//         padding: EdgeInsets.all(20),
-//         decoration: BoxDecoration(
-//           color: AppColors.container,
-//           borderRadius: BorderRadius.circular(15),
-//         ),
-//         child: Column(
-//           children: [
-//             Container(
-//               width: double.infinity,
-//               margin: EdgeInsets.only(bottom: 10),
-//               child: Text(
-//                 'Artistas',
-//                 textAlign: TextAlign.left,
-//                 style: TextStyle(
-//                   color: AppColors.textLight,
-//                   fontSize: 20,
-//                 ),
-//               ),
-//             ),
-//             Container(
-//               width: double.infinity,
-//               child: OutlinedButton(
-//                 onPressed: () {},
-//                 child: Text('Adicionar'),
-//                 style: OutlinedButton.styleFrom(
-//                   primary: AppColors.textLight,
-//                   textStyle: TextStyle(fontSize: 16),
-//                   side: BorderSide(color: AppColors.textLight, width: 2),
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(15),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//       LargeButtonWidget(onPress: () {}, title: "Criar Evento")
-//     ],
-//   ),
-// );

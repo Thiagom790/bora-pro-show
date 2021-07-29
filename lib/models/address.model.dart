@@ -7,8 +7,8 @@ class AddressModel {
   late double longitude;
 
   AddressModel({
-    required this.mainText,
-    this.description = "",
+    required this.description,
+    this.mainText = "",
     this.postalCode = "",
     this.id,
     this.latitude = 0,

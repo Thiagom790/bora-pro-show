@@ -31,6 +31,7 @@ class LocationRepository {
 
       AddressModel emptyAddress = AddressModel(
         mainText: "Local não encontrado",
+        description: "Local não encontrado",
       );
       addressList.add(emptyAddress);
 
