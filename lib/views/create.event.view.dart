@@ -13,7 +13,16 @@ class CreateEventView extends StatefulWidget {
 }
 
 class _CreateEventViewState extends State<CreateEventView> {
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerDate = TextEditingController();
+  final TextEditingController _controllerTime = TextEditingController();
+  final TextEditingController _controllerGenre = TextEditingController();
+  final TextEditingController _controllerDescription = TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerNumber = TextEditingController();
+
   final _controller = LocationController();
+
   List<Step> _stepList = [];
   bool _isLoadedSuggest = false;
   int _currentStep = 0;
@@ -59,12 +68,38 @@ class _CreateEventViewState extends State<CreateEventView> {
   void _showDatePicker() async {
     final initialDate = DateTime.now();
 
-    final newDate = await showDatePicker(
+    final selecDate = await showDatePicker(
       context: context,
       initialDate: initialDate,
       firstDate: initialDate,
       lastDate: DateTime(DateTime.now().year + 10),
     );
+
+    if (selecDate == null) {
+      return;
+    }
+
+    String formatedDate =
+        "${selecDate.day}/${selecDate.month}/${selecDate.year}";
+
+    _controllerDate.text = formatedDate;
+  }
+
+  void _showHourPicker() async {
+    final initialTime = TimeOfDay.now();
+
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
+
+    if (selectedTime == null) {
+      return;
+    }
+
+    String formatedTime = "${selectedTime.hour}:${selectedTime.minute}";
+
+    _controllerTime.text = formatedTime;
   }
 
   List<Step> _getStepList() {
@@ -80,7 +115,15 @@ class _CreateEventViewState extends State<CreateEventView> {
             ),
             InputWidget(
               placeholder: "Data",
+              controller: _controllerDate,
               onTap: this._showDatePicker,
+              readOnly: true,
+            ),
+            InputWidget(
+              placeholder: "Hora",
+              controller: _controllerTime,
+              onTap: this._showHourPicker,
+              readOnly: true,
             ),
             InputWidget(
               placeholder: "Estilo",
