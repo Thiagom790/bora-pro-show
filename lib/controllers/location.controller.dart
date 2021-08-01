@@ -8,6 +8,10 @@ class LocationController {
     _repository = LocationRepository();
   }
 
+  Future<AddressModel> getAddresInfo(String addressId) async {
+    return await _repository.select(addressId);
+  }
+
   Future<List<AddressModel>> locationSuggestion(String location) async {
     return await this._repository.locationSuggestion(location);
   }

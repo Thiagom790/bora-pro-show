@@ -10,6 +10,23 @@ class LocationRepository {
     this._service.initialize(apiKey: PLACES_API_KEY);
   }
 
+  Future<AddressModel> select(String locationId) async {
+    try {
+      final result = await _service.getPlaceDetails(locationId);
+
+      AddressModel model = AddressModel(
+        id: result.placeId,
+        latitude: result.lat!,
+        longitude: result.lng!,
+        description: result.streetLong!,
+      );
+
+      return model;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<AddressModel>> locationSuggestion(String location) async {
     final List<AddressModel> addressList = [];
     try {

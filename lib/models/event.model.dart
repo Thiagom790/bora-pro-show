@@ -26,4 +26,20 @@ class EventModel {
     required this.description,
     this.id = "",
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      "idProfile": this.idProfile,
+      "nome": this.nome,
+      "genre": this.genre,
+      "date": this.date,
+      "time": this.time,
+      "latitude": this.latitude,
+      "longitude": this.longitude,
+      "address": this.address,
+      "number": this.number,
+      "description": this.description,
+      "id": this.id,
+    };
+  }
 }
