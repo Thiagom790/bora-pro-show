@@ -6,7 +6,7 @@ final menuData = {
   "user": [
     {
       "title": "Home",
-      "page": Container(child: Text('Home')),
+      "page": EventsView(),
       "icon": Icon(Icons.home)
     },
     {
@@ -28,7 +28,7 @@ final menuData = {
     },
     {
       "title": "Eventos",
-      "page": EventsView(),
+      "page": Container(),
       "icon": Icon(Icons.festival),
     },
     {

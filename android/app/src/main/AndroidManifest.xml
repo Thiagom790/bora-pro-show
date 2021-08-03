@@ -5,6 +5,8 @@
    <application
         android:label="tcc_bora_show"
         android:icon="@mipmap/ic_launcher">
+         <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyB7f5zWWzqxalRB69Th1WGlH-AWYyvriTw"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
