@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:tcc_bora_show/controllers/event.controller.dart';
 
 class EventsView extends StatefulWidget {
   @override
@@ -10,6 +11,8 @@ class EventsView extends StatefulWidget {
 
 class _EventsViewState extends State<EventsView> {
   Completer<GoogleMapController> _controller = Completer();
+  final _eventController = EventControlle();
+  Set<Marker> _markersList = {};
 
   _onMapCreated(GoogleMapController googleMapController) {
     _controller.complete(googleMapController);
@@ -40,12 +43,48 @@ class _EventsViewState extends State<EventsView> {
     });
   }
 
-  _loadMarkers() async {}
+  _loadMarkers() async {
+    try {
+      final eventList = await _eventController.selectAllEvents();
+      final Set<Marker> markerList = {};
+
+      eventList.forEach((event) {
+        var marker = Marker(
+          markerId: MarkerId(event.id),
+          position: LatLng(event.latitude, event.longitude),
+          infoWindow: InfoWindow(title: event.title),
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueBlue,
+          ),
+          onTap: () {
+            //colocar pra aprecer janela do evento.
+          },
+        );
+
+        markerList.add(marker);
+      });
+
+      setState(() {
+        _markersList = markerList;
+      });
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Erro!"),
+            content: Text(error.toString()),
+          );
+        },
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _recuperarLocalizacaoAtual();
+    //_loadMarkers();
   }
 
   @override
@@ -56,7 +95,7 @@ class _EventsViewState extends State<EventsView> {
         onMapCreated: _onMapCreated,
         myLocationEnabled: true,
         initialCameraPosition: _posicaoCamera,
-        //markers: null,
+        markers: this._markersList,
       ),
     );
   }
