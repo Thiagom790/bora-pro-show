@@ -6,13 +6,13 @@ final menuData = {
   "user": [
     {
       "title": "Home",
-      "page": EventsView(),
-      "icon": Icon(Icons.home)
+      "page": Container(child: Text('Shows')),
+      "icon": Icon(Icons.home),
     },
     {
       "title": "Shows",
-      "page": Container(child: Text('Shows')),
-      "icon": Icon(Icons.location_on)
+      "page": EventsView(),
+      "icon": Icon(Icons.location_on),
     },
     {
       "title": "Perfil",
