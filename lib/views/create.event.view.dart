@@ -128,7 +128,7 @@ class _CreateEventViewState extends State<CreateEventView> {
 
       final model = EventModel(
         idProfile: _store.id,
-        nome: _controllerName.text,
+        title: _controllerName.text,
         genre: _controllerGenre.text,
         date: _controllerDate.text,
         time: _controllerTime.text,

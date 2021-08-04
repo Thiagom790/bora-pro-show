@@ -84,7 +84,7 @@ class _EventsViewState extends State<EventsView> {
   void initState() {
     super.initState();
     _recuperarLocalizacaoAtual();
-    //_loadMarkers();
+    _loadMarkers();
   }
 
   @override

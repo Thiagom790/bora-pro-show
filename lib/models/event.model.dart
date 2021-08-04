@@ -1,7 +1,7 @@
 class EventModel {
   String idProfile;
   String id;
-  String nome;
+  String title;
   String genre;
   String description;
   //   Corrigir para timestan
@@ -14,7 +14,7 @@ class EventModel {
 
   EventModel({
     required this.idProfile,
-    required this.nome,
+    required this.title,
     required this.genre,
     required this.date,
     required this.time,
@@ -28,7 +28,7 @@ class EventModel {
   Map<String, dynamic> toMap() {
     return {
       "idProfile": this.idProfile,
-      "nome": this.nome,
+      "title": this.title,
       "genre": this.genre,
       "date": this.date,
       "time": this.time,
