@@ -24,7 +24,6 @@ class _CreateEventViewState extends State<CreateEventView> {
   final TextEditingController _controllerGenre = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
-  final TextEditingController _controllerNumber = TextEditingController();
 
   final _locationController = LocationController();
   final _eventControlle = EventControlle();
@@ -136,7 +135,6 @@ class _CreateEventViewState extends State<CreateEventView> {
         latitude: address.latitude,
         longitude: address.longitude,
         address: _currentAddress!.description,
-        number: _controllerNumber.text,
         description: _controllerDescription.text,
       );
 
@@ -255,10 +253,6 @@ class _CreateEventViewState extends State<CreateEventView> {
                 onSuggestionSelected: this._handleSuggestionSelected,
                 keepSuggestionsOnLoading: this._isLoadedSuggest,
               ),
-            ),
-            InputWidget(
-              controller: this._controllerNumber,
-              placeholder: "Numero",
             ),
           ],
         ),

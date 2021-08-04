@@ -11,7 +11,6 @@ class EventModel {
   double longitude;
   String address;
 //   Corrigir quentão do numero
-  String number;
 
   EventModel({
     required this.idProfile,
@@ -22,7 +21,6 @@ class EventModel {
     required this.latitude,
     required this.longitude,
     required this.address,
-    required this.number,
     required this.description,
     this.id = "",
   });
@@ -37,9 +35,7 @@ class EventModel {
       "latitude": this.latitude,
       "longitude": this.longitude,
       "address": this.address,
-      "number": this.number,
       "description": this.description,
-      "id": this.id,
     };
   }
 }
