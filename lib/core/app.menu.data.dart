@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_bora_show/views/event.management.dart';
 import 'package:tcc_bora_show/views/events.view.dart';
 import 'package:tcc_bora_show/views/profile.view.dart';
 
@@ -28,7 +29,7 @@ final menuData = {
     },
     {
       "title": "Eventos",
-      "page": Container(),
+      "page": EventManagement(),
       "icon": Icon(Icons.festival),
     },
     {
