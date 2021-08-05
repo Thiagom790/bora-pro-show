@@ -11,6 +11,7 @@ class EventModel {
   late double longitude;
   late String address;
 //   Corrigir quentão do numero
+  late String status;
 
   EventModel({
     required this.idProfile,
@@ -22,6 +23,7 @@ class EventModel {
     required this.longitude,
     required this.address,
     required this.description,
+    required this.status,
     this.id = "",
   });
 
@@ -36,6 +38,7 @@ class EventModel {
     this.address = data['address'];
     this.description = data['description'];
     this.id = data['id'];
+    this.status = data['status'];
   }
 
   Map<String, dynamic> toMap() {
@@ -49,6 +52,7 @@ class EventModel {
       "longitude": this.longitude,
       "address": this.address,
       "description": this.description,
+      "status": this.status,
     };
   }
 }

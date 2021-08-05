@@ -30,7 +30,8 @@ class EventRepository {
     try {
       List<EventViewModel> list = [];
 
-      final snapshots = await _reference.get();
+      final snapshots =
+          await _reference.where("status", isEqualTo: "progress").get();
 
       snapshots.docs.forEach((document) {
         var eventMap = document.data();

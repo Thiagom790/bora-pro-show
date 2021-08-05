@@ -136,6 +136,7 @@ class _CreateEventViewState extends State<CreateEventView> {
         longitude: address.longitude,
         address: _currentAddress!.description,
         description: _controllerDescription.text,
+        status: "progress",
       );
 
       await this._eventControlle.createEvent(model);
