@@ -63,6 +63,10 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
               content: this._event.address,
             ),
             DescriptionWidget(
+              title: "Genero",
+              content: this._event.genre,
+            ),
+            DescriptionWidget(
               title: "Sobre",
               content: this._event.description,
             ),
