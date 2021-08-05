@@ -17,6 +17,10 @@ class AuthController {
     _profileRepository = ProfileRepository();
   }
 
+  Future<void> logout() async {
+    await _authRepository.logout();
+  }
+
   bool userIsAuth() {
     return _authRepository.isAuth();
   }

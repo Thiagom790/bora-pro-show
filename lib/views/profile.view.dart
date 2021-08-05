@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:tcc_bora_show/controllers/auth.controller.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
+import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.profile.view.dart';
@@ -17,7 +20,9 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   final _controller = ProfileController();
-  late ProfileStore _store;
+  final _authController = AuthController();
+  late ProfileStore _profileStore;
+  late AuthStore _authStore;
   late ProfileViewModel _defaultProfile;
   late ReactionDisposer _disposer;
   List<ProfileViewModel> _profiles = [];
@@ -26,7 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
   Future<void> _getUserProfiles() async {
     try {
       var profiles = await _controller.getUserProfiles();
-      var profileID = this._store.id;
+      var profileID = this._profileStore.id;
       var profile = profiles.firstWhere((prof) => prof.id == profileID);
 
       setState(() {
@@ -55,7 +60,7 @@ class _ProfileViewState extends State<ProfileView> {
 
     _controller.changeCurrentUserProfile(profileId: profile.id).then((data) {
       print("Datos apos a troca" + data.id);
-      _store.setProfile(
+      _profileStore.setProfile(
         userUid: data.id,
         role: data.role,
         name: data.name,
@@ -74,12 +79,21 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
+  void _logout() {
+    _authController.logout().then((_) {
+      this._authStore.changeAuth(userIsAuth: false);
+    }).catchError((error) {
+      print("Erro dentro de profile view na logout" + error.toString());
+    });
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    this._store = Provider.of<ProfileStore>(context);
-    this._disposer = reaction((_) => this._store.id, (idProfile) {
+    this._profileStore = Provider.of<ProfileStore>(context);
+    this._authStore = Provider.of<AuthStore>(context);
+    this._disposer = reaction((_) => this._profileStore.id, (idProfile) {
       _getUserProfiles();
     });
 
@@ -110,9 +124,12 @@ class _ProfileViewState extends State<ProfileView> {
                         onSelect: this._onSelectProfile,
                         onCreateProfile: this._createNewProfile,
                       ),
-                      Text(
-                        "Icone",
-                        style: TextStyle(color: Colors.white),
+                      IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          color: AppColors.textLight,
+                        ),
+                        onPressed: this._logout,
                       ),
                     ],
                   ),
