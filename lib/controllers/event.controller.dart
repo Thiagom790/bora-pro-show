@@ -17,6 +17,14 @@ class EventControlle {
     }
   }
 
+  Future<EventModel> selectEvent(String eventID) async {
+    try {
+      return await this._repository.select(eventID);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<EventViewModel>> selectAllEvents() async {
     try {
       return await this._repository.selectAllEvents();

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
+import 'package:tcc_bora_show/views/event.description.view.dart';
 
 class EventsView extends StatefulWidget {
   @override
@@ -57,7 +58,14 @@ class _EventsViewState extends State<EventsView> {
             BitmapDescriptor.hueBlue,
           ),
           onTap: () {
-            //colocar pra aprecer janela do evento.
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EventDescriptionView(
+                  eventID: event.id,
+                ),
+              ),
+            );
           },
         );
 

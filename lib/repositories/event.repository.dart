@@ -14,8 +14,20 @@ class EventRepository {
     }
   }
 
+  Future<EventModel> select(String eventID) async {
+    try {
+      var document = await this._reference.doc(eventID).get();
+      var eventMap = document.data();
+      eventMap!['id'] = document.id;
+
+      return EventModel.fromMap(eventMap);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<EventViewModel>> selectAllEvents() async {
-    try{
+    try {
       List<EventViewModel> list = [];
 
       final snapshots = await _reference.get();
