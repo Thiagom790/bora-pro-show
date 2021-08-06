@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tcc_bora_show/views/create.event.view2.dart';
+import 'package:tcc_bora_show/views/create.event.view.dart';
 
 class EventManagement extends StatelessWidget {
   const EventManagement({Key? key}) : super(key: key);
