@@ -6,7 +6,12 @@ import 'package:tcc_bora_show/widgets/event.info.widget.dart';
 import 'package:tcc_bora_show/widgets/event.music.widget.dart';
 
 class EventStepperWidget extends StatefulWidget {
-  const EventStepperWidget({Key? key}) : super(key: key);
+  final void Function(EventModel) onStepperComplete;
+
+  const EventStepperWidget({
+    required this.onStepperComplete,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _EventStepperWidgetState createState() => _EventStepperWidgetState();
@@ -23,11 +28,13 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
       {
         "id": 0,
         "title": "Informações",
-        "widget": EventInfoWidget(
-          model: this._eventModel,
-        ),
+        "widget": EventInfoWidget(model: this._eventModel),
       },
-      {"id": 1, "title": "Endereço", "widget": EventAddressWidget()},
+      {
+        "id": 1,
+        "title": "Endereço",
+        "widget": EventAddressWidget(model: this._eventModel),
+      },
       {"id": 2, "title": "Musicos", "widget": EventMusicWidget()},
     ];
   }

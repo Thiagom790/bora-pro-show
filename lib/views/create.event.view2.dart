@@ -11,7 +11,7 @@ class CreateEventView extends StatefulWidget {
 }
 
 class _CreateEventViewState extends State<CreateEventView> {
-  final _eventModel = new EventModel();
+  void _onStepperComplete(EventModel model) {}
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,9 @@ class _CreateEventViewState extends State<CreateEventView> {
         title: Text('Criação de Eventos'),
         backgroundColor: AppColors.container,
       ),
-      body: EventStepperWidget(),
+      body: EventStepperWidget(
+        onStepperComplete: this._onStepperComplete,
+      ),
     );
   }
 }
