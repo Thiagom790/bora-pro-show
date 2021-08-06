@@ -10,6 +10,7 @@ class InputWidget extends StatelessWidget {
   final bool readOnly;
   final int maxLines;
   final void Function()? onTap;
+  final void Function(String)? onChange;
 
   const InputWidget({
     Key? key,
@@ -20,6 +21,7 @@ class InputWidget extends StatelessWidget {
     this.obscure = false,
     this.maxLines = 1,
     this.onTap,
+    this.onChange,
     this.readOnly = false,
   }) : super(key: key);
 
@@ -46,6 +48,7 @@ class InputWidget extends StatelessWidget {
         ),
         onTap: this.onTap,
         readOnly: this.readOnly,
+        onChanged: this.onChange,
       ),
     );
   }

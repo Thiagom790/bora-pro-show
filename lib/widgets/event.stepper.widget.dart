@@ -18,23 +18,18 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
   List<Map<String, dynamic>> _stepsInfo = [];
   int _currentStep = 0;
 
-  void _nextStep() {
-    this._currentStep + 1 < this._stepsInfo.length
-        ? this._goTo(this._currentStep + 1)
-        : print("False");
-  }
-
-  void _prevStep() {
-    int nextStep = this._currentStep - 1;
-    if (nextStep >= 0) {
-      this._goTo(nextStep);
-    }
-  }
-
-  void _goTo(int step) {
-    setState(() {
-      this._currentStep = step;
-    });
+  void _getStepsInfo() {
+    this._stepsInfo = [
+      {
+        "id": 0,
+        "title": "Informações",
+        "widget": EventInfoWidget(
+          model: this._eventModel,
+        ),
+      },
+      {"id": 1, "title": "Endereço", "widget": EventAddressWidget()},
+      {"id": 2, "title": "Musicos", "widget": EventMusicWidget()},
+    ];
   }
 
   Step _buildStep(Map<String, dynamic> data) {
@@ -55,14 +50,29 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
     return stepList;
   }
 
+  void _nextStep() {
+    this._currentStep + 1 < this._stepsInfo.length
+        ? this._goTo(this._currentStep + 1)
+        : print("False");
+  }
+
+  void _prevStep() {
+    int nextStep = this._currentStep - 1;
+    if (nextStep >= 0) {
+      this._goTo(nextStep);
+    }
+  }
+
+  void _goTo(int step) {
+    setState(() {
+      this._currentStep = step;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    this._stepsInfo = [
-      {"id": 0, "title": "Informações", "widget": EventInfoWidget()},
-      {"id": 1, "title": "Endereço", "widget": EventAddressWidget()},
-      {"id": 2, "title": "Musicos", "widget": EventMusicWidget()},
-    ];
+    this._getStepsInfo();
   }
 
   @override

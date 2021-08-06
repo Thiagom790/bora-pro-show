@@ -28,7 +28,7 @@ final menuData = {
       "icon": Icon(Icons.location_on)
     },
     {
-      "title": "Eventos",
+      "title": "Gerência",
       "page": EventManagement(),
       "icon": Icon(Icons.festival),
     },
