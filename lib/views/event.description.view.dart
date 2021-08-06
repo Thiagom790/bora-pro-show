@@ -6,8 +6,11 @@ import 'package:tcc_bora_show/views/splash.view.dart';
 import 'package:tcc_bora_show/widgets/description.widget.dart';
 import 'package:tcc_bora_show/widgets/info.box.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
+import 'package:map_launcher/map_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class EventDescriptionView extends StatefulWidget {
+
   final eventID;
 
   EventDescriptionView({
@@ -22,6 +25,46 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
   final _controller = EventControlle();
   late String _eventId;
   late EventModel _event;
+
+  openMapsSheet(context) async {
+    try {
+      final coords = Coords(_event.latitude, _event.longitude);
+      final title = _event.title;
+      final availableMaps = await MapLauncher.installedMaps;
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Wrap(
+                  children: <Widget>[
+                    for (var map in availableMaps)
+                      ListTile(
+                        onTap: () =>
+                            map.showMarker(
+                                coords: coords,
+                                title: title,
+                            ),
+                        title: Text(map.mapName),
+                        leading: SvgPicture.asset(
+                          map.icon,
+                          height: 30.0,
+                          width: 30.0,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
@@ -70,7 +113,7 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
               title: "Sobre",
               content: this._event.description,
             ),
-            LargeButtonWidget(onPress: () {}, title: "Criar Rota"),
+            LargeButtonWidget(onPress: () => openMapsSheet(context), title: "Criar Rota"),
           ],
         ),
       ),
