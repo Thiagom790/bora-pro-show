@@ -3,11 +3,11 @@ import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
 
 class EventInfoWidget extends StatelessWidget {
-  final _controllerName = TextEditingController(text: "Evento de Teste");
+  final _controllerName = TextEditingController();
   final _controllerDate = TextEditingController();
   final _controllerHour = TextEditingController();
-  final _controllerGenre = TextEditingController(text: "Setanejo");
-  final _controllerDescription = TextEditingController(text: "Descrição");
+  final _controllerGenre = TextEditingController();
+  final _controllerDescription = TextEditingController();
   final EventModel model;
 
   EventInfoWidget({
