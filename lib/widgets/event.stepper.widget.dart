@@ -86,6 +86,24 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
         onStepContinue: this._nextStep,
         onStepCancel: this._prevStep,
         onStepTapped: this._goTo,
+        controlsBuilder: (context, {onStepCancel, onStepContinue}) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              this._currentStep == 0
+                  ? Container()
+                  : ElevatedButton(
+                      onPressed: onStepCancel,
+                      child: Text('Anterior'),
+                    ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: onStepContinue,
+                child: Text('Próximo'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
