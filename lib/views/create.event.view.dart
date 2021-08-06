@@ -294,14 +294,18 @@ class _CreateEventViewState extends State<CreateEventView> {
         onStepTapped: (step) => _goTo(step),
         controlsBuilder: (context, {onStepContinue, onStepCancel}) {
           return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
+              this._currentStep == 0
+                  ? Container()
+                  : ElevatedButton(
+                      onPressed: onStepCancel,
+                      child: Text('Anterior'),
+                    ),
+              SizedBox(width: 10),
               ElevatedButton(
                 onPressed: onStepContinue,
                 child: Text('Próximo'),
-              ),
-              ElevatedButton(
-                onPressed: onStepCancel,
-                child: Text('Anterior'),
               ),
             ],
           );

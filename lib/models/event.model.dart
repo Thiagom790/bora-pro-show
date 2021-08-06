@@ -14,16 +14,16 @@ class EventModel {
   late String status;
 
   EventModel({
-    required this.idProfile,
-    required this.title,
-    required this.genre,
-    required this.date,
-    required this.time,
-    required this.latitude,
-    required this.longitude,
-    required this.address,
-    required this.description,
-    required this.status,
+    this.idProfile = "",
+    this.title = "",
+    this.genre = "",
+    this.date = "",
+    this.time = "",
+    this.latitude = 0,
+    this.longitude = 0,
+    this.address = "",
+    this.description = "",
+    this.status = "",
     this.id = "",
   });
 
