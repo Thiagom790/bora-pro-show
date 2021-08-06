@@ -15,6 +15,10 @@ class EventAddressWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  void _buildControllers() {
+    _controllerAddress.text = model.address;
+  }
+
   Future<List<AddressModel>> _getSuggestion(String location) async {
     final lista = await _locationController.locationSuggestion(location);
 
@@ -38,13 +42,14 @@ class EventAddressWidget extends StatelessWidget {
     }
 
     this.model.address = model.description;
-    this.model.latitude = model.latitude;
-    this.model.longitude = model.longitude;
+    this.model.locationID = model.id!;
     _controllerAddress.text = model.description;
   }
 
   @override
   Widget build(BuildContext context) {
+    _buildControllers();
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(

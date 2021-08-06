@@ -7,9 +7,11 @@ import 'package:tcc_bora_show/widgets/event.music.widget.dart';
 
 class EventStepperWidget extends StatefulWidget {
   final void Function(EventModel) onStepperComplete;
+  final EventModel model;
 
   const EventStepperWidget({
     required this.onStepperComplete,
+    required this.model,
     Key? key,
   }) : super(key: key);
 
@@ -81,6 +83,7 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
   void initState() {
     super.initState();
     this._onStepperComplete = widget.onStepperComplete;
+    this._eventModel = widget.model;
     this._getStepsInfo();
   }
 

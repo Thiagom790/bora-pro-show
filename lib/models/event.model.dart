@@ -12,6 +12,7 @@ class EventModel {
   late String address;
 //   Corrigir quentão do numero
   late String status;
+  String locationID = "";
 
   EventModel({
     this.idProfile = "",

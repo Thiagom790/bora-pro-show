@@ -14,6 +14,14 @@ class EventInfoWidget extends StatelessWidget {
     required this.model,
   });
 
+  void _buildControllers() {
+    this._controllerName.text = this.model.title;
+    this._controllerDate.text = this.model.date;
+    this._controllerHour.text = this.model.time;
+    this._controllerGenre.text = this.model.genre;
+    this._controllerDescription.text = this.model.description;
+  }
+
   Future<void> _showDatePicker(BuildContext context) async {
     final initialDate = DateTime.now();
 
@@ -55,6 +63,8 @@ class EventInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _buildControllers();
+
     return Column(
       children: <Widget>[
         InputWidget(
