@@ -11,7 +11,16 @@ class CreateEventView extends StatefulWidget {
 }
 
 class _CreateEventViewState extends State<CreateEventView> {
-  void _onStepperComplete(EventModel model) {}
+  bool _isStepperComplete = false;
+
+  void _onStepperComplete(EventModel model) {
+    print("Dentro crete event");
+    print(model.toMap());
+
+    setState(() {
+      this._isStepperComplete = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +30,9 @@ class _CreateEventViewState extends State<CreateEventView> {
         title: Text('Criação de Eventos'),
         backgroundColor: AppColors.container,
       ),
-      body: EventStepperWidget(
-        onStepperComplete: this._onStepperComplete,
-      ),
+      body: !_isStepperComplete
+          ? EventStepperWidget(onStepperComplete: this._onStepperComplete)
+          : Container(),
     );
   }
 }

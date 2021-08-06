@@ -18,6 +18,7 @@ class EventStepperWidget extends StatefulWidget {
 }
 
 class _EventStepperWidgetState extends State<EventStepperWidget> {
+  late void Function(EventModel) _onStepperComplete;
   EventModel _eventModel = EventModel();
 
   List<Map<String, dynamic>> _stepsInfo = [];
@@ -60,7 +61,7 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
   void _nextStep() {
     this._currentStep + 1 < this._stepsInfo.length
         ? this._goTo(this._currentStep + 1)
-        : print("False");
+        : this._onStepperComplete(this._eventModel);
   }
 
   void _prevStep() {
@@ -79,6 +80,7 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
   @override
   void initState() {
     super.initState();
+    this._onStepperComplete = widget.onStepperComplete;
     this._getStepsInfo();
   }
 
