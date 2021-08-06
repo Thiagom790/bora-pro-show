@@ -3,11 +3,11 @@ import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
 
 class EventInfoWidget extends StatelessWidget {
-  final _controllerName = TextEditingController();
+  final _controllerName = TextEditingController(text: "Evento de Teste");
   final _controllerDate = TextEditingController();
   final _controllerHour = TextEditingController();
-  final _controllerGenre = TextEditingController();
-  final _controllerDescription = TextEditingController();
+  final _controllerGenre = TextEditingController(text: "Setanejo");
+  final _controllerDescription = TextEditingController(text: "Descrição");
   final EventModel model;
 
   EventInfoWidget({
@@ -20,6 +20,19 @@ class EventInfoWidget extends StatelessWidget {
     this._controllerHour.text = this.model.time;
     this._controllerGenre.text = this.model.genre;
     this._controllerDescription.text = this.model.description;
+  }
+
+  String _dateFormat(DateTime date) {
+    String day = date.day.toString().padLeft(2, "0");
+    String month = date.month.toString().padLeft(2, "0");
+    String year = date.year.toString().padLeft(2, "0");
+    return "$day/$month/$year";
+  }
+
+  String _hourFormat(TimeOfDay time) {
+    String hour = time.hour.toString().padLeft(2, "0");
+    String minute = time.minute.toString().padLeft(2, "0");
+    return "$hour:$minute";
   }
 
   Future<void> _showDatePicker(BuildContext context) async {
@@ -36,8 +49,7 @@ class EventInfoWidget extends StatelessWidget {
       return;
     }
 
-    String dateFormated =
-        "${dateSelected.day}/${dateSelected.month}/${dateSelected.year}";
+    String dateFormated = this._dateFormat(dateSelected);
 
     model.date = dateFormated;
     _controllerDate.text = dateFormated;
@@ -55,7 +67,7 @@ class EventInfoWidget extends StatelessWidget {
       return;
     }
 
-    String timeFormated = "${timeSelected.hour}:${timeSelected.minute}";
+    String timeFormated = _hourFormat(timeSelected);
 
     model.time = timeFormated;
     _controllerHour.text = timeFormated;
