@@ -5,6 +5,7 @@ import 'package:tcc_bora_show/controllers/location.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
+import 'package:tcc_bora_show/widgets/event.complete.widget.dart';
 import 'package:tcc_bora_show/widgets/event.stepper.widget.dart';
 
 class CreateEventView extends StatefulWidget {
@@ -15,12 +16,15 @@ class CreateEventView extends StatefulWidget {
 }
 
 class _CreateEventViewState extends State<CreateEventView> {
-  String _errorMessage = "";
   bool _isStepperComplete = false;
   late ProfileStore _store;
   EventModel _eventModel = EventModel();
   final _eventController = EventControlle();
   final _locationController = LocationController();
+  String _titleCompleteWidget = "";
+  String _contentCompleteWidget = "";
+  bool _isLoading = false;
+  bool _isError = false;
 
   Map<String, dynamic> _validadeEventModel(EventModel model) {
     String errorMessage = "";
@@ -51,10 +55,6 @@ class _CreateEventViewState extends State<CreateEventView> {
       isValid = false;
     }
 
-    if (errorMessage.isNotEmpty) {
-      setState(() => this._errorMessage = errorMessage);
-    }
-
     final response = {"isValid": isValid, "message": errorMessage};
     return response;
   }
@@ -71,22 +71,37 @@ class _CreateEventViewState extends State<CreateEventView> {
     model.idProfile = _store.id;
     model.status = "progress";
 
-    String message = "";
-
     try {
-      final addressInfo =
-          await this._locationController.getAddresInfo(model.locationID);
+      final addressInfo = await this._locationController.getAddresInfo(
+            model.locationID,
+          );
 
       model.latitude = addressInfo.latitude;
       model.longitude = addressInfo.longitude;
 
-      message = await this._eventController.createEvent(model);
+      await this._eventController.createEvent(model);
     } catch (e) {
-      message = e.toString();
+      throw e;
     }
+  }
 
+  void _onSave() {
     setState(() {
-      _errorMessage = message;
+      this._isLoading = true;
+    });
+
+    this._createEvent().then((_) {
+      Navigator.pop(context);
+    }).catchError((error) {
+      String title = "Erro durante o processo de criar evento";
+      String content = error.toString();
+
+      setState(() {
+        this._isError = true;
+        this._titleCompleteWidget = title;
+        this._contentCompleteWidget = content;
+        this._isLoading = false;
+      });
     });
   }
 
@@ -96,8 +111,18 @@ class _CreateEventViewState extends State<CreateEventView> {
 
     final response = _validadeEventModel(model);
 
+    String title = response['isValid']
+        ? "Sucesso ao validar campos"
+        : "Erro ao validar campos:";
+
+    String message = response['isValid'] ? "" : response['message'];
+
+    bool isError = !response['isValid'];
+
     setState(() {
-      this._errorMessage = response["message"];
+      this._isError = isError;
+      this._titleCompleteWidget = title;
+      this._contentCompleteWidget = message;
       this._isStepperComplete = true;
     });
   }
@@ -127,29 +152,13 @@ class _CreateEventViewState extends State<CreateEventView> {
               model: this._eventModel,
               onStepperComplete: this._onStepperComplete,
             )
-          : Container(
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    this._errorMessage.isEmpty
-                        ? "Campos validos com sucesso"
-                        : this._errorMessage,
-                    style: TextStyle(color: AppColors.textLight),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      ElevatedButton(
-                        child: Text('Cancelar'),
-                        onPressed: _onCancel,
-                      ),
-                      ElevatedButton(
-                        child: Text('Salvar'),
-                        onPressed: _createEvent,
-                      ),
-                    ],
-                  )
-                ],
-              ),
+          : EventCompleteWidget(
+              title: this._titleCompleteWidget,
+              content: this._contentCompleteWidget,
+              isLoading: this._isLoading,
+              isErro: this._isError,
+              onCancel: this._onCancel,
+              onSave: this._onSave,
             ),
     );
   }
