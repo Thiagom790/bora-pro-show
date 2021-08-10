@@ -1,6 +1,6 @@
 # tcc_bora_show
 
-A new Flutter project.
+Trabalho de conclusão de curso
 
 ## Getting Started
 
