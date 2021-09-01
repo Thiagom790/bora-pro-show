@@ -85,7 +85,6 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColors.background,

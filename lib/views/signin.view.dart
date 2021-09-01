@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/auth.controller.dart';
-import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/view-models/auth.viewmodel.dart';
 import 'package:tcc_bora_show/views/register.view.dart';
@@ -78,7 +77,6 @@ class _SigninViewState extends State<SigninView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

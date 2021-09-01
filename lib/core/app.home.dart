@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
-import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/core/app.menu.data.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/views/splash.view.dart';
@@ -62,7 +61,6 @@ class _AppHomeState extends State<AppHome> {
       List<Widget> pages = this._getPage(role);
 
       return Scaffold(
-        backgroundColor: AppColors.background,
         body: SafeArea(child: pages[this._currentIndex]),
         bottomNavigationBar: NavyBarBottonWidget(
           role: role,

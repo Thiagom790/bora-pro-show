@@ -93,7 +93,6 @@ class _CreateProfileViewState extends State<CreateProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text('Criação de Perfil'),
         backgroundColor: AppColors.container,
