@@ -30,6 +30,11 @@ class AppWidget extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.background,
           primaryColor: AppColors.container,
+          cardColor: AppColors.container,
+          textTheme: TextTheme(
+            bodyText1: TextStyle(color: AppColors.textLight),
+            bodyText2: TextStyle(color: AppColors.textLight),
+          ),
         ),
         // home: Teste(),
       ),

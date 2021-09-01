@@ -18,7 +18,10 @@ class ProfilePopupMenuWidget extends StatelessWidget {
 
   PopupMenuItem<ProfileViewModel> _createItem(ProfileViewModel profile) {
     return PopupMenuItem(
-      child: Text(profile.name),
+      child: Text(
+        profile.name,
+        style: TextStyle(color: AppColors.textLight),
+      ),
       value: profile,
     );
   }
