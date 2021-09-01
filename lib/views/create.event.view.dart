@@ -145,7 +145,6 @@ class _CreateEventViewState extends State<CreateEventView> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text('Criação de Eventos'),
-        backgroundColor: AppColors.container,
       ),
       body: !_isStepperComplete
           ? EventStepperWidget(

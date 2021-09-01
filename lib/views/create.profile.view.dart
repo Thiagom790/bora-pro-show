@@ -95,7 +95,6 @@ class _CreateProfileViewState extends State<CreateProfileView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Criação de Perfil'),
-        backgroundColor: AppColors.container,
       ),
       body: Center(
         child: SingleChildScrollView(

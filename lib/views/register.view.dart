@@ -87,7 +87,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.background,
+        // backgroundColor: AppColors.background,
       ),
       body: Center(
         child: SingleChildScrollView(

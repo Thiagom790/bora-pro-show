@@ -10,7 +10,6 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EventDescriptionView extends StatefulWidget {
-
   final eventID;
 
   EventDescriptionView({
@@ -42,11 +41,10 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
                   children: <Widget>[
                     for (var map in availableMaps)
                       ListTile(
-                        onTap: () =>
-                            map.showMarker(
-                                coords: coords,
-                                title: title,
-                            ),
+                        onTap: () => map.showMarker(
+                          coords: coords,
+                          title: title,
+                        ),
                         title: Text(map.mapName),
                         leading: SvgPicture.asset(
                           map.icon,
@@ -78,9 +76,7 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
 
   Widget get _eventDescription {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.container,
         title: Text(this._event.title),
       ),
       body: SingleChildScrollView(
@@ -113,7 +109,8 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
               title: "Sobre",
               content: this._event.description,
             ),
-            LargeButtonWidget(onPress: () => openMapsSheet(context), title: "Criar Rota"),
+            LargeButtonWidget(
+                onPress: () => openMapsSheet(context), title: "Criar Rota"),
           ],
         ),
       ),

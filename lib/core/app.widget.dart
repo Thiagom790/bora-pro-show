@@ -29,6 +29,7 @@ class AppWidget extends StatelessWidget {
         home: AppAuth(),
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.background,
+          primaryColor: AppColors.container,
         ),
         // home: Teste(),
       ),
