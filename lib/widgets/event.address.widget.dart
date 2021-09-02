@@ -28,10 +28,13 @@ class EventAddressWidget extends StatelessWidget {
   Widget _builderSugestion(BuildContext context, AddressModel model) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-      color: AppColors.container,
+      // color: AppColors.container,
       child: Text(
         '${model.description}',
-        style: TextStyle(fontSize: 15, color: AppColors.textLight),
+        style: TextStyle(
+          fontSize: 15,
+          color: AppColors.textLight,
+        ),
       ),
     );
   }
@@ -68,6 +71,9 @@ class EventAddressWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
+            ),
+            suggestionsBoxDecoration: SuggestionsBoxDecoration(
+              color: AppColors.container,
             ),
             suggestionsCallback: this._getSuggestion,
             itemBuilder: this._builderSugestion,
