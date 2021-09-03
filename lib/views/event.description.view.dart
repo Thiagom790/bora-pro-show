@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
-import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/views/splash.view.dart';
 import 'package:tcc_bora_show/widgets/description.widget.dart';

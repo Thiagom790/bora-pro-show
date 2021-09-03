@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
-import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
