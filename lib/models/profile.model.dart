@@ -5,8 +5,8 @@ class ProfileModel {
   late String role;
   late String city;
   late String phoneNumber;
-  List<String>? musicGenre;
-  double? rating;
+  late List<String> musicGenre;
+  late double rating;
 
   ProfileModel({
     this.name = '',
@@ -14,8 +14,8 @@ class ProfileModel {
     this.role = '',
     this.id = "",
     this.city = "",
-    this.musicGenre,
-    this.rating,
+    this.musicGenre = const [],
+    this.rating = 0,
     this.phoneNumber = "",
   });
 

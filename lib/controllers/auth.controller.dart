@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/models/user.model.dart';
 import 'package:tcc_bora_show/repositories/auth.repository.dart';
