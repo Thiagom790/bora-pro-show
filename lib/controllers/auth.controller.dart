@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/models/user.model.dart';
 import 'package:tcc_bora_show/repositories/auth.repository.dart';
@@ -54,6 +56,8 @@ class AuthController {
     final email = model.email;
     final senha = model.senha;
     final name = model.name;
+    final city = model.city;
+    final phoneNumber = model.phoneNumber;
     final role = "user";
 
     try {
@@ -68,6 +72,8 @@ class AuthController {
         name: name,
         userUid: userUID,
         role: role,
+        city: city,
+        phoneNumber: phoneNumber,
       );
 
       final profileID = await _profileRepository.create(profile);
@@ -76,7 +82,6 @@ class AuthController {
       final user = UserModel(
         email: email,
         currentUidProfile: profileID,
-        role: role,
         uid: userUID,
       );
       await _userRepository.create(user);

@@ -24,6 +24,14 @@ class _RegisterViewState extends State<RegisterView> {
     text: "Thiago M. Teixeira",
   );
 
+  final TextEditingController _controllerPhoneNumber = TextEditingController(
+    text: '24981000631',
+  );
+
+  final TextEditingController _controllerCity = TextEditingController(
+    text: "Barra Mansa",
+  );
+
   final AuthController _controller = AuthController();
 
   final AuthViewModel _model = AuthViewModel();
@@ -42,6 +50,10 @@ class _RegisterViewState extends State<RegisterView> {
       errorMesage = "Email preenchido de forma errada";
     } else if (_model.senha.length < 6) {
       errorMesage = "Preencha a senha com mais de 6 caracteres";
+    } else if (_model.phoneNumber.length < 11) {
+      errorMesage = "Prencha seu numero de telefone corretamente com seu dd";
+    } else if (_model.city.isEmpty) {
+      errorMesage = "Prencha sua cidade corretamente";
     }
 
     if (errorMesage.isNotEmpty) {
@@ -58,6 +70,8 @@ class _RegisterViewState extends State<RegisterView> {
     _model.name = _controllerNome.text;
     _model.email = _controllerEmail.text;
     _model.senha = _controllerSenha.text;
+    _model.phoneNumber = _controllerPhoneNumber.text;
+    _model.city = _controllerCity.text;
 
     // validate fields
     if (!_validadeFields()) {
@@ -100,6 +114,15 @@ class _RegisterViewState extends State<RegisterView> {
                 controller: _controllerNome,
                 placeholder: "Nome",
                 autofocus: true,
+              ),
+              InputWidget(
+                controller: _controllerPhoneNumber,
+                placeholder: "Celular",
+                keyboard: TextInputType.number,
+              ),
+              InputWidget(
+                controller: _controllerCity,
+                placeholder: "Cidade",
               ),
               InputWidget(
                 controller: _controllerEmail,

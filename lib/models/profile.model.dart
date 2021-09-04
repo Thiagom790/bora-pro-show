@@ -1,14 +1,22 @@
 class ProfileModel {
-  late String userUid;
-  late String role;
-  late String name;
   late String id;
+  late String userUid;
+  late String name;
+  late String role;
+  late String city;
+  late String phoneNumber;
+  List<String>? musicGenre;
+  double? rating;
 
   ProfileModel({
     this.name = '',
     this.userUid = '',
     this.role = '',
     this.id = "",
+    this.city = "",
+    this.musicGenre,
+    this.rating,
+    this.phoneNumber = "",
   });
 
   ProfileModel.fromMap(Map<String, dynamic> map) {
@@ -16,6 +24,9 @@ class ProfileModel {
     this.role = map["role"];
     this.name = map["name"];
     this.id = map["id"];
+    this.city = map["city"];
+    this.musicGenre = map["musicGenre"];
+    this.rating = map["rating"];
   }
 
   Map<String, dynamic> toMap() {
@@ -24,6 +35,10 @@ class ProfileModel {
       "role": this.role,
       "name": this.name,
       "id": this.id,
+      "phoneNumber": this.phoneNumber,
+      "city": this.city,
+      "musicGenre": this.musicGenre,
+      "rating": this.rating,
     };
   }
 }

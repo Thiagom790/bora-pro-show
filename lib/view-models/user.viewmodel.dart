@@ -10,7 +10,6 @@ class UserViewModel extends UserModel {
     currentUidProfile = '',
   }) : super(
           uid: uid,
-          role: role,
           currentUidProfile: currentUidProfile,
         );
 }
