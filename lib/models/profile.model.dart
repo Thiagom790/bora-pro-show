@@ -20,12 +20,15 @@ class ProfileModel {
   });
 
   ProfileModel.fromMap(Map<String, dynamic> map) {
-    this.userUid = map["userUid"];
-    this.role = map["role"];
-    this.name = map["name"];
+    List<String> musicGenre = new List<String>.from(map['musicGenre']);
+
     this.id = map["id"];
+    this.userUid = map["userUid"];
+    this.name = map["name"];
+    this.role = map["role"];
     this.city = map["city"];
-    this.musicGenre = map["musicGenre"];
+    this.phoneNumber = map["phoneNumber"];
+    this.musicGenre = musicGenre;
     this.rating = map["rating"];
   }
 

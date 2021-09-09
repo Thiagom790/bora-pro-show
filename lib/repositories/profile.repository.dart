@@ -19,7 +19,9 @@ class ProfileRepository {
       final snapshot = await _reference.doc(idProfile).get();
       Map<String, dynamic> profileMap = snapshot.data()!;
       profileMap["id"] = idProfile;
-      return new ProfileModel.fromMap(profileMap);
+      print(profileMap);
+      var profile = new ProfileModel.fromMap(profileMap);
+      return profile;
     } catch (e) {
       throw e;
     }
