@@ -1,59 +1,80 @@
 class EventModel {
-  late String idProfile;
   late String id;
+  late String idProfile;
   late String title;
-  late String genre;
+  late String address;
+  late int _dateTime;
+  late String pictureLink;
   late String description;
-  //   Corrigir para timestan
-  late String date;
-  late String time;
+  late String type;
+  late List<String> musicGenre;
   late double latitude;
   late double longitude;
-  late String address;
-//   Corrigir quentão do numero
+  late bool isOpenToPublic;
   late String status;
+  late double rating;
   String locationID = "";
 
+  DateTime get dateTime {
+    return DateTime.fromMillisecondsSinceEpoch(this._dateTime);
+  }
+
+  set dateTime(DateTime dateTime) {
+    this._dateTime = dateTime.microsecondsSinceEpoch;
+  }
+
   EventModel({
+    this.id = "",
     this.idProfile = "",
     this.title = "",
-    this.genre = "",
-    this.date = "",
-    this.time = "",
+    this.address = "",
+    this.pictureLink = "",
+    this.description = "",
+    this.type = "",
+    this.musicGenre = const [],
     this.latitude = 0,
     this.longitude = 0,
-    this.address = "",
-    this.description = "",
+    this.isOpenToPublic = true,
     this.status = "",
-    this.id = "",
-  });
+    this.rating = 0,
+    DateTime? dateTime,
+  }) : _dateTime = dateTime != null
+            ? dateTime.microsecondsSinceEpoch
+            : DateTime.now().microsecondsSinceEpoch;
 
   EventModel.fromMap(Map<String, dynamic> data) {
+    this.id = data['id'];
     this.idProfile = data['idProfile'];
     this.title = data['title'];
-    this.genre = data['genre'];
-    this.date = data['date'];
-    this.time = data['time'];
+    this.address = data['address'];
+    this.pictureLink = data['pictureLink'];
+    this.description = data['description'];
+    this.type = data['type'];
+    this.musicGenre = data['musicGenre'];
     this.latitude = data['latitude'];
     this.longitude = data['longitude'];
-    this.address = data['address'];
-    this.description = data['description'];
-    this.id = data['id'];
+    this.isOpenToPublic = data['isOpenToPublic'];
     this.status = data['status'];
+    this.rating = data['rating'];
+    this._dateTime = data['dateTime'];
   }
 
   Map<String, dynamic> toMap() {
     return {
+      "id": this.id,
       "idProfile": this.idProfile,
       "title": this.title,
-      "genre": this.genre,
-      "date": this.date,
-      "time": this.time,
+      "address": this.address,
+      "pictureLink": this.pictureLink,
+      "description": this.description,
+      "type": this.type,
+      "musicGenre": this.musicGenre,
       "latitude": this.latitude,
       "longitude": this.longitude,
-      "address": this.address,
-      "description": this.description,
+      "isOpenToPublic": this.isOpenToPublic,
       "status": this.status,
+      "rating": this.rating,
+      "dateTime": this._dateTime,
     };
   }
 }
