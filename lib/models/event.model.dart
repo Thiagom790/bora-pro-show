@@ -55,8 +55,8 @@ class EventModel {
     this.rating = 0,
     DateTime? dateTime,
   }) : _dateTime = dateTime != null
-            ? dateTime.microsecondsSinceEpoch
-            : DateTime.now().microsecondsSinceEpoch;
+            ? dateTime.millisecondsSinceEpoch
+            : DateTime.now().millisecondsSinceEpoch;
 
   EventModel.fromMap(Map<String, dynamic> data) {
     this.id = data['id'];
