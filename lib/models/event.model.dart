@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class EventModel {
   late String id;
   late String idProfile;
@@ -15,12 +17,26 @@ class EventModel {
   late double rating;
   String locationID = "";
 
-  DateTime get dateTime {
+  DateTime get date {
     return DateTime.fromMillisecondsSinceEpoch(this._dateTime);
   }
 
-  set dateTime(DateTime dateTime) {
-    this._dateTime = dateTime.microsecondsSinceEpoch;
+  set date(DateTime date) {
+    final hour = this.date.hour;
+    final minute = this.date.minute;
+    final newDate = DateTime(date.year, date.month, date.day, hour, minute);
+    this._dateTime = newDate.millisecondsSinceEpoch;
+  }
+
+  TimeOfDay get time {
+    return TimeOfDay.fromDateTime(date);
+  }
+
+  set time(TimeOfDay time) {
+    final hour = time.hour;
+    final minute = time.minute;
+    final newDate = DateTime(date.year, date.month, date.day, hour, minute);
+    this._dateTime = newDate.millisecondsSinceEpoch;
   }
 
   EventModel({
