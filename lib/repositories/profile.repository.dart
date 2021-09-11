@@ -48,4 +48,13 @@ class ProfileRepository {
       throw e;
     }
   }
+
+  List<Map<String, dynamic>> selectProfileRoles() {
+    final listProfileRoles = [
+      {"id": "musician", "value": "músico"},
+      {"id": "organizer", "value": "organizador"},
+      {"id": "user", "value": "visitante"},
+    ];
+    return listProfileRoles;
+  }
 }
