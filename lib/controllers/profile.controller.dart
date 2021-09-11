@@ -61,4 +61,8 @@ class ProfileController {
       throw e;
     }
   }
+
+  List<Map<String, dynamic>> selectProfileRoles() {
+    return _profileRepository.selectProfileRoles();
+  }
 }
