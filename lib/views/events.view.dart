@@ -12,7 +12,7 @@ class EventsView extends StatefulWidget {
 
 class _EventsViewState extends State<EventsView> {
   Completer<GoogleMapController> _controller = Completer();
-  final _eventController = EventControlle();
+  final _eventController = EventController();
   Set<Marker> _markersList = {};
 
   _onMapCreated(GoogleMapController googleMapController) {

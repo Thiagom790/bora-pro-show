@@ -2,10 +2,10 @@ import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/repositories/event.repository.dart';
 import 'package:tcc_bora_show/view-models/event.viewmodel.dart';
 
-class EventControlle {
+class EventController {
   late EventRepository _repository;
 
-  EventControlle() {
+  EventController() {
     _repository = new EventRepository();
   }
 
