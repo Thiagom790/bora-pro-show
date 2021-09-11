@@ -5,7 +5,7 @@ import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
-import 'package:tcc_bora_show/widgets/select.profile.widget.dart';
+import 'package:tcc_bora_show/widgets/selectbox.widget.dart';
 
 class CreateProfileView extends StatefulWidget {
   @override
@@ -14,12 +14,13 @@ class CreateProfileView extends StatefulWidget {
 
 class _CreateProfileViewState extends State<CreateProfileView> {
   final TextEditingController _controllerName = TextEditingController();
-  ProfileModel _model = ProfileModel();
   final ProfileController _controller = ProfileController();
   late ProfileStore _store;
+  late List<Map<String, dynamic>> _listRoles;
+  ProfileModel _model = ProfileModel();
   bool _isBusy = false;
   String _erroMessage = "";
-  String? _profileType;
+  String _selectBoxText = "Selecione um Perfil";
 
   bool _validateFields() {
     String erroMessage = "";
@@ -27,7 +28,7 @@ class _CreateProfileViewState extends State<CreateProfileView> {
 
     if (_controllerName.text.trim().isEmpty) {
       erroMessage = "Preencha o Nome";
-    } else if (_profileType == null) {
+    } else if (_model.role.trim().isEmpty) {
       erroMessage = "Selecione um tipo de perfil válido";
     }
 
@@ -52,15 +53,9 @@ class _CreateProfileViewState extends State<CreateProfileView> {
     });
 
     _model.name = _controllerName.text;
-    _model.role = _profileType!;
     _model.userUid = _store.userUid;
 
     this._controller.createProfile(_model).then((data) {
-      //   setState(() {
-      //     _erroMessage = data.name;
-      //     _isBusy = false;
-      //   });
-
       _store.setProfile(
         userUid: data.userUid,
         role: data.role,
@@ -77,16 +72,20 @@ class _CreateProfileViewState extends State<CreateProfileView> {
     });
   }
 
-  void _handleSelect(String? profile) {
-    setState(() {
-      this._profileType = profile;
-    });
+  void _onChangeSelectBox(Map<String, dynamic>? roleInfo) {
+    if (roleInfo != null) {
+      this._model.role = roleInfo['id'];
+      setState(() {
+        this._selectBoxText = roleInfo["value"];
+      });
+    }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = Provider.of<ProfileStore>(context);
+    _listRoles = _controller.selectProfileRoles();
   }
 
   @override
@@ -108,9 +107,10 @@ class _CreateProfileViewState extends State<CreateProfileView> {
                 controller: _controllerName,
                 placeholder: "Nome",
               ),
-              SelectProfileWidget(
-                profileType: this._profileType,
-                onChange: this._handleSelect,
+              SelectBoxWidget(
+                displayText: this._selectBoxText,
+                listData: this._listRoles,
+                onChange: this._onChangeSelectBox,
               ),
               LargeButtonWidget(
                 onPress: this._createProfile,
