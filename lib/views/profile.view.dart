@@ -45,7 +45,6 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void _createNewProfile() {
-    // print("Foi chamado criação de perfil dentro profileview");
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CreateProfileView()),
