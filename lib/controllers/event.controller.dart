@@ -32,4 +32,12 @@ class EventControlle {
       throw e;
     }
   }
+
+  List<Map<String, dynamic>> selectEventTypes() {
+    return this._repository.selectEventTypes();
+  }
+
+  List<String> selectEventGenres() {
+    return this._repository.selectEventGenres();
+  }
 }

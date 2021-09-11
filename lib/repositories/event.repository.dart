@@ -45,4 +45,38 @@ class EventRepository {
       throw e;
     }
   }
+
+  List<Map<String, dynamic>> selectEventTypes() {
+    final listEventTypes = [
+      {"id": "Casamento", "value": "Casamento"},
+      {"id": "Restaurante", "value": "Restaurante"},
+      {"id": "Bar", "value": "Bar"},
+      {"id": "Show", "value": "Show"},
+    ];
+    return listEventTypes;
+  }
+
+  List<String> selectEventGenres() {
+    final listGenres = [
+      "Axé",
+      "Blues",
+      "Country",
+      "Eletrônica",
+      "Forró",
+      "Funk",
+      "Gospel",
+      "Hip Hop",
+      "Jazz",
+      "MPB",
+      "Música clássica",
+      "Pagode",
+      "Pagode",
+      "Rap",
+      "Reggae",
+      "Rock",
+      "Samba",
+      "Sertanejo",
+    ];
+    return listGenres;
+  }
 }
