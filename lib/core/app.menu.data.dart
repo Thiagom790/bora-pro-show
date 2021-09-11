@@ -56,5 +56,3 @@ final menuData = {
     },
   ],
 };
-
-final profileTypes = ["musician", "organizer", "user"];
