@@ -20,7 +20,7 @@ class EventDescriptionView extends StatefulWidget {
 }
 
 class _EventDescriptionViewState extends State<EventDescriptionView> {
-  final _controller = EventControlle();
+  final _controller = EventController();
   late String _eventId;
   late EventModel _event;
 
@@ -86,24 +86,24 @@ class _EventDescriptionViewState extends State<EventDescriptionView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                InfoBoxWidget(
-                  title: 'Data:',
-                  content: this._event.date,
-                ),
-                InfoBoxWidget(
-                  title: 'Hora:',
-                  content: this._event.time,
-                ),
+                // InfoBoxWidget(
+                //   title: 'Data:',
+                //   content: this._event.date,
+                // ),
+                // InfoBoxWidget(
+                //   title: 'Hora:',
+                //   content: this._event.time,
+                // ),
               ],
             ),
             DescriptionWidget(
               title: "Endereço",
               content: this._event.address,
             ),
-            DescriptionWidget(
-              title: "Genero",
-              content: this._event.genre,
-            ),
+            // DescriptionWidget(
+            //   title: "Genero",
+            //   content: this._event.genre,
+            // ),
             DescriptionWidget(
               title: "Sobre",
               content: this._event.description,
