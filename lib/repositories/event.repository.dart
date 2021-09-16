@@ -69,7 +69,7 @@ class EventRepository {
       "Jazz",
       "MPB",
       "Música clássica",
-      "Pagode",
+      "Pagode Gospel",
       "Pagode",
       "Rap",
       "Reggae",
