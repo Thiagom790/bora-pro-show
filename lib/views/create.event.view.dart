@@ -19,7 +19,7 @@ class _CreateEventViewState extends State<CreateEventView> {
   bool _isStepperComplete = false;
   late ProfileStore _store;
   EventModel _eventModel = EventModel();
-  final _eventController = EventControlle();
+  final _eventController = EventController();
   final _locationController = LocationController();
   String _titleCompleteWidget = "";
   String _contentCompleteWidget = "";
@@ -34,24 +34,20 @@ class _CreateEventViewState extends State<CreateEventView> {
       errorMessage += "Campo nome do evento não preenchido \n\n";
       isValid = false;
     }
-    if (model.date.isEmpty) {
-      errorMessage += "Campo data do evento não preenchido \n\n";
-      isValid = false;
-    }
-    if (model.time.isEmpty) {
-      errorMessage += "Campo hora do evento não preenchido \n\n";
-      isValid = false;
-    }
-    if (model.genre.isEmpty) {
-      errorMessage += "Campo genero do evento não preenchido \n\n";
+    if (model.address.isEmpty) {
+      errorMessage += "Campo endereço do evento não preenchido \n\n";
       isValid = false;
     }
     if (model.description.isEmpty) {
       errorMessage += "Campo descrição do evento não preenchido \n\n";
       isValid = false;
     }
-    if (model.description.isEmpty) {
-      errorMessage += "Campo endereço do evento não preenchido \n\n";
+    if (model.musicGenre.length < 1) {
+      errorMessage += "Escolha um gerenero musical do seu evento \n\n";
+      isValid = false;
+    }
+    if (model.type.trim().isEmpty) {
+      errorMessage += "Escolha qual o tipo do seu evento\n\n";
       isValid = false;
     }
 
@@ -69,7 +65,7 @@ class _CreateEventViewState extends State<CreateEventView> {
     }
 
     model.idProfile = _store.id;
-    model.status = "progress";
+    model.status = "pending";
 
     try {
       final addressInfo = await this._locationController.getAddresInfo(
@@ -115,7 +111,7 @@ class _CreateEventViewState extends State<CreateEventView> {
         ? "Sucesso ao validar campos"
         : "Erro ao validar campos:";
 
-    String message = response['isValid'] ? "" : response['message'];
+    String message = response['message'];
 
     bool isError = !response['isValid'];
 
@@ -146,18 +142,18 @@ class _CreateEventViewState extends State<CreateEventView> {
       appBar: AppBar(
         title: Text('Criação de Eventos'),
       ),
-      body: !_isStepperComplete
-          ? EventStepperWidget(
-              model: this._eventModel,
-              onStepperComplete: this._onStepperComplete,
-            )
-          : EventCompleteWidget(
+      body: _isStepperComplete
+          ? EventCompleteWidget(
               title: this._titleCompleteWidget,
               content: this._contentCompleteWidget,
               isLoading: this._isLoading,
               isErro: this._isError,
               onCancel: this._onCancel,
               onSave: this._onSave,
+            )
+          : EventStepperWidget(
+              model: this._eventModel,
+              onStepperComplete: this._onStepperComplete,
             ),
     );
   }
