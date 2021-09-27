@@ -23,6 +23,11 @@ final menuData = {
   ],
   "organizer": [
     {
+      "title": "Home",
+      "page": Container(child: Text('Shows')),
+      "icon": Icon(Icons.home),
+    },
+    {
       "title": "Shows",
       "page": Container(child: Text('Shows')),
       "icon": Icon(Icons.location_on)
@@ -39,6 +44,11 @@ final menuData = {
     },
   ],
   "musician": [
+    {
+      "title": "Home",
+      "page": Container(child: Text('Shows')),
+      "icon": Icon(Icons.home),
+    },
     {
       "title": "Shows",
       "page": Container(child: Text('Shows')),
