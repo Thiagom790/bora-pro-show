@@ -35,7 +35,7 @@ final menuData = {
     {
       "title": "Gerência",
       "page": EventManagement(),
-      "icon": Icon(Icons.festival),
+      "icon": Icon(Icons.business_center),
     },
     {
       "title": "Perfil",
