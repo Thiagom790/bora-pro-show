@@ -56,4 +56,26 @@ class ProfileRepository {
     ];
     return listProfileRoles;
   }
+
+  Future<List<ProfileModel>> selectAllMusicians() async {
+    try {
+      final snaphots =
+          await _reference.where('role', isEqualTo: "musician").get();
+
+      final List<ProfileModel> musicians = [];
+
+      snaphots.docs.forEach((document) {
+        var profileMap = document.data();
+        profileMap['id'] = document.id;
+
+        var profile = ProfileModel.fromMap(profileMap);
+
+        musicians.add(profile);
+      });
+
+      return musicians;
+    } catch (e) {
+      throw e;
+    }
+  }
 }
