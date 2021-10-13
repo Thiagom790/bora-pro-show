@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 
 class EventMusicianListWidget extends StatelessWidget {
+  final double fontSize;
+  final void Function() onPressed;
+  final IconData icon;
+  final String title;
+
   const EventMusicianListWidget({
+    required this.onPressed,
+    required this.title,
+    required this.icon,
+    this.fontSize = 15,
     Key? key,
   }) : super(key: key);
 
@@ -19,16 +28,20 @@ class EventMusicianListWidget extends StatelessWidget {
                 "assets/person.png",
                 width: 45,
               ),
-              Text('Thiago Marques'),
+              Text(
+                this.title,
+                style: TextStyle(
+                  color: AppColors.textLight,
+                  fontSize: this.fontSize,
+                ),
+              ),
             ],
           ),
           IconButton(
             iconSize: 30,
             color: AppColors.textLight,
-            onPressed: () {
-              print("Apertado");
-            },
-            icon: Icon(Icons.delete),
+            onPressed: this.onPressed,
+            icon: Icon(this.icon),
           )
         ],
       ),

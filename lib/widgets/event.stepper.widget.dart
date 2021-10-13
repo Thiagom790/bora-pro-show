@@ -38,7 +38,13 @@ class _EventStepperWidgetState extends State<EventStepperWidget> {
         "title": "Endereço",
         "widget": EventAddressWidget(model: this._eventModel),
       },
-      {"id": 2, "title": "Musicos", "widget": EventMusicWidget()},
+      {
+        "id": 2,
+        "title": "Musicos",
+        "widget": EventMusicWidget(
+          model: this._eventModel,
+        )
+      },
     ];
   }
 
