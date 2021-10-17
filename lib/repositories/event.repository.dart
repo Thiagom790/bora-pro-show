@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/models/event.musician.model.dart';
 import 'package:tcc_bora_show/view-models/event.viewmodel.dart';
+import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 
 class EventRepository {
   final _reference = FirebaseFirestore.instance.collection("event");
@@ -49,6 +50,38 @@ class EventRepository {
       eventMap!['id'] = document.id;
 
       return EventModel.fromMap(eventMap);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<ManagementEventViewModel>> selectAllMusiciansEvents(
+      String musicianID) async {
+    try {
+      List<ManagementEventViewModel> events = [];
+
+      final snapshots = await _referenceEventMusicians
+          .where("musicianID", isEqualTo: musicianID)
+          .get();
+
+      final documents = snapshots.docs;
+
+      for (var document in documents) {
+        final eventMusicianMap = document.data();
+        final String eventId = eventMusicianMap['eventID'];
+
+        final event = await this.select(eventId);
+        final eventMap = event.toMap();
+
+        eventMusicianMap.addAll(eventMap);
+
+        final eventMusician =
+            ManagementEventViewModel.fromMap(eventMusicianMap);
+
+        events.add(eventMusician);
+      }
+
+      return events;
     } catch (e) {
       throw e;
     }

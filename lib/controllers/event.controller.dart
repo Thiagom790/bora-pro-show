@@ -3,6 +3,7 @@ import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/repositories/event.repository.dart';
 import 'package:tcc_bora_show/repositories/profile.repository.dart';
 import 'package:tcc_bora_show/view-models/event.viewmodel.dart';
+import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 
 class EventController {
   late EventRepository _repository;
@@ -11,6 +12,15 @@ class EventController {
   EventController() {
     _repository = new EventRepository();
     _repositoryProfile = new ProfileRepository();
+  }
+
+  Future<List<ManagementEventViewModel>> selectMusicianEvent(
+      String musicianID) async {
+    try {
+      return await _repository.selectAllMusiciansEvents(musicianID);
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future<String> createEvent(EventModel model) async {
