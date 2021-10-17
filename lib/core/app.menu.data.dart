@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tcc_bora_show/views/event.management.dart';
+import 'package:tcc_bora_show/views/event.management.view.dart';
 import 'package:tcc_bora_show/views/events.view.dart';
 import 'package:tcc_bora_show/views/profile.view.dart';
+import 'package:tcc_bora_show/views/teste.dart';
 
 final menuData = {
   "user": [
@@ -34,7 +35,7 @@ final menuData = {
     },
     {
       "title": "Gerência",
-      "page": EventManagement(),
+      "page": Teste(),
       "icon": Icon(Icons.business_center),
     },
     {
@@ -56,7 +57,7 @@ final menuData = {
     },
     {
       "title": "Gerência",
-      "page": Container(child: Text('Gerência')),
+      "page": EventManagementView(),
       "icon": Icon(Icons.business_center)
     },
     {

@@ -20,7 +20,7 @@ class _TesteState extends State<Teste> {
             MaterialPageRoute(builder: (context) => CreateEventView()),
           );
         },
-        title: "Criar Evento",
+        title: "Criar Eventoss",
       ),
     );
   }
