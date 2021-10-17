@@ -68,7 +68,7 @@ class EventModel {
     this.pictureLink = data['pictureLink'];
     this.description = data['description'];
     this.type = data['type'];
-    this.musicGenre = data['musicGenre'];
+    this.musicGenre = data['musicGenre'].cast<String>();
     this.latitude = data['latitude'];
     this.longitude = data['longitude'];
     this.isOpenToPublic = data['isOpenToPublic'];
