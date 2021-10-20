@@ -1,10 +1,12 @@
 class EventMusicianModel {
+  String id = "";
   late String musicianID;
   late String eventID;
   late bool isConfirmed;
   late bool isCancelled;
   late bool isInvited;
   late bool isSelected;
+  bool toRemove = false;
   late String name;
 
   EventMusicianModel({
@@ -15,6 +17,7 @@ class EventMusicianModel {
     this.eventID = "",
     this.isSelected = false,
     this.name = "",
+    this.toRemove = false,
   });
 
   EventMusicianModel.fromMap(Map<String, dynamic> map) {
@@ -23,6 +26,7 @@ class EventMusicianModel {
     this.isConfirmed = map["isConfirmed"];
     this.isCancelled = map["isCancelled"];
     this.isInvited = map["isInvited"];
+    this.id = map['id'];
   }
 
   Map<String, dynamic> toMap() {

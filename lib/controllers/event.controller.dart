@@ -1,7 +1,9 @@
 import 'package:tcc_bora_show/models/event.model.dart';
+import 'package:tcc_bora_show/models/event.musician.model.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/repositories/event.repository.dart';
 import 'package:tcc_bora_show/repositories/profile.repository.dart';
+import 'package:tcc_bora_show/view-models/event.detail.viewmodel.dart';
 import 'package:tcc_bora_show/view-models/event.viewmodel.dart';
 import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 
@@ -12,6 +14,26 @@ class EventController {
   EventController() {
     _repository = new EventRepository();
     _repositoryProfile = new ProfileRepository();
+  }
+
+  Future<void> changeMusicianStatus(EventMusicianModel model) async {
+    try {
+      await _repository.changeMusicianStatus(model);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<EventDetailViewModel> selectEventDetailMusician(
+      {required String eventId, required String musicianID}) async {
+    try {
+      return await _repository.selectEventDetailMusician(
+        musicianID: musicianID,
+        eventID: eventId,
+      );
+    } catch (e) {
+      throw e;
+    }
   }
 
   Future<List<ManagementEventViewModel>> selectMusicianEvent(
