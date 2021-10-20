@@ -8,4 +8,5 @@ class AppColors {
   static const Color buttonPrimary = Color(0xff5468FF);
   static const Color navyItemInactive = Color(0xffffffff);
   static const Color navyItemActive = Color(0xff5468FF);
+  static const Color textLowOppacity = Color.fromRGBO(255,255,255,0.4);
 }
