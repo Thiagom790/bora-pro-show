@@ -66,6 +66,8 @@ flutter:
     - assets/logo2.png
     - assets/error.png
     - assets/success.png
+    - assets/rock-and-roll.png
+    - assets/rock-and-roll-white.png
     - assets/person.png
     - assets/shows.jpg
 

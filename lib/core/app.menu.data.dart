@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/views/event.management.view.dart';
 import 'package:tcc_bora_show/views/events.view.dart';
+import 'package:tcc_bora_show/views/home.view.dart';
 import 'package:tcc_bora_show/views/profile.view.dart';
 import 'package:tcc_bora_show/views/teste.dart';
 
@@ -8,7 +9,7 @@ final menuData = {
   "user": [
     {
       "title": "Home",
-      "page": Container(child: Text('Shows')),
+      "page": Home(),
       "icon": Icon(Icons.home),
     },
     {
