@@ -66,6 +66,9 @@ flutter:
     - assets/logo2.png
     - assets/error.png
     - assets/success.png
+    - assets/rock-and-roll.png
+    - assets/rock-and-roll-white.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
