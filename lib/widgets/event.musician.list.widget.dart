@@ -3,14 +3,14 @@ import 'package:tcc_bora_show/core/app.colors.dart';
 
 class EventMusicianListWidget extends StatelessWidget {
   final double fontSize;
-  final void Function() onPressed;
-  final IconData icon;
+  final void Function()? onPressed;
+  final IconData? icon;
   final String title;
 
   const EventMusicianListWidget({
-    required this.onPressed,
+    this.onPressed,
     required this.title,
-    required this.icon,
+    this.icon,
     this.fontSize = 15,
     Key? key,
   }) : super(key: key);
