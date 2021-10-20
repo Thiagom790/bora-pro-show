@@ -5,11 +5,13 @@ class LargeButtonWidget extends StatelessWidget {
   final void Function() onPress;
   final String title;
   final bool isBusy;
+  final Color color;
   const LargeButtonWidget({
     Key? key,
     required this.onPress,
     required this.title,
     this.isBusy = false,
+    this.color = AppColors.buttonPrimary,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class LargeButtonWidget extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: AppColors.buttonPrimary,
+          primary: this.color,
           padding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
