@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
+import 'package:tcc_bora_show/views/event.detail.musician.view.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.container.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
@@ -33,9 +34,19 @@ class _EventManagementViewState extends State<EventManagementView> {
       itemBuilder: (context, index) {
         final event = events[index];
 
-        print(event);
-
-        return EventCardContainerWidget(event: event);
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EventDetailMusicianView(
+                  eventID: event.id,
+                ),
+              ),
+            );
+          },
+          child: EventCardContainerWidget(event: event),
+        );
       },
     );
   }
