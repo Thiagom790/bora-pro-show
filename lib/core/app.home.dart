@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
 import 'package:tcc_bora_show/core/app.menu.data.dart';
@@ -17,6 +18,7 @@ class AppHome extends StatefulWidget {
 class _AppHomeState extends State<AppHome> {
   final _controller = ProfileController();
   late ProfileStore _store;
+  late ReactionDisposer _disposer;
   bool _isLoading = true;
   int _currentIndex = 1;
 
@@ -82,6 +84,16 @@ class _AppHomeState extends State<AppHome> {
     }).catchError((error) {
       print("Erro no widget HomeView ${error.message}");
     });
+
+    this._disposer = reaction((_) => this._store.role, (role) {
+      _currentIndex = 0;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    this._disposer();
   }
 
   @override

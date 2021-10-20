@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_bora_show/models/event.musician.model.dart';
 
 class EventModel {
   late String id;
@@ -15,6 +16,7 @@ class EventModel {
   late bool isOpenToPublic;
   late String status;
   late double rating;
+  List<EventMusicianModel> muscians = [];
   String locationID = "";
 
   DateTime get date {
