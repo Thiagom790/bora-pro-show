@@ -16,6 +16,14 @@ class EventController {
     _repositoryProfile = new ProfileRepository();
   }
 
+  Future<void> changeEvent(EventDetailViewModel event) async {
+    try {
+      await _repository.changeEvent(event);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> changeMusicianStatus(EventMusicianModel model) async {
     try {
       await _repository.changeMusicianStatus(model);
@@ -32,6 +40,15 @@ class EventController {
     }
   }
 
+  Future<EventDetailViewModel> selectEventDetailOrganizer(
+      String eventID) async {
+    try {
+      return await this._repository.selectEventDetailOrganizer(eventID);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<EventDetailViewModel> selectEventDetailMusician(
       {required String eventId, required String musicianID}) async {
     try {
@@ -39,6 +56,15 @@ class EventController {
         musicianID: musicianID,
         eventID: eventId,
       );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<ManagementEventViewModel>> selectEventsOrganizer(
+      String organizerID) async {
+    try {
+      return await _repository.selectEventsOrganizer(organizerID);
     } catch (e) {
       throw e;
     }

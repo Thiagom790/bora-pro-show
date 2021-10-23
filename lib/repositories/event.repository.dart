@@ -12,6 +12,22 @@ class EventRepository {
       FirebaseFirestore.instance.collection("eventMusicians");
   final ProfileRepository _profileRepository = ProfileRepository();
 
+  Future<void> changeEvent(EventDetailViewModel event) async {
+    try {
+      if (event.status == 'open') {
+        final musicians = event.muscians;
+
+        for (var musician in musicians) {
+          await this._removeMusicianEvent(musician.id);
+        }
+      }
+
+      await _reference.doc(event.id).update(event.toMap());
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<EventMusicianModel> _selectEventMuscian({
     required String eventID,
     required String musicianID,
@@ -153,6 +169,19 @@ class EventRepository {
     }
   }
 
+  selectEventDetailOrganizer(String eventID) async {
+    try {
+      final eventDetail = await this.selectEventDetail(eventID);
+      final eventMusicians = await this._selectEventMusicians(eventID);
+
+      eventDetail.muscians = eventMusicians;
+
+      return eventDetail;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<EventDetailViewModel> selectEventDetailMusician({
     required String eventID,
     required String musicianID,
@@ -184,6 +213,33 @@ class EventRepository {
       final eventDetail = EventDetailViewModel.fromMap(eventMap);
 
       return eventDetail;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<ManagementEventViewModel>> selectEventsOrganizer(
+      String organizerID) async {
+    try {
+      final snapshot = await _reference
+          .where(
+            "idProfile",
+            isEqualTo: organizerID,
+          )
+          .get();
+
+      final documents = snapshot.docs;
+
+      final events = documents.map<ManagementEventViewModel>((document) {
+        final eventMap = document.data();
+        eventMap['id'] = document.id;
+
+        final event = ManagementEventViewModel.fromMap(eventMap);
+
+        return event;
+      }).toList();
+
+      return events;
     } catch (e) {
       throw e;
     }
@@ -225,8 +281,10 @@ class EventRepository {
     try {
       List<EventViewModel> list = [];
 
-      final snapshots =
-          await _reference.where("status", isEqualTo: "open").get();
+      final snapshots = await _reference
+          .where("status", isEqualTo: "open")
+          .where("isOpenToPublic", isEqualTo: true)
+          .get();
 
       snapshots.docs.forEach((document) {
         var eventMap = document.data();
