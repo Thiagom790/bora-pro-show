@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/event.musician.model.dart';
-import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/utils/date.utils.dart';
 import 'package:tcc_bora_show/view-models/event.detail.viewmodel.dart';
 import 'package:tcc_bora_show/views/select.musician.view.dart';

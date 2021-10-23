@@ -4,7 +4,6 @@ import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.event.view.dart';
-import 'package:tcc_bora_show/views/event.detail.musician.view.dart';
 import 'package:tcc_bora_show/views/event.detail.organizer.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.container.widget.dart';
