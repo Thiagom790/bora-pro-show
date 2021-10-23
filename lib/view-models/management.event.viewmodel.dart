@@ -9,8 +9,8 @@ class ManagementEventViewModel extends EventModel {
 
   ManagementEventViewModel.fromMap(Map<String, dynamic> map)
       : super.fromMap(map) {
-    this.isCancelled = map["isCancelled"];
-    this.isConfirmed = map["isConfirmed"];
-    this.isInvited = map["isInvited"];
+    this.isCancelled = map["isCancelled"] ?? false;
+    this.isConfirmed = map["isConfirmed"] ?? false;
+    this.isInvited = map["isInvited"] ?? false;
   }
 }

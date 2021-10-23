@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_bora_show/views/event.management.organizer.view.dart';
 import 'package:tcc_bora_show/views/event.management.view.dart';
 import 'package:tcc_bora_show/views/events.view.dart';
 import 'package:tcc_bora_show/views/home.view.dart';
@@ -36,7 +37,7 @@ final menuData = {
     },
     {
       "title": "Gerência",
-      "page": Teste(),
+      "page": EventManagementOrganizerView(),
       "icon": Icon(Icons.business_center),
     },
     {

@@ -94,7 +94,11 @@ class _EventInfoWidgetState extends State<EventInfoWidget> {
               actions: [
                 ElevatedButton(
                   child: Text('Concluir'),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    this._controllerMusicGenre.text = _selectedEventGenre.fold(
+                        "", (prev, curr) => '$prev #$curr');
+                    Navigator.pop(context);
+                  },
                 )
               ],
             );

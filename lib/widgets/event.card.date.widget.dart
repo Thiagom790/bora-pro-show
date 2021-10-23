@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/utils/date.utils.dart';
 
 class EventCardDateWidget extends StatelessWidget {
   final DateTime date;
@@ -31,7 +32,7 @@ class EventCardDateWidget extends StatelessWidget {
               ),
             ),
             TextSpan(
-              text: "${this.date.month}",
+              text: "${shortMonth(this.date.month)}",
               style: TextStyle(
                 fontSize: 15,
                 color: AppColors.textLight.withOpacity(0.7),
