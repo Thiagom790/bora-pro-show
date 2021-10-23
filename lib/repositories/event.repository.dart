@@ -12,13 +12,37 @@ class EventRepository {
       FirebaseFirestore.instance.collection("eventMusicians");
   final ProfileRepository _profileRepository = ProfileRepository();
 
+  Future<List<EventMusicianModel>> updateEventMusicianList(
+      EventMusicianModel musician) async {
+    try {
+      if (musician.toRemove) {
+        await this._removeMusicianEvent(musician.id);
+      }
+
+      return await this._selectEventMusicians(musician.eventID);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<EventMusicianModel>> updateAllEventMusicians(
+      List<EventMusicianModel> musicians) async {
+    final eventID = musicians[0].eventID;
+
+    await this.addMusicians(musicians);
+
+    return await this._selectEventMusicians(eventID);
+  }
+
   Future<void> changeEvent(EventDetailViewModel event) async {
     try {
       if (event.status == 'open') {
         final musicians = event.muscians;
 
         for (var musician in musicians) {
-          await this._removeMusicianEvent(musician.id);
+          if (!musician.isConfirmed) {
+            await this._removeMusicianEvent(musician.id);
+          }
         }
       }
 
