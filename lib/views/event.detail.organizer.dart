@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
+import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/event.musician.model.dart';
-import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/utils/date.utils.dart';
 import 'package:tcc_bora_show/view-models/event.detail.viewmodel.dart';
+import 'package:tcc_bora_show/views/select.musician.view.dart';
 import 'package:tcc_bora_show/widgets/description.widget.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.detail.appbar.widget.dart';
@@ -28,19 +28,12 @@ class EventDetailOrganizerView extends StatefulWidget {
 class _EventDetailOrganizerViewState extends State<EventDetailOrganizerView> {
   late EventDetailViewModel _event;
   final _controller = EventController();
-  late ProfileStore _store;
   String _eventID = "";
 
   @override
   void initState() {
     super.initState();
     this._eventID = widget.eventID;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _store = Provider.of<ProfileStore>(context);
   }
 
   Future<EventDetailViewModel> _getEventDetail() async {
@@ -91,24 +84,103 @@ class _EventDetailOrganizerViewState extends State<EventDetailOrganizerView> {
     return button;
   }
 
+  _upadeMusicianList(EventMusicianModel musician) async {
+    try {
+      final musicians = await _controller.updateEventMusicianList(musician);
+      setState(() {
+        this._event.muscians = musicians;
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  _updateAllMusicianList(List<EventMusicianModel> musicians) async {
+    final List<EventMusicianModel> eventMusicians = musicians.where((musician) {
+      musician.eventID = this._eventID;
+      bool exist =
+          this._event.muscians.any((e) => e.musicianID == musician.musicianID);
+
+      return !exist;
+    }).toList();
+
+    if (eventMusicians.length <= 0) return;
+
+    try {
+      final newMusicians =
+          await this._controller.updateAllEventMusicians(eventMusicians);
+
+      setState(() {
+        this._event.muscians = newMusicians;
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  void __openSelectMusicianView() async {
+    List<EventMusicianModel>? musicians = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectMusicianView(),
+      ),
+    );
+
+    if (musicians == null) return;
+
+    this._updateAllMusicianList(musicians);
+  }
+
   Widget _buildMusiciansList(List<EventMusicianModel> musicians) {
     List<Widget> musiciansWidget = [];
+    final event = this._event;
 
     musiciansWidget = musicians.map<Widget>((musician) {
-      return EventMusicianListWidget(
+      final removeMusician = () {
+        musician.toRemove = true;
+        _upadeMusicianList(musician);
+      };
+
+      Widget button = EventMusicianListWidget(
         title: musician.name,
-        icon: Icons.delete,
-        onPressed: () {},
+        actions: [
+          {'icon': Icons.done, 'onPress': () {}},
+          {'icon': Icons.delete, 'onPress': removeMusician},
+        ],
       );
+
+      if (musician.isConfirmed) {
+        button = EventMusicianListWidget(
+          title: musician.name,
+          color: AppColors.buttonPrimary,
+          icon: Icons.delete,
+          onPressed: removeMusician,
+        );
+      } else if (musician.isInvited) {
+        button = EventMusicianListWidget(
+          title: musician.name,
+          icon: Icons.delete,
+          onPressed: removeMusician,
+        );
+      }
+
+      if (event.status != 'pending') {
+        button = EventMusicianListWidget(
+          title: musician.name,
+        );
+      }
+
+      return button;
     }).toList();
 
     return Column(
       children: <Widget>[
         ...musiciansWidget,
-        LargeOutlineButtonWidget(
-          title: "Adicionar",
-          onPress: () {},
-        )
+        if (event.status == 'pending')
+          LargeOutlineButtonWidget(
+            title: "Adicionar",
+            onPress: this.__openSelectMusicianView,
+          )
       ],
     );
   }

@@ -145,7 +145,11 @@ class _CreateProfileViewState extends State<CreateProfileView> {
               actions: [
                 ElevatedButton(
                   child: Text('Concluir'),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    this._controllerMusicGenre.text = _selectedEventGenre.fold(
+                        "", (prev, curr) => '$prev #$curr');
+                    Navigator.pop(context);
+                  },
                 )
               ],
             );
@@ -192,17 +196,15 @@ class _CreateProfileViewState extends State<CreateProfileView> {
                 listData: this._listRoles,
                 onChange: this._onChangeSelectBox,
               ),
-              if(this._selectBoxText == "músico" || this._selectBoxText == "organizador" || this._selectBoxText == "visitante")
               InputWidget(
                 placeholder: "Nº Celular",
                 controller: _controllerPhoneNumber,
               ),
-              if(this._selectBoxText == "músico" || this._selectBoxText == "organizador" || this._selectBoxText == "visitante")
               InputWidget(
                 placeholder: "Cidade",
                 controller: _controllerCity,
               ),
-              if(this._selectBoxText == "músico")
+              if (this._selectBoxText == "músico")
                 InputWidget(
                   placeholder: "Genero Musical",
                   readOnly: true,

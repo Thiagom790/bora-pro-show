@@ -16,6 +16,20 @@ class EventController {
     _repositoryProfile = new ProfileRepository();
   }
 
+  Future<List<EventMusicianModel>> updateAllEventMusicians(
+      List<EventMusicianModel> musicians) async {
+    return await this._repository.updateAllEventMusicians(musicians);
+  }
+
+  Future<List<EventMusicianModel>> updateEventMusicianList(
+      EventMusicianModel musician) async {
+    try {
+      return await this._repository.updateEventMusicianList(musician);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> changeEvent(EventDetailViewModel event) async {
     try {
       await _repository.changeEvent(event);
