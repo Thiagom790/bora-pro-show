@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/auth.controller.dart';
+import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
@@ -10,8 +11,10 @@ import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.profile.view.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
+import 'package:tcc_bora_show/widgets/large.button.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
 import 'package:tcc_bora_show/widgets/profile.popupmenu.widget.dart';
+
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -33,6 +36,12 @@ class _ProfileViewState extends State<ProfileView> {
   late ReactionDisposer _disposer;
   List<ProfileViewModel> _profiles = [];
   bool _isLoading = true;
+
+  late List<Map<String, dynamic>> _listEventGenre = [];
+  List<String> _selectedEventGenre = [];
+  final _controllerMusicGenre = TextEditingController();
+  ProfileModel _model = ProfileModel();
+  final _controllerEvent = EventController();
 
   Future<void> _getUserProfiles() async {
     try {
@@ -91,6 +100,10 @@ class _ProfileViewState extends State<ProfileView> {
     this._phoneNumberController.text = this.profileModel.phoneNumber;
     this._cityController.text = this.profileModel.city;
     this._nameController.text = this.profileModel.name;
+    setState(() {
+      this._selectedEventGenre = this.profileModel.musicGenre;
+    });
+
 
   }
 
@@ -100,6 +113,61 @@ class _ProfileViewState extends State<ProfileView> {
     }).catchError((error) {
       print("Erro dentro de profile view na logout" + error.toString());
     });
+  }
+
+  void _onTapSelectGenre() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Generos Musicais"),
+              content: Container(
+                width: 300,
+                height: 300,
+                child: ListView.builder(
+                  itemCount: this._listEventGenre.length,
+                  itemBuilder: (context, index) {
+                    final item = _listEventGenre[index];
+                    return CheckboxListTile(
+                      title: Text(item["value"]),
+                      value: item["isActive"],
+                      onChanged: (value) {
+                        setState(() {
+                          item["isActive"] = value;
+                          value!
+                              ? _selectedEventGenre.add(item["value"])
+                              : _selectedEventGenre.remove(item["value"]);
+                        });
+                        this._model.musicGenre = _selectedEventGenre;
+                      },
+                    );
+                  },
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  child: Text('Concluir'),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  List<Map<String, dynamic>> _getEventGenres() {
+    final listGenres = _controllerEvent.selectEventGenres();
+
+    List<Map<String, dynamic>> listFormateGenres = [];
+    listGenres.forEach((genre) {
+      listFormateGenres.add({"value": genre, "isActive": false});
+    });
+
+    return listFormateGenres;
   }
 
   @override
@@ -120,6 +188,12 @@ class _ProfileViewState extends State<ProfileView> {
   void dispose() {
     this._disposer();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _listEventGenre = this._getEventGenres();
+    super.initState();
   }
 
   @override
@@ -230,8 +304,46 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   if (this._profileStore.role == "musician")
                     InputWidget(
-                      placeholder: "Estilo Musical",
+                      placeholder: "Genero Musical",
+                      readOnly: true,
+                      controller: this._controllerMusicGenre,
+                      onTap: this._onTapSelectGenre,
                     ),
+                  LargeButtonWidget(
+                      title: "Salvar Mudanças",
+                      onPress: (){
+                        ProfileModel _profile = new ProfileModel();
+                        _profile.id = profileModel.id;
+                        _profile.name = _nameController.text;
+                        _profile.city = _cityController.text;
+                        _profile.phoneNumber = _phoneNumberController.text;
+                        _profile.role = profileModel.role;
+                        _profile.rating = profileModel.rating;
+                        _profile.userUid = profileModel.userUid;
+                        _profile.musicGenre = profileModel.musicGenre;
+                        try{
+                          _controller.updateProfile(_profile);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context){
+                                return AlertDialog(
+                                  title: new Text("Sucesso!"),
+                                  content: new Text("Mudanças Salvas com sucesso."),
+                                  actions: <Widget> [
+                                    new TextButton(
+                                        child: new Text("Fechar"),
+                                        onPressed: (){Navigator.of(context).pop();}
+                                    ),
+                                  ],
+                                );
+                              }
+                          );
+
+                        }catch (e){
+                          throw e;
+                        }
+                      }
+                  ),
                 ],
               ),
             ),

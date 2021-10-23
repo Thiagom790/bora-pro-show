@@ -79,4 +79,15 @@ class ProfileRepository {
     }
   }
 
+  Future<void> updateProfile(ProfileModel profile) async {
+
+    try{
+
+      await _reference.doc(profile.id).update(profile.toMap());
+
+    }catch(e) {
+      throw e;
+    }
+  }
+
 }

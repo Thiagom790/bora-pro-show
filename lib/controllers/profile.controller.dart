@@ -74,4 +74,16 @@ class ProfileController {
     }
   }
 
+  Future<void> updateProfile(ProfileModel profile) async {
+
+    try{
+
+      await _profileRepository.updateProfile(profile);
+
+    }catch(e) {
+      throw e;
+    }
+  }
+
+
 }
