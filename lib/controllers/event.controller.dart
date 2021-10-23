@@ -24,6 +24,14 @@ class EventController {
     }
   }
 
+  Future<EventDetailViewModel> selectEventDetailvisitant(String eventID) async {
+    try {
+      return await _repository.selectEventDetailvisitant(eventID);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<EventDetailViewModel> selectEventDetailMusician(
       {required String eventId, required String musicianID}) async {
     try {

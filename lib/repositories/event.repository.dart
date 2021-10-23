@@ -109,6 +109,50 @@ class EventRepository {
     }
   }
 
+  selectEventDetailvisitant(String eventID) async {
+    try {
+      final eventDetail = await this.selectEventDetail(eventID);
+
+      final listMusicians = await this._selectEventMusicians(eventID);
+
+      eventDetail.muscians = listMusicians;
+
+      return eventDetail;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<EventMusicianModel>> _selectEventMusicians(String eventID) async {
+    try {
+      List<EventMusicianModel> musicians = [];
+
+      final snapshots = await _referenceEventMusicians
+          .where("eventID", isEqualTo: eventID)
+          .get();
+
+      final documents = snapshots.docs;
+
+      for (var document in documents) {
+        final eventMusicianMap = document.data();
+        eventMusicianMap['id'] = document.id;
+        final eventMusician = EventMusicianModel.fromMap(eventMusicianMap);
+
+        final musicianProfile = await this._profileRepository.select(
+              eventMusician.musicianID,
+            );
+
+        eventMusician.name = musicianProfile.name;
+
+        musicians.add(eventMusician);
+      }
+
+      return musicians;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<EventDetailViewModel> selectEventDetailMusician({
     required String eventID,
     required String musicianID,
@@ -182,7 +226,7 @@ class EventRepository {
       List<EventViewModel> list = [];
 
       final snapshots =
-          await _reference.where("status", isEqualTo: "progress").get();
+          await _reference.where("status", isEqualTo: "open").get();
 
       snapshots.docs.forEach((document) {
         var eventMap = document.data();
