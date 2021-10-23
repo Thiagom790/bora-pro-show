@@ -65,4 +65,13 @@ class ProfileController {
   List<Map<String, dynamic>> selectProfileRoles() {
     return _profileRepository.selectProfileRoles();
   }
+
+  Future<ProfileModel> selectProfile(idProfile) async {
+    try{
+      return await _profileRepository.select(idProfile);
+    } catch (e) {
+      throw e;
+    }
+  }
+
 }

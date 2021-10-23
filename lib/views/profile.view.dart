@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/auth.controller.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.profile.view.dart';
+import 'package:tcc_bora_show/widgets/input.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
 import 'package:tcc_bora_show/widgets/profile.popupmenu.widget.dart';
 
@@ -21,6 +23,10 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final _controller = ProfileController();
   final _authController = AuthController();
+  late ProfileModel profileModel = new ProfileModel();
+  late TextEditingController _nameController = TextEditingController();
+  late TextEditingController _phoneNumberController = TextEditingController();
+  late TextEditingController _cityController = TextEditingController();
   late ProfileStore _profileStore;
   late AuthStore _authStore;
   late ProfileViewModel _defaultProfile;
@@ -66,6 +72,7 @@ class _ProfileViewState extends State<ProfileView> {
         id: data.id,
       );
 
+
       setState(() {
         this._isLoading = false;
       });
@@ -76,6 +83,15 @@ class _ProfileViewState extends State<ProfileView> {
         this._isLoading = false;
       });
     });
+  }
+
+  void _selectProfile() async {
+
+    profileModel = await _controller.selectProfile(_profileStore.id);
+    this._phoneNumberController.text = this.profileModel.phoneNumber;
+    this._cityController.text = this.profileModel.city;
+    this._nameController.text = this.profileModel.name;
+
   }
 
   void _logout() {
@@ -97,6 +113,7 @@ class _ProfileViewState extends State<ProfileView> {
     });
 
     _getUserProfiles();
+    _selectProfile(); //se der merda, foi essa linha.
   }
 
   @override
@@ -109,32 +126,114 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return _isLoading
         ? LoadingWidget()
-        : Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      ProfilePopupMenuWidget(
-                        profiles: this._profiles,
-                        defaultProfile: this._defaultProfile,
-                        onSelect: this._onSelectProfile,
-                        onCreateProfile: this._createNewProfile,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.logout,
-                          color: AppColors.textLight,
+        : SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        ProfilePopupMenuWidget(
+                          profiles: this._profiles,
+                          defaultProfile: this._defaultProfile,
+                          onSelect: this._onSelectProfile,
+                          onCreateProfile: this._createNewProfile,
                         ),
-                        onPressed: this._logout,
-                      ),
-                    ],
+                        IconButton(
+                          icon: Icon(
+                            Icons.logout,
+                            color: AppColors.textLight,
+                          ),
+                          onPressed: this._logout,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Image.asset("assets/logo.png"),
-              ],
+                  Container(
+
+                    child: CircleAvatar(
+                      radius: 80,
+                      backgroundImage: AssetImage("assets/tiaguinho.jpg"),
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Colors.red,
+                    ),
+                    width: 200,
+                    height: 200,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.container,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  //Image.asset("assets/logo.png"),
+                  Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: AppColors.container,
+                                padding: EdgeInsets.all(5),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(15),
+                                        topLeft: Radius.circular(15))),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                "Informações",
+                                style: TextStyle(color: AppColors.textLight),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              backgroundColor: AppColors.container,
+                              padding: EdgeInsets.all(5),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(15),
+                                      topRight: Radius.circular(15))),
+                            ),
+                            child: Text(
+                              "Seguidores",
+                              style: TextStyle(
+                                color: AppColors.textLight,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Text(this._profileStore.role),
+                  InputWidget(
+                    placeholder: "Nome",
+                    controller: _nameController,
+                  ),
+                  InputWidget(
+                    placeholder: "Nº Celular",
+                    controller: _phoneNumberController,
+                  ),
+                  InputWidget(
+                    placeholder: "Cidade",
+                    controller: _cityController,
+                  ),
+                  if (this._profileStore.role == "musician")
+                    InputWidget(
+                      placeholder: "Estilo Musical",
+                    ),
+                ],
+              ),
             ),
           );
   }
