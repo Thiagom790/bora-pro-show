@@ -30,19 +30,12 @@ class EventDetailOrganizerView extends StatefulWidget {
 class _EventDetailOrganizerViewState extends State<EventDetailOrganizerView> {
   late EventDetailViewModel _event;
   final _controller = EventController();
-  late ProfileStore _store;
   String _eventID = "";
 
   @override
   void initState() {
     super.initState();
     this._eventID = widget.eventID;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _store = Provider.of<ProfileStore>(context);
   }
 
   Future<EventDetailViewModel> _getEventDetail() async {
