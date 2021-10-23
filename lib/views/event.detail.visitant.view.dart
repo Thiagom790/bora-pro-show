@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/models/event.musician.model.dart';
-import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/utils/date.utils.dart';
 import 'package:tcc_bora_show/utils/location.utils.dart';
 import 'package:tcc_bora_show/view-models/event.detail.viewmodel.dart';
@@ -14,21 +12,21 @@ import 'package:tcc_bora_show/widgets/info.box.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
 
-class EventDetailMusicianView extends StatefulWidget {
-  final String eventID;
+class EventDetailVisitantView extends StatefulWidget {
+  final eventID;
 
-  const EventDetailMusicianView({Key? key, required this.eventID})
-      : super(key: key);
+  EventDetailVisitantView({
+    required this.eventID,
+  });
 
   @override
-  _EventDetailMusicianViewState createState() =>
-      _EventDetailMusicianViewState();
+  _EventDetailVisitantViewState createState() =>
+      _EventDetailVisitantViewState();
 }
 
-class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
+class _EventDetailVisitantViewState extends State<EventDetailVisitantView> {
   late EventDetailViewModel _event;
   final _controller = EventController();
-  late ProfileStore _store;
   String _eventID = "";
 
   @override
@@ -37,39 +35,13 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
     this._eventID = widget.eventID;
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _store = Provider.of<ProfileStore>(context);
-  }
-
   Future<EventDetailViewModel> _getEventDetail() async {
     try {
       final eventID = this._eventID;
-      final musicianID = this._store.id;
-      final event = await _controller.selectEventDetailMusician(
-        musicianID: musicianID,
-        eventId: eventID,
-      );
+
+      final event = await _controller.selectEventDetailvisitant(eventID);
 
       return event;
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  _changeMusicianStatus({bool remove = false, bool confirme = true}) async {
-    try {
-      final model = EventMusicianModel(
-        eventID: this._event.id,
-        isConfirmed: confirme,
-        toRemove: remove,
-        musicianID: this._store.id,
-      );
-
-      await _controller.changeMusicianStatus(model);
-
-      Navigator.pop(context);
     } catch (e) {
       throw e;
     }
@@ -86,30 +58,14 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
     );
   }
 
-  Widget _buildActions() {
-    final event = this._event;
-    Widget button = LargeButtonWidget(
-      onPress: this._createRoute,
-      title: "Criar Rota",
-    );
+  List<Widget> _buildMusiciansList(List<EventMusicianModel> musicians) {
+    List<Widget> musiciansWidget = [];
 
-    if (event.status == 'pending' && !event.isConfirmed) {
-      button = Column(
-        children: [
-          LargeButtonWidget(
-            title: "Aceitar",
-            onPress: () => this._changeMusicianStatus(confirme: true),
-          ),
-          LargeButtonWidget(
-            title: "Recusar",
-            color: Colors.red,
-            onPress: () => this._changeMusicianStatus(remove: true),
-          ),
-        ],
-      );
-    }
+    musiciansWidget = musicians.map<Widget>((musician) {
+      return EventMusicianListWidget(title: musician.name);
+    }).toList();
 
-    return button;
+    return musiciansWidget;
   }
 
   Widget get _body {
@@ -148,8 +104,11 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
                   ),
                   DescriptionWidget(title: "Tipo", content: event.type),
                   DescriptionWidget(title: "Sobre", content: event.description),
-                  EventMusicianListWidget(title: event.organizerName),
-                  this._buildActions(),
+                  ...this._buildMusiciansList(event.muscians),
+                  LargeButtonWidget(
+                    onPress: this._createRoute,
+                    title: "Criar Rota",
+                  ),
                 ],
               ),
             ),
