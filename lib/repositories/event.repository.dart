@@ -34,9 +34,9 @@ class EventRepository {
     }
   }
 
-  Future<void> _removeMusician(String musicianID) async {
+  Future<void> _removeMusicianEvent(String eventMusicianID) async {
     try {
-      await _referenceEventMusicians.doc(musicianID).delete();
+      await _referenceEventMusicians.doc(eventMusicianID).delete();
     } catch (e) {
       throw e;
     }
@@ -44,15 +44,15 @@ class EventRepository {
 
   Future<void> changeMusicianStatus(EventMusicianModel model) async {
     try {
-      if (model.toRemove) {
-        await this._removeMusician(model.musicianID);
-        return;
-      }
-
       final eventMusician = await this._selectEventMuscian(
         eventID: model.eventID,
         musicianID: model.musicianID,
       );
+
+      if (model.toRemove) {
+        await this._removeMusicianEvent(eventMusician.id);
+        return;
+      }
 
       await this
           ._referenceEventMusicians
