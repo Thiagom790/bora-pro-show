@@ -99,7 +99,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        title: Text('Cadastrar'),
       ),
       body: Center(
         child: SingleChildScrollView(
