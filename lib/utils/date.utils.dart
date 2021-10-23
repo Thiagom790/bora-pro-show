@@ -12,3 +12,22 @@ String timeFormat(TimeOfDay time) {
   String minute = time.minute.toString().padLeft(2, "0");
   return "$hour:$minute";
 }
+
+String shortMonth(int month) {
+  List<String> months = [
+    'Jan',
+    'Fev',
+    'Mar',
+    'Abr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Set',
+    'Out',
+    'Nov',
+    'Dez'
+  ];
+
+  return months[--month];
+}
