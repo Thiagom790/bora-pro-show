@@ -53,8 +53,8 @@ final menuData = {
     },
     {
       "title": "Shows",
-      "page": Container(child: Text('Shows')),
-      "icon": Icon(Icons.location_on)
+      "page": EventsView(),
+      "icon": Icon(Icons.location_on),
     },
     {
       "title": "Gerência",
