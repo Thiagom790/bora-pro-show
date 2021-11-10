@@ -109,9 +109,9 @@ class EventController {
     }
   }
 
-  Future<List<EventViewModel>> selectAllEvents() async {
+  Future<List<EventViewModel>> selectAllEventsVisitant() async {
     try {
-      return await this._repository.selectAllEvents();
+      return await this._repository.selectAllEventsVisitant();
     } catch (e) {
       throw e;
     }

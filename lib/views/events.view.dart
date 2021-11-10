@@ -46,7 +46,7 @@ class _EventsViewState extends State<EventsView> {
 
   _loadMarkers() async {
     try {
-      final eventList = await _eventController.selectAllEvents();
+      final eventList = await _eventController.selectAllEventsVisitant();
       final Set<Marker> markerList = {};
 
       eventList.forEach((event) {

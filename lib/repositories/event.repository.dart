@@ -301,7 +301,7 @@ class EventRepository {
     }
   }
 
-  Future<List<EventViewModel>> selectAllEvents() async {
+  Future<List<EventViewModel>> selectAllEventsVisitant() async {
     try {
       List<EventViewModel> list = [];
 
