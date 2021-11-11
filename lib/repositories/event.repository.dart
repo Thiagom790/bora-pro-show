@@ -301,6 +301,26 @@ class EventRepository {
     }
   }
 
+  Future<List<EventViewModel>> selectEventsMusicianMap() async {
+    try {
+      List<EventViewModel> list = [];
+
+      final snapshots =
+          await _reference.where("status", whereIn: ["open", "pending"]).get();
+
+      snapshots.docs.forEach((document) {
+        var eventMap = document.data();
+        eventMap['id'] = document.id;
+        var event = EventViewModel.fromMap(eventMap);
+        list.add(event);
+      });
+
+      return list;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<EventViewModel>> selectAllEventsVisitant() async {
     try {
       List<EventViewModel> list = [];

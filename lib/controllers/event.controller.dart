@@ -117,6 +117,14 @@ class EventController {
     }
   }
 
+  Future<List<EventViewModel>> selectEventsMusicianMap() async {
+    try {
+      return await this._repository.selectEventsMusicianMap();
+    } catch (e) {
+      throw e;
+    }
+  }
+
   List<Map<String, dynamic>> selectEventTypes() {
     return this._repository.selectEventTypes();
   }

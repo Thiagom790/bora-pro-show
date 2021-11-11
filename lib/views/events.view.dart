@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
+import 'package:tcc_bora_show/store/profile.store.dart';
+import 'package:tcc_bora_show/view-models/event.viewmodel.dart';
 import 'package:tcc_bora_show/views/event.detail.visitant.view.dart';
 
 class EventsView extends StatefulWidget {
@@ -13,6 +16,7 @@ class EventsView extends StatefulWidget {
 class _EventsViewState extends State<EventsView> {
   Completer<GoogleMapController> _controller = Completer();
   final _eventController = EventController();
+  late ProfileStore _profileStore;
   Set<Marker> _markersList = {};
 
   _onMapCreated(GoogleMapController googleMapController) {
@@ -46,7 +50,15 @@ class _EventsViewState extends State<EventsView> {
 
   _loadMarkers() async {
     try {
-      final eventList = await _eventController.selectAllEventsVisitant();
+      final profileRole = this._profileStore.role;
+      List<EventViewModel> eventList = [];
+
+      if (profileRole == 'musician') {
+        eventList = await _eventController.selectEventsMusicianMap();
+      } else {
+        eventList = await _eventController.selectAllEventsVisitant();
+      }
+
       final Set<Marker> markerList = {};
 
       eventList.forEach((event) {
@@ -91,6 +103,12 @@ class _EventsViewState extends State<EventsView> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    this._profileStore = Provider.of<ProfileStore>(context);
     _recuperarLocalizacaoAtual();
     _loadMarkers();
   }
