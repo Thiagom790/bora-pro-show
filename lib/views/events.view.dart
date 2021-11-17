@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/event.viewmodel.dart';
+import 'package:tcc_bora_show/views/event.detail.musician.view.dart';
 import 'package:tcc_bora_show/views/event.detail.visitant.view.dart';
 
 class EventsView extends StatefulWidget {
@@ -73,9 +74,9 @@ class _EventsViewState extends State<EventsView> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EventDetailVisitantView(
-                  eventID: event.id,
-                ),
+                builder: (context) => profileRole == "musician"
+                    ? EventDetailMusicianView(eventID: event.id)
+                    : EventDetailVisitantView(eventID: event.id),
               ),
             );
           },
