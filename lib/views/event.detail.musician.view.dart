@@ -17,8 +17,10 @@ import 'package:tcc_bora_show/widgets/loading.widget.dart';
 class EventDetailMusicianView extends StatefulWidget {
   final String eventID;
 
-  const EventDetailMusicianView({Key? key, required this.eventID})
-      : super(key: key);
+  const EventDetailMusicianView({
+    Key? key,
+    required this.eventID,
+  }) : super(key: key);
 
   @override
   _EventDetailMusicianViewState createState() =>
@@ -47,7 +49,7 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
     try {
       final eventID = this._eventID;
       final musicianID = this._store.id;
-      final event = await _controller.selectEventDetailMusician(
+      EventDetailViewModel event = await _controller.selectEventDetailMusician(
         musicianID: musicianID,
         eventId: eventID,
       );
@@ -88,12 +90,13 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
 
   Widget _buildActions() {
     final event = this._event;
+    final musician = this._event.muscians[0];
     Widget button = LargeButtonWidget(
       onPress: this._createRoute,
       title: "Criar Rota",
     );
 
-    if (event.status == 'pending' && !event.isConfirmed) {
+    if (event.status == 'pending' && !musician.isConfirmed) {
       button = Column(
         children: [
           LargeButtonWidget(
