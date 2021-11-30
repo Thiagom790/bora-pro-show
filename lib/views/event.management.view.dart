@@ -34,8 +34,9 @@ class _EventManagementViewState extends State<EventManagementView> {
       itemBuilder: (context, index) {
         final event = events[index];
 
-        return GestureDetector(
-          onTap: () {
+        return EventCardContainerWidget(
+          event: event,
+          onPress: () {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -45,7 +46,6 @@ class _EventManagementViewState extends State<EventManagementView> {
               ),
             );
           },
-          child: EventCardContainerWidget(event: event),
         );
       },
     );

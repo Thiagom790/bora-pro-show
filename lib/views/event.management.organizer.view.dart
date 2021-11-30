@@ -5,6 +5,7 @@ import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.event.view.dart';
 import 'package:tcc_bora_show/views/event.detail.organizer.dart';
+import 'package:tcc_bora_show/widgets/dismissible.card.widget.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.container.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
@@ -38,18 +39,21 @@ class _EventManagementOrganizerViewState
       itemBuilder: (context, index) {
         final event = events[index];
 
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EventDetailOrganizerView(
-                  eventID: event.id,
+        return DismissibleCardWidget(
+          keyValue: event.id,
+          child: EventCardContainerWidget(
+            event: event,
+            onPress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EventDetailOrganizerView(
+                    eventID: event.id,
+                  ),
                 ),
-              ),
-            );
-          },
-          child: EventCardContainerWidget(event: event),
+              );
+            },
+          ),
         );
       },
     );
