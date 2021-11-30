@@ -60,7 +60,11 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
     }
   }
 
-  _changeMusicianStatus({bool remove = false, bool confirme = true}) async {
+  _changeMusicianStatus({
+    bool remove = false,
+    bool confirme = false,
+    bool subscribe = false,
+  }) async {
     try {
       final model = EventMusicianModel(
         eventID: this._event.id,
@@ -69,7 +73,11 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
         musicianID: this._store.id,
       );
 
-      await _controller.changeMusicianStatus(model);
+      if (subscribe) {
+        await _controller.subscribeEvent(model);
+      } else {
+        await _controller.changeMusicianStatus(model);
+      }
 
       Navigator.pop(context);
     } catch (e) {
@@ -91,12 +99,33 @@ class _EventDetailMusicianViewState extends State<EventDetailMusicianView> {
   Widget _buildActions() {
     final event = this._event;
     final musician = this._event.muscians[0];
+
     Widget button = LargeButtonWidget(
       onPress: this._createRoute,
       title: "Criar Rota",
     );
 
-    if (event.status == 'pending' && !musician.isConfirmed) {
+    if (event.status == 'pending' &&
+        !musician.isInvited &&
+        musician.eventID.isEmpty) {
+      button = Column(
+        children: <Widget>[
+          LargeButtonWidget(
+            title: "Inscrever-se",
+            color: Colors.green,
+            onPress: () => this._changeMusicianStatus(subscribe: true),
+          ),
+          LargeButtonWidget(
+            onPress: this._createRoute,
+            title: "Criar Rota",
+          ),
+        ],
+      );
+    }
+
+    if (event.status == 'pending' &&
+        !musician.isConfirmed &&
+        musician.isInvited) {
       button = Column(
         children: [
           LargeButtonWidget(

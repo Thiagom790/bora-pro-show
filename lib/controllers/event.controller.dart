@@ -38,6 +38,14 @@ class EventController {
     }
   }
 
+  Future<void> subscribeEvent(EventMusicianModel model) async {
+    try {
+      await _repository.addMusician(model);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> changeMusicianStatus(EventMusicianModel model) async {
     try {
       await _repository.changeMusicianStatus(model);

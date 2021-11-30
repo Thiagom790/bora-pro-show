@@ -15,9 +15,7 @@ class EventRepository {
   Future<List<EventMusicianModel>> updateEventMusicianList(
       EventMusicianModel musician) async {
     try {
-      if (musician.toRemove) {
-        await this._removeMusicianEvent(musician.id);
-      }
+      await changeMusicianStatus(musician);
 
       return await this._selectEventMusicians(musician.eventID);
     } catch (e) {
@@ -120,7 +118,9 @@ class EventRepository {
 
   Future<void> addMusicians(List<EventMusicianModel> musicians) async {
     try {
-      musicians.forEach(this.addMusician);
+      for (var musician in musicians) {
+        await this.addMusician(musician);
+      }
     } catch (e) {
       throw e;
     }

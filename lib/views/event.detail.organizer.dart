@@ -141,10 +141,15 @@ class _EventDetailOrganizerViewState extends State<EventDetailOrganizerView> {
         _upadeMusicianList(musician);
       };
 
+      final confirmMusician = () {
+        musician.isConfirmed = true;
+        _upadeMusicianList(musician);
+      };
+
       Widget button = EventMusicianListWidget(
         title: musician.name,
         actions: [
-          {'icon': Icons.done, 'onPress': () {}},
+          {'icon': Icons.done, 'onPress': confirmMusician},
           {'icon': Icons.delete, 'onPress': removeMusician},
         ],
       );
