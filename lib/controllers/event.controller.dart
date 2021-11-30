@@ -38,6 +38,14 @@ class EventController {
     }
   }
 
+  Future<void> subscribeEvent(EventMusicianModel model) async {
+    try {
+      await _repository.addMusician(model);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> changeMusicianStatus(EventMusicianModel model) async {
     try {
       await _repository.changeMusicianStatus(model);
@@ -63,8 +71,10 @@ class EventController {
     }
   }
 
-  Future<EventDetailViewModel> selectEventDetailMusician(
-      {required String eventId, required String musicianID}) async {
+  Future<EventDetailViewModel> selectEventDetailMusician({
+    required String eventId,
+    required String musicianID,
+  }) async {
     try {
       return await _repository.selectEventDetailMusician(
         musicianID: musicianID,
@@ -109,9 +119,17 @@ class EventController {
     }
   }
 
-  Future<List<EventViewModel>> selectAllEvents() async {
+  Future<List<EventViewModel>> selectAllEventsVisitant() async {
     try {
-      return await this._repository.selectAllEvents();
+      return await this._repository.selectAllEventsVisitant();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<EventViewModel>> selectEventsMusicianMap() async {
+    try {
+      return await this._repository.selectEventsMusicianMap();
     } catch (e) {
       throw e;
     }

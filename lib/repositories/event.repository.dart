@@ -15,9 +15,7 @@ class EventRepository {
   Future<List<EventMusicianModel>> updateEventMusicianList(
       EventMusicianModel musician) async {
     try {
-      if (musician.toRemove) {
-        await this._removeMusicianEvent(musician.id);
-      }
+      await changeMusicianStatus(musician);
 
       return await this._selectEventMusicians(musician.eventID);
     } catch (e) {
@@ -52,7 +50,7 @@ class EventRepository {
     }
   }
 
-  Future<EventMusicianModel> _selectEventMuscian({
+  Future<EventMusicianModel?> _selectEventMuscian({
     required String eventID,
     required String musicianID,
   }) async {
@@ -63,7 +61,13 @@ class EventRepository {
           .where("musicianID", isEqualTo: musicianID)
           .get();
 
-      final document = snaphots.docs[0];
+      final documents = snaphots.docs;
+
+      if (documents.isEmpty) {
+        return null;
+      }
+
+      final document = documents[0];
       final eventMusicianMap = document.data();
       eventMusicianMap['id'] = document.id;
 
@@ -90,13 +94,13 @@ class EventRepository {
       );
 
       if (model.toRemove) {
-        await this._removeMusicianEvent(eventMusician.id);
+        await this._removeMusicianEvent(eventMusician!.id);
         return;
       }
 
       await this
           ._referenceEventMusicians
-          .doc(eventMusician.id)
+          .doc(eventMusician!.id)
           .update(model.toMap());
     } catch (e) {
       throw e;
@@ -114,7 +118,9 @@ class EventRepository {
 
   Future<void> addMusicians(List<EventMusicianModel> musicians) async {
     try {
-      musicians.forEach(this.addMusician);
+      for (var musician in musicians) {
+        await this.addMusician(musician);
+      }
     } catch (e) {
       throw e;
     }
@@ -212,13 +218,16 @@ class EventRepository {
   }) async {
     try {
       final eventDetail = await this.selectEventDetail(eventID);
-
-      final eventMusician = await this._selectEventMuscian(
+      EventMusicianModel? eventMusician = await this._selectEventMuscian(
         eventID: eventID,
         musicianID: musicianID,
       );
 
-      eventDetail.isConfirmed = eventMusician.isConfirmed;
+      if (eventMusician == null) {
+        eventMusician = EventMusicianModel();
+      }
+
+      eventDetail.muscians = [eventMusician];
 
       return eventDetail;
     } catch (e) {
@@ -301,7 +310,27 @@ class EventRepository {
     }
   }
 
-  Future<List<EventViewModel>> selectAllEvents() async {
+  Future<List<EventViewModel>> selectEventsMusicianMap() async {
+    try {
+      List<EventViewModel> list = [];
+
+      final snapshots =
+          await _reference.where("status", whereIn: ["open", "pending"]).get();
+
+      snapshots.docs.forEach((document) {
+        var eventMap = document.data();
+        eventMap['id'] = document.id;
+        var event = EventViewModel.fromMap(eventMap);
+        list.add(event);
+      });
+
+      return list;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<List<EventViewModel>> selectAllEventsVisitant() async {
     try {
       List<EventViewModel> list = [];
 
