@@ -20,7 +20,8 @@ class _HomeState extends State<Home> {
           Postwidget(
             profileName: "Thiago",
             postTime: DateTime.now(),
-            postText: "Teste123",
+            postText:
+            "Musica Nova Lançada! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum bibendum risus nec lacinia. In hac habitasse platea dictumst. Mauris eget mi non ligula fringilla sodales non ac augue. Quisque vel consectetur odio. Vivamus scelerisque ex sit amet egestas tempus. Etiam vulputate, metus non dignissim rhoncus, nibh ",
             likeNumber: 999,
             commentNumber: 224,
             profileOnTap: () {},
@@ -30,7 +31,8 @@ class _HomeState extends State<Home> {
           Postwidget(
             profileName: "Guilherme",
             postTime: DateTime.now(),
-            postText: "Texto bonito aaaa",
+            postText:
+            "Musica Nova Lançada! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum bibendum risus nec lacinia. In hac habitasse platea dictumst. Mauris eget mi non ligula fringilla sodales non ac augue. Quisque vel consectetur odio. Vivamus scelerisque ex sit amet egestas tempus. Etiam vulputate, metus non dignissim rhoncus, nibh ",
             likeNumber: 888,
             commentNumber: 333,
             profileOnTap: () {},
