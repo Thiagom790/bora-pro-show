@@ -277,14 +277,18 @@ class EventRepository {
 
       final documents = snapshot.docs;
 
-      final events = documents.map<ManagementEventViewModel>((document) {
+      final List<ManagementEventViewModel> events = [];
+
+      for (var document in documents) {
         final eventMap = document.data();
         eventMap['id'] = document.id;
 
         final event = ManagementEventViewModel.fromMap(eventMap);
+        final musicians = await this._selectEventMusicians(event.id);
+        event.muscians = musicians;
 
-        return event;
-      }).toList();
+        events.add(event);
+      }
 
       return events;
     } catch (e) {
