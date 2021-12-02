@@ -2,43 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 
 class MusicianSearchBar extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function(String valorDigitado) onPressed;
+  final controller = TextEditingController();
 
   MusicianSearchBar({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-          color: AppColors.container, borderRadius: BorderRadius.circular(10)),
+        color: AppColors.container,
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Expanded(
             child: TextFormField(
-              decoration: const InputDecoration(
-                hintText: "Pesquise um músico! :D",
-                hintStyle: TextStyle(
-                  color: AppColors.textLight,
-                ),
+              controller: controller,
+              style: TextStyle(color: AppColors.textLight, fontSize: 20),
+              decoration: InputDecoration(
                 border: InputBorder.none,
-              ),
-              style: TextStyle(
-                color: AppColors.textLight,
+                hintText: "Pesquise pelo seu musico",
+                hintStyle: TextStyle(color: AppColors.textLight),
+                contentPadding: EdgeInsets.only(left: 10),
               ),
             ),
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Container(
-              height: 50.0,
-              width: 50.0,
-              color: AppColors.buttonPrimary,
-              child: IconButton(
-                onPressed: this.onPressed,
-                icon: Icon((Icons.search_rounded)),
+          Container(
+            width: 60,
+            height: 50,
+            margin: EdgeInsets.only(left: 15),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(10),
+                primary: AppColors.buttonPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
+              onPressed: () => this.onPressed(controller.text.trim()),
+              child: Icon(Icons.search),
             ),
           ),
         ],
