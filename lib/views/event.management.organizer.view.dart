@@ -36,7 +36,7 @@ class _EventManagementOrganizerViewState
     }
   }
 
-  Future<void> refreshListEvents() async {
+  Future<void> _refreshListEvents() async {
     try {
       final newList = await _getMusiciansEvent();
       setState(() {
@@ -53,7 +53,7 @@ class _EventManagementOrganizerViewState
     } catch (e) {
       print("Erro dentro de event manager organizer em excluir um evento");
     } finally {
-      await refreshListEvents();
+      await _refreshListEvents();
     }
   }
 
@@ -61,7 +61,7 @@ class _EventManagementOrganizerViewState
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => EditEventView(event: model)),
-    ).then((_) => refreshListEvents());
+    ).then((_) => _refreshListEvents());
 
     setState(() {});
   }
@@ -72,14 +72,14 @@ class _EventManagementOrganizerViewState
       MaterialPageRoute(
         builder: (context) => EventDetailOrganizerView(eventID: model.id),
       ),
-    ).then((_) => refreshListEvents());
+    ).then((_) => _refreshListEvents());
   }
 
   void _openCreateEvent() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CreateEventView()),
-    ).then((_) => refreshListEvents());
+    ).then((_) => _refreshListEvents());
   }
 
   Widget _buildListEvents(List<ManagementEventViewModel> events) {
