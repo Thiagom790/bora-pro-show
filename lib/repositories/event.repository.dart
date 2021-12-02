@@ -12,6 +12,20 @@ class EventRepository {
       FirebaseFirestore.instance.collection("eventMusicians");
   final ProfileRepository _profileRepository = ProfileRepository();
 
+  Future<void> removeEvent(String eventID) async {
+    try {
+      final musicians = await this._selectEventMusicians(eventID);
+
+      for (var musician in musicians) {
+        await this._removeMusicianEvent(musician.id);
+      }
+
+      await _reference.doc(eventID).delete();
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<EventMusicianModel>> updateEventMusicianList(
       EventMusicianModel musician) async {
     try {

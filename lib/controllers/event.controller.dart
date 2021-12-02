@@ -30,6 +30,14 @@ class EventController {
     }
   }
 
+  Future<void> removeEvent(String eventID) async {
+    try {
+      await this._repository.removeEvent(eventID);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> changeEvent(EventDetailViewModel event) async {
     try {
       await _repository.changeEvent(event);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
+import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.event.view.dart';
+import 'package:tcc_bora_show/views/edit.event.view.dart';
 import 'package:tcc_bora_show/views/event.detail.organizer.dart';
 import 'package:tcc_bora_show/widgets/dismissible.card.widget.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
@@ -24,6 +26,7 @@ class _EventManagementOrganizerViewState
     extends State<EventManagementOrganizerView> {
   final _eventController = EventController();
   late ProfileStore _store;
+  List<ManagementEventViewModel> _listEvents = [];
 
   Future<List<ManagementEventViewModel>> _getMusiciansEvent() async {
     try {
@@ -31,6 +34,52 @@ class _EventManagementOrganizerViewState
     } catch (e) {
       throw e;
     }
+  }
+
+  Future<void> refreshListEvents() async {
+    try {
+      final newList = await _getMusiciansEvent();
+      setState(() {
+        _listEvents = newList;
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> removeEvent(String eventID) async {
+    try {
+      await this._eventController.removeEvent(eventID);
+    } catch (e) {
+      print("Erro dentro de event manager organizer em excluir um evento");
+    } finally {
+      await refreshListEvents();
+    }
+  }
+
+  void _openEditEvent(EventModel model) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditEventView(event: model)),
+    ).then((_) => refreshListEvents());
+
+    setState(() {});
+  }
+
+  void _openEventDetail(EventModel model) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EventDetailOrganizerView(eventID: model.id),
+      ),
+    ).then((_) => refreshListEvents());
+  }
+
+  void _openCreateEvent() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CreateEventView()),
+    ).then((_) => refreshListEvents());
   }
 
   Widget _buildListEvents(List<ManagementEventViewModel> events) {
@@ -41,28 +90,14 @@ class _EventManagementOrganizerViewState
 
         return DismissibleCardWidget(
           keyValue: event.id,
+          onDismissToRight: () => this._openEditEvent(event),
+          onDismissToLeft: () => this.removeEvent(event.id),
           child: EventCardContainerWidget(
             event: event,
-            onPress: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EventDetailOrganizerView(
-                    eventID: event.id,
-                  ),
-                ),
-              );
-            },
+            onPress: () => this._openEventDetail(event),
           ),
         );
       },
-    );
-  }
-
-  void _openCreateEvent() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CreateEventView()),
     );
   }
 
@@ -124,9 +159,9 @@ class _EventManagementOrganizerViewState
                   );
                 }
 
-                final listEvents = snapshot.data!;
+                _listEvents = snapshot.data!;
 
-                return this._buildListEvents(listEvents);
+                return this._buildListEvents(_listEvents);
               },
             ),
           ),

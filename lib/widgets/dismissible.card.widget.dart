@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class DismissibleCardWidget extends StatelessWidget {
   final String keyValue;
   final Widget child;
-  final void Function(String keyValue)? onDismissToLeft;
-  final void Function(String keyValue)? onDismissToRight;
+  final void Function()? onDismissToLeft;
+  final void Function()? onDismissToRight;
 
   const DismissibleCardWidget({
     Key? key,
@@ -48,10 +48,10 @@ class DismissibleCardWidget extends StatelessWidget {
       onDismissed: (direction) {
         if (DismissDirection.endToStart == direction &&
             onDismissToLeft != null) {
-          onDismissToLeft!(keyValue);
+          onDismissToLeft!();
         } else if (DismissDirection.startToEnd == direction &&
             onDismissToRight != null) {
-          onDismissToRight!(keyValue);
+          onDismissToRight!();
         }
       },
     );
