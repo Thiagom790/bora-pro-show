@@ -19,6 +19,7 @@ class EventManagementView extends StatefulWidget {
 class _EventManagementViewState extends State<EventManagementView> {
   final _eventController = EventController();
   late ProfileStore _store;
+  List<ManagementEventViewModel> _listEvents = [];
 
   Future<List<ManagementEventViewModel>> _getMusiciansEvent() async {
     try {
@@ -26,6 +27,29 @@ class _EventManagementViewState extends State<EventManagementView> {
     } catch (e) {
       throw e;
     }
+  }
+
+  Future<void> _refreshListEvents() async {
+    try {
+      final newList = await _getMusiciansEvent();
+
+      setState(() {
+        _listEvents = newList;
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  void _openEventDetailView(String eventID) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EventDetailMusicianView(
+          eventID: eventID,
+        ),
+      ),
+    ).then((_) => _refreshListEvents());
   }
 
   Widget _buildListEvents(List<ManagementEventViewModel> events) {
@@ -36,16 +60,7 @@ class _EventManagementViewState extends State<EventManagementView> {
 
         return EventCardContainerWidget(
           event: event,
-          onPress: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EventDetailMusicianView(
-                  eventID: event.id,
-                ),
-              ),
-            );
-          },
+          onPress: () => _openEventDetailView(event.id),
         );
       },
     );
@@ -109,9 +124,9 @@ class _EventManagementViewState extends State<EventManagementView> {
                   );
                 }
 
-                final listEvents = snapshot.data!;
+                _listEvents = snapshot.data!;
 
-                return this._buildListEvents(listEvents);
+                return this._buildListEvents(_listEvents);
               },
             ),
           ),
