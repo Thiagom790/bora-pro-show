@@ -29,18 +29,6 @@ class _EventManagementViewState extends State<EventManagementView> {
     }
   }
 
-  Future<void> _refreshListEvents() async {
-    try {
-      final newList = await _getMusiciansEvent();
-
-      setState(() {
-        _listEvents = newList;
-      });
-    } catch (e) {
-      throw e;
-    }
-  }
-
   void _openEventDetailView(String eventID) {
     Navigator.push(
       context,
@@ -49,7 +37,7 @@ class _EventManagementViewState extends State<EventManagementView> {
           eventID: eventID,
         ),
       ),
-    ).then((_) => _refreshListEvents());
+    ).then((_) => setState(() {}));
   }
 
   Widget _buildListEvents(List<ManagementEventViewModel> events) {
