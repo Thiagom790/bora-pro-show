@@ -27,33 +27,28 @@ class _EventManagementOrganizerViewState
   final _eventController = EventController();
   late ProfileStore _store;
   List<ManagementEventViewModel> _listEvents = [];
+  String? _status;
 
-  Future<List<ManagementEventViewModel>> _getMusiciansEvent() async {
+  Future<List<ManagementEventViewModel>> _getMusiciansEvent({
+    String? status,
+  }) async {
     try {
-      return await _eventController.selectEventsOrganizer(_store.id);
+      return await _eventController.selectEventsOrganizer(
+        _store.id,
+        status: status,
+      );
     } catch (e) {
       throw e;
     }
   }
 
-  Future<void> _refreshListEvents() async {
-    try {
-      final newList = await _getMusiciansEvent();
-      setState(() {
-        _listEvents = newList;
-      });
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  Future<void> removeEvent(String eventID) async {
+  Future<void> _removeEvent(String eventID) async {
     try {
       await this._eventController.removeEvent(eventID);
     } catch (e) {
       print("Erro dentro de event manager organizer em excluir um evento");
     } finally {
-      await _refreshListEvents();
+      setState(() {});
     }
   }
 
@@ -61,7 +56,7 @@ class _EventManagementOrganizerViewState
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => EditEventView(event: model)),
-    ).then((_) => _refreshListEvents());
+    ).then((_) => setState(() {}));
 
     setState(() {});
   }
@@ -72,14 +67,14 @@ class _EventManagementOrganizerViewState
       MaterialPageRoute(
         builder: (context) => EventDetailOrganizerView(eventID: model.id),
       ),
-    ).then((_) => _refreshListEvents());
+    ).then((_) => setState(() {}));
   }
 
   void _openCreateEvent() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CreateEventView()),
-    ).then((_) => _refreshListEvents());
+    ).then((_) => setState(() {}));
   }
 
   Widget _buildListEvents(List<ManagementEventViewModel> events) {
@@ -91,7 +86,7 @@ class _EventManagementOrganizerViewState
         return DismissibleCardWidget(
           keyValue: event.id,
           onDismissToRight: () => this._openEditEvent(event),
-          onDismissToLeft: () => this.removeEvent(event.id),
+          onDismissToLeft: () => this._removeEvent(event.id),
           child: EventCardContainerWidget(
             event: event,
             onPress: () => this._openEventDetail(event),
@@ -135,7 +130,7 @@ class _EventManagementOrganizerViewState
                 ),
                 TextButtonWidget(
                   icon: Icons.event_available,
-                  title: "Concluido",
+                  title: "Cancelado",
                   onPress: () {},
                 ),
               ],
