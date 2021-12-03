@@ -112,8 +112,16 @@ class EventController {
   }
 
   Future<List<ManagementEventViewModel>> selectMusicianEvent(
-      String musicianID) async {
+    String musicianID, {
+    String? status,
+  }) async {
     try {
+      if (status != null) {
+        return await _repository.filterByStatusEventsMusician(
+          musicianID: musicianID,
+          status: status,
+        );
+      }
       return await _repository.selectAllMusiciansEvents(musicianID);
     } catch (e) {
       throw e;

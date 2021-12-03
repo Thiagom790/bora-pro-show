@@ -359,6 +359,41 @@ class EventRepository {
     }
   }
 
+  Future<List<ManagementEventViewModel>> filterByStatusEventsMusician({
+    required String musicianID,
+    required String status,
+  }) async {
+    try {
+      List<ManagementEventViewModel> events = [];
+
+      final snapshots = await _referenceEventMusicians
+          .where("musicianID", isEqualTo: musicianID)
+          .where("status", isEqualTo: status)
+          .get();
+
+      final documents = snapshots.docs;
+
+      for (var document in documents) {
+        final eventMusicianMap = document.data();
+        final String eventId = eventMusicianMap['eventID'];
+
+        final event = await this.select(eventId);
+        final eventMap = event.toMap();
+
+        eventMusicianMap.addAll(eventMap);
+
+        final eventMusician =
+            ManagementEventViewModel.fromMap(eventMusicianMap);
+
+        events.add(eventMusician);
+      }
+
+      return events;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<EventViewModel>> selectEventsMusicianMap() async {
     try {
       List<EventViewModel> list = [];
