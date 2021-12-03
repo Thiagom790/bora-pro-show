@@ -94,8 +94,17 @@ class EventController {
   }
 
   Future<List<ManagementEventViewModel>> selectEventsOrganizer(
-      String organizerID) async {
+    String organizerID, {
+    String? status,
+  }) async {
     try {
+      if (status != null) {
+        return await _repository.filterByStatusEventsOrganizer(
+          organizerID: organizerID,
+          status: status,
+        );
+      }
+
       return await _repository.selectEventsOrganizer(organizerID);
     } catch (e) {
       throw e;
