@@ -15,15 +15,14 @@ import 'package:tcc_bora_show/widgets/large.button.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
 import 'package:tcc_bora_show/widgets/profile.popupmenu.widget.dart';
 
-
-class ProfileView extends StatefulWidget {
-  const ProfileView({Key? key}) : super(key: key);
+class MusicianProfileEdit extends StatefulWidget {
+  const MusicianProfileEdit({Key? key}) : super(key: key);
 
   @override
-  _ProfileViewState createState() => _ProfileViewState();
+  _MusicianProfileEditState createState() => _MusicianProfileEditState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _MusicianProfileEditState extends State<MusicianProfileEdit> {
   final _controller = ProfileController();
   final _authController = AuthController();
   late ProfileModel profileModel = new ProfileModel();
@@ -81,7 +80,6 @@ class _ProfileViewState extends State<ProfileView> {
         id: data.id,
       );
 
-
       setState(() {
         this._isLoading = false;
       });
@@ -95,7 +93,6 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void _selectProfile() async {
-
     profileModel = await _controller.selectProfile(_profileStore.id);
     this._phoneNumberController.text = this.profileModel.phoneNumber;
     this._cityController.text = this.profileModel.city;
@@ -103,8 +100,6 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       this._selectedEventGenre = this.profileModel.musicGenre;
     });
-
-
   }
 
   void _logout() {
@@ -200,150 +195,152 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return _isLoading
         ? LoadingWidget()
-        : SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        ProfilePopupMenuWidget(
-                          profiles: this._profiles,
-                          defaultProfile: this._defaultProfile,
-                          onSelect: this._onSelectProfile,
-                          onCreateProfile: this._createNewProfile,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.logout,
-                            color: AppColors.textLight,
+        : Scaffold(
+            appBar: AppBar(),
+            body: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: <Widget>[
+                    // Container(
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: <Widget>[
+                    //       ProfilePopupMenuWidget(
+                    //         profiles: this._profiles,
+                    //         defaultProfile: this._defaultProfile,
+                    //         onSelect: this._onSelectProfile,
+                    //         onCreateProfile: this._createNewProfile,
+                    //       ),
+                    //       IconButton(
+                    //         icon: Icon(
+                    //           Icons.logout,
+                    //           color: AppColors.textLight,
+                    //         ),
+                    //         onPressed: this._logout,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Container(
+                      child: CircleAvatar(
+                        radius: 80,
+                        backgroundImage: AssetImage("assets/tiaguinho.jpg"),
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.red,
+                      ),
+                      width: 200,
+                      height: 200,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: AppColors.container,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    //Image.asset("assets/logo.png"),
+                    Container(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: AppColors.container,
+                                  padding: EdgeInsets.all(5),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          topLeft: Radius.circular(15))),
+                                ),
+                                onPressed: () {},
+                                child: Text(
+                                  "Informações",
+                                  style: TextStyle(color: AppColors.textLight),
+                                ),
+                              ),
+                            ),
                           ),
-                          onPressed: this._logout,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: CircleAvatar(
-                      radius: 80,
-                      backgroundImage: AssetImage("assets/tiaguinho.jpg"),
-                      backgroundColor: Colors.transparent,
-                      foregroundColor: Colors.red,
-                    ),
-                    width: 200,
-                    height: 200,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppColors.container,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  //Image.asset("assets/logo.png"),
-                  Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(5),
+                          Expanded(
                             child: TextButton(
+                              onPressed: () {},
                               style: TextButton.styleFrom(
                                 backgroundColor: AppColors.container,
                                 padding: EdgeInsets.all(5),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(15),
-                                        topLeft: Radius.circular(15))),
+                                        bottomRight: Radius.circular(15),
+                                        topRight: Radius.circular(15))),
                               ),
-                              onPressed: () {},
                               child: Text(
-                                "Informações",
-                                style: TextStyle(color: AppColors.textLight),
+                                "Seguidores",
+                                style: TextStyle(
+                                  color: AppColors.textLight,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              backgroundColor: AppColors.container,
-                              padding: EdgeInsets.all(5),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(15),
-                                      topRight: Radius.circular(15))),
-                            ),
-                            child: Text(
-                              "Seguidores",
-                              style: TextStyle(
-                                color: AppColors.textLight,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  //Text(this._profileStore.role),
-                  InputWidget(
-                    placeholder: "Nome",
-                    controller: _nameController,
-                  ),
-                  InputWidget(
-                    placeholder: "Nº Celular",
-                    controller: _phoneNumberController,
-                  ),
-                  InputWidget(
-                    placeholder: "Cidade",
-                    controller: _cityController,
-                  ),
-                  if (this._profileStore.role == "musician")
+                    //Text(this._profileStore.role),
                     InputWidget(
-                      placeholder: "Genero Musical",
-                      readOnly: true,
-                      controller: this._controllerMusicGenre,
-                      onTap: this._onTapSelectGenre,
+                      placeholder: "Nome",
+                      controller: _nameController,
                     ),
-                  LargeButtonWidget(
-                      title: "Salvar Mudanças",
-                      onPress: (){
-                        ProfileModel _profile = new ProfileModel();
-                        _profile.id = profileModel.id;
-                        _profile.name = _nameController.text;
-                        _profile.city = _cityController.text;
-                        _profile.phoneNumber = _phoneNumberController.text;
-                        _profile.role = profileModel.role;
-                        _profile.rating = profileModel.rating;
-                        _profile.userUid = profileModel.userUid;
-                        _profile.musicGenre = profileModel.musicGenre;
-                        try{
-                          _controller.updateProfile(_profile);
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context){
-                                return AlertDialog(
-                                  title: new Text("Sucesso!"),
-                                  content: new Text("Mudanças Salvas com sucesso."),
-                                  actions: <Widget> [
-                                    new TextButton(
-                                        child: new Text("Fechar"),
-                                        onPressed: (){Navigator.of(context).pop();}
-                                    ),
-                                  ],
-                                );
-                              }
-                          );
-
-                        }catch (e){
-                          throw e;
-                        }
-                      }
-                  ),
-                ],
+                    InputWidget(
+                      placeholder: "Nº Celular",
+                      controller: _phoneNumberController,
+                    ),
+                    InputWidget(
+                      placeholder: "Cidade",
+                      controller: _cityController,
+                    ),
+                    if (this._profileStore.role == "musician")
+                      InputWidget(
+                        placeholder: "Genero Musical",
+                        readOnly: true,
+                        controller: this._controllerMusicGenre,
+                        onTap: this._onTapSelectGenre,
+                      ),
+                    LargeButtonWidget(
+                        title: "Salvar Mudanças",
+                        onPress: () {
+                          ProfileModel _profile = new ProfileModel();
+                          _profile.id = profileModel.id;
+                          _profile.name = _nameController.text;
+                          _profile.city = _cityController.text;
+                          _profile.phoneNumber = _phoneNumberController.text;
+                          _profile.role = profileModel.role;
+                          _profile.rating = profileModel.rating;
+                          _profile.userUid = profileModel.userUid;
+                          _profile.musicGenre = profileModel.musicGenre;
+                          try {
+                            _controller.updateProfile(_profile);
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: new Text("Sucesso!"),
+                                    content: new Text(
+                                        "Mudanças Salvas com sucesso."),
+                                    actions: <Widget>[
+                                      new TextButton(
+                                          child: new Text("Fechar"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          }),
+                                    ],
+                                  );
+                                });
+                          } catch (e) {
+                            throw e;
+                          }
+                        }),
+                  ],
+                ),
               ),
             ),
           );
