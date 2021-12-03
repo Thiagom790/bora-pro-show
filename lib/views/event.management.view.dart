@@ -20,10 +20,16 @@ class _EventManagementViewState extends State<EventManagementView> {
   final _eventController = EventController();
   late ProfileStore _store;
   List<ManagementEventViewModel> _listEvents = [];
+  String? _status;
 
-  Future<List<ManagementEventViewModel>> _getMusiciansEvent() async {
+  Future<List<ManagementEventViewModel>> _getMusiciansEvent({
+    String? status,
+  }) async {
     try {
-      return await _eventController.selectMusicianEvent(_store.id);
+      return await _eventController.selectMusicianEvent(
+        _store.id,
+        status: status,
+      );
     } catch (e) {
       throw e;
     }
@@ -54,6 +60,25 @@ class _EventManagementViewState extends State<EventManagementView> {
     );
   }
 
+  List<Widget> get _filterWidgets {
+    List<Map<String, dynamic>> filtersInfo = [
+      {'name': "Todos", "status": null, "icon": Icons.date_range},
+      {'name': "Pendente", "status": "pending", "icon": Icons.calendar_today},
+      {'name': "Aberto", "status": "open", "icon": Icons.event},
+    ];
+
+    final listFilters = filtersInfo.map<Widget>((info) {
+      return TextButtonWidget(
+        title: info['name'],
+        icon: info["icon"],
+        isActive: _status == info['status'],
+        onPress: () => setState(() => _status = info['status']),
+      );
+    }).toList();
+
+    return listFilters;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -69,34 +94,12 @@ class _EventManagementViewState extends State<EventManagementView> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: <Widget>[
-                TextButtonWidget(
-                  icon: Icons.date_range,
-                  title: "Todos",
-                  onPress: () {},
-                  isActive: true,
-                ),
-                TextButtonWidget(
-                  icon: Icons.calendar_today,
-                  title: "Pendente",
-                  onPress: () {},
-                ),
-                TextButtonWidget(
-                  icon: Icons.event,
-                  title: "Aberto",
-                  onPress: () {},
-                ),
-                TextButtonWidget(
-                  icon: Icons.event_available,
-                  title: "Concluido",
-                  onPress: () {},
-                ),
-              ],
+              children: _filterWidgets,
             ),
           ),
           Expanded(
             child: FutureBuilder<List<ManagementEventViewModel>>(
-              future: this._getMusiciansEvent(),
+              future: this._getMusiciansEvent(status: this._status),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none ||
                     snapshot.connectionState == ConnectionState.waiting) {
