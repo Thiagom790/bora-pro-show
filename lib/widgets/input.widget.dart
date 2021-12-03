@@ -11,6 +11,7 @@ class InputWidget extends StatelessWidget {
   final int maxLines;
   final void Function()? onTap;
   final void Function(String)? onChange;
+  final Color? borderColor;
 
   const InputWidget({
     Key? key,
@@ -23,7 +24,17 @@ class InputWidget extends StatelessWidget {
     this.onTap,
     this.onChange,
     this.readOnly = false,
+    this.borderColor,
   }) : super(key: key);
+
+  OutlineInputBorder? get borderSide {
+    if (this.borderColor == null) return null;
+
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(color: AppColors.textLight),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +56,8 @@ class InputWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           contentPadding: EdgeInsets.all(20),
+          enabledBorder: borderSide,
+          focusedBorder: borderSide,
         ),
         onTap: this.onTap,
         readOnly: this.readOnly,
