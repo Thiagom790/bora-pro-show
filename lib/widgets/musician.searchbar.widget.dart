@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 
 class MusicianSearchBar extends StatelessWidget {
-  final void Function(String valorDigitado) onPressed;
-  final controller = TextEditingController();
+  final void Function() onPressed;
+  final TextEditingController controller;
 
-  MusicianSearchBar({required this.onPressed});
+  MusicianSearchBar({
+    required this.onPressed,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class MusicianSearchBar extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: TextFormField(
-              controller: controller,
+              controller: this.controller,
               style: TextStyle(color: AppColors.textLight, fontSize: 20),
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -43,7 +46,7 @@ class MusicianSearchBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
-              onPressed: () => this.onPressed(controller.text.trim()),
+              onPressed: this.onPressed,
               child: Icon(Icons.search),
             ),
           ),

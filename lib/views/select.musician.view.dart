@@ -7,6 +7,7 @@ import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.musician.list.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
+import 'package:tcc_bora_show/widgets/musician.searchbar.widget.dart';
 
 class SelectMusicianView extends StatefulWidget {
   const SelectMusicianView({Key? key}) : super(key: key);
@@ -18,11 +19,19 @@ class SelectMusicianView extends StatefulWidget {
 class _SelectMusicianViewState extends State<SelectMusicianView> {
   final _eventController = EventController();
   final List<EventMusicianModel> _musiciansSelected = [];
+  final _searchController = TextEditingController();
   List<EventMusicianModel> _musiciansList = [];
+  List<ProfileModel> _profilesMusicians = [];
 
   Future<List<ProfileModel>> _selectMusicians() async {
     try {
+      String musicianName = _searchController.text.trim();
       final listMusicians = await _eventController.selectMusiciansProfiles();
+
+      if (musicianName.isNotEmpty) {
+        return _filterMusician(musicianName, listMusicians);
+      }
+
       return listMusicians;
     } catch (e) {
       throw e;
@@ -37,6 +46,17 @@ class _SelectMusicianViewState extends State<SelectMusicianView> {
         musicianID: musician.id,
       );
     }).toList();
+  }
+
+  List<ProfileModel> _filterMusician(
+    String name,
+    List<ProfileModel> listMusicians,
+  ) {
+    final musicians = listMusicians
+        .where((musician) => musician.name.toLowerCase().contains(name))
+        .toList();
+
+    return musicians;
   }
 
   Widget get _musicianListWidget {
@@ -82,6 +102,12 @@ class _SelectMusicianViewState extends State<SelectMusicianView> {
       padding: EdgeInsets.all(20),
       child: Column(
         children: [
+          MusicianSearchBar(
+            onPressed: () {
+              setState(() {});
+            },
+            controller: _searchController,
+          ),
           Expanded(
             child: _musicianListWidget,
           ),
@@ -119,8 +145,8 @@ class _SelectMusicianViewState extends State<SelectMusicianView> {
             );
           }
 
-          final musicians = snapshot.data;
-          this._buildListMusicians(musicians!);
+          this._profilesMusicians = snapshot.data!;
+          this._buildListMusicians(_profilesMusicians);
 
           return _body;
         },
