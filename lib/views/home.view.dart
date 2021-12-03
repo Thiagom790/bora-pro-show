@@ -9,6 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -16,6 +18,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           MusicianSearchBar(
             onPressed: () {},
+            controller: controller,
           ),
           Postwidget(
             profileName: "Thiago",
