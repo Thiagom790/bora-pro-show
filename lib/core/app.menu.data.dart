@@ -3,6 +3,7 @@ import 'package:tcc_bora_show/views/event.management.organizer.view.dart';
 import 'package:tcc_bora_show/views/event.management.view.dart';
 import 'package:tcc_bora_show/views/events.view.dart';
 import 'package:tcc_bora_show/views/home.view.dart';
+import 'package:tcc_bora_show/views/musician.profile.view.dart';
 import 'package:tcc_bora_show/views/profile.view.dart';
 
 final menuData = {
@@ -63,7 +64,7 @@ final menuData = {
     },
     {
       "title": "Perfil",
-      "page": ProfileView(),
+      "page": musicianProfile(),
       "icon": Icon(Icons.person),
     },
   ],
