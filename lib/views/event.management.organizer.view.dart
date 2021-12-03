@@ -96,6 +96,30 @@ class _EventManagementOrganizerViewState
     );
   }
 
+  List<Widget> get _filterWidgets {
+    List<Map<String, dynamic>> filtersInfo = [
+      {'name': "Todos", "status": null, "icon": Icons.date_range},
+      {'name': "Pendente", "status": "pending", "icon": Icons.calendar_today},
+      {'name': "Aberto", "status": "open", "icon": Icons.event},
+      {
+        'name': "Cancelado",
+        "status": "cancelled",
+        "icon": Icons.event_available
+      },
+    ];
+
+    final listFilters = filtersInfo.map<Widget>((info) {
+      return TextButtonWidget(
+        title: info['name'],
+        icon: info["icon"],
+        isActive: _status == info['status'],
+        onPress: () => setState(() => _status = info['status']),
+      );
+    }).toList();
+
+    return listFilters;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -111,34 +135,12 @@ class _EventManagementOrganizerViewState
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: <Widget>[
-                TextButtonWidget(
-                  icon: Icons.date_range,
-                  title: "Todos",
-                  onPress: () {},
-                  isActive: true,
-                ),
-                TextButtonWidget(
-                  icon: Icons.calendar_today,
-                  title: "Pendente",
-                  onPress: () {},
-                ),
-                TextButtonWidget(
-                  icon: Icons.event,
-                  title: "Aberto",
-                  onPress: () {},
-                ),
-                TextButtonWidget(
-                  icon: Icons.event_available,
-                  title: "Cancelado",
-                  onPress: () {},
-                ),
-              ],
+              children: _filterWidgets,
             ),
           ),
           Expanded(
             child: FutureBuilder<List<ManagementEventViewModel>>(
-              future: this._getMusiciansEvent(),
+              future: this._getMusiciansEvent(status: this._status),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none ||
                     snapshot.connectionState == ConnectionState.waiting) {
