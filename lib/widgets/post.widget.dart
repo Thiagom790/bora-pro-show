@@ -3,7 +3,6 @@ import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/utils/date.utils.dart';
 
 class Postwidget extends StatelessWidget {
-
   final String profileName;
   final DateTime postTime;
   final String postText;
@@ -13,7 +12,15 @@ class Postwidget extends StatelessWidget {
   final void Function() likeOnTap;
   final void Function() commentOnTap;
 
-  Postwidget({required this.profileName, required this.postTime, required this.postText, required this.likeNumber, required this.commentNumber, required this.profileOnTap, required this.likeOnTap, required this.commentOnTap});
+  Postwidget(
+      {required this.profileName,
+      required this.postTime,
+      required this.postText,
+      required this.likeNumber,
+      required this.commentNumber,
+      required this.profileOnTap,
+      required this.likeOnTap,
+      required this.commentOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class Postwidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(12, 8, 25, 4),
+          padding: EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: <Widget>[
               Icon(Icons.person, color: AppColors.textLight, size: 38),
@@ -49,24 +56,21 @@ class Postwidget extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(12.0, 0, 25, 2),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: AppColors.container,
-            ),
-            padding: EdgeInsets.all(10),
-            child: Text(
-              "${this.postText}",
-              style: TextStyle(
-                fontSize: 12,
-              ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: AppColors.container,
+          ),
+          padding: EdgeInsets.all(10),
+          child: Text(
+            "${this.postText}",
+            style: TextStyle(
+              fontSize: 12,
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(12.0, 0, 25, 8),
+          padding: EdgeInsets.only(bottom: 10),
           child: Row(
             children: <Widget>[
               TextButton(
