@@ -1,52 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
-import 'package:tcc_bora_show/models/event.model.dart';
 
 class EventCardMusician extends StatelessWidget {
+  final String title;
+  final void Function()? onPress;
 
-  //final EventModel eventModel;
-
-  //EventCardMusician({required this.eventModel});
+  EventCardMusician({required this.title, this.onPress});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 20),
+    return Container(
+      margin: EdgeInsets.only(right: 20),
+      width: 140,
+      height: 170,
       child: GestureDetector(
-        onTap: (){},
-        child: Stack(
-          children: <Widget>[
-            Container(
-              width: 140,
-              height: 170,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: AppColors.container,
-                image: DecorationImage(
-                  image: AssetImage("assets/shows.jpg"),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.6),
-                    BlendMode.dstATop,
+        onTap: this.onPress,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/shows.jpg"),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.6),
+                      BlendMode.dstATop,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 134),
-              child: Container(
-                padding: EdgeInsets.only(top: 10),
-                width: 140,
-                height: 36,
-                //color: AppColors.container,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
-                  color: AppColors.container,
+              Container(
+                padding: EdgeInsets.all(10),
+                width: double.infinity,
+                color: AppColors.container,
+                child: Text(
+                  this.title,
+                  style: TextStyle(fontSize: 15),
+                  textAlign: TextAlign.center,
                 ),
-                child: Text("Bar do Zé", style: TextStyle(fontSize: 12), textAlign: TextAlign.center,),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
