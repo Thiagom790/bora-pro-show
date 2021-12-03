@@ -64,7 +64,7 @@ final menuData = {
     },
     {
       "title": "Perfil",
-      "page": musicianProfile(),
+      "page": MusicianProfileView(),
       "icon": Icon(Icons.person),
     },
   ],

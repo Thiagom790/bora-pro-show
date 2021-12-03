@@ -5,16 +5,12 @@ import 'package:tcc_bora_show/controllers/auth.controller.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
-import 'package:tcc_bora_show/models/event.model.dart';
 import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.post.view.dart';
-import 'package:tcc_bora_show/widgets/button.widget.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.musician.widget.dart';
-import 'package:tcc_bora_show/widgets/event.card.widget.dart';
-import 'package:tcc_bora_show/widgets/input.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
 import 'package:tcc_bora_show/widgets/musician.summary.widget.dart';
 import 'package:tcc_bora_show/widgets/post.widget.dart';
@@ -22,21 +18,20 @@ import 'package:tcc_bora_show/widgets/profile.popupmenu.widget.dart';
 
 import 'create.profile.view.dart';
 
-class musicianProfile extends StatefulWidget {
-  const musicianProfile({Key? key}) : super(key: key);
+class MusicianProfileView extends StatefulWidget {
+  const MusicianProfileView({Key? key}) : super(key: key);
 
   @override
-  _musicianProfileState createState() => _musicianProfileState();
+  _MusicianProfileViewState createState() => _MusicianProfileViewState();
 }
 
-class _musicianProfileState extends State<musicianProfile> {
+class _MusicianProfileViewState extends State<MusicianProfileView> {
   final _controller = ProfileController();
   late ProfileStore _profileStore;
   ProfileModel profileModel = new ProfileModel();
   late ProfileViewModel _defaultProfile;
   late ReactionDisposer _disposer;
   List<ProfileViewModel> _profiles = [];
-  bool _isLoading = true;
   final _authController = AuthController();
   late AuthStore _authStore;
 
@@ -59,7 +54,6 @@ class _musicianProfileState extends State<musicianProfile> {
       setState(() {
         this._profiles = profiles;
         this._defaultProfile = profile;
-        this._isLoading = false;
       });
     } catch (e) {
       print("Erro dentro de ProfileView ao carregar perfils");
@@ -68,9 +62,7 @@ class _musicianProfileState extends State<musicianProfile> {
 
   void _onSelectProfile(ProfileViewModel profile) {
     print("Print de dentro de profileview " + profile.id);
-    setState(() {
-      this._isLoading = true;
-    });
+    setState(() {});
 
     _controller.changeCurrentUserProfile(profileId: profile.id).then((data) {
       print("Datos apos a troca" + data.id);
@@ -81,16 +73,11 @@ class _musicianProfileState extends State<musicianProfile> {
         id: data.id,
       );
 
-
-      setState(() {
-        this._isLoading = false;
-      });
+      setState(() {});
     }).catchError((error) {
       print("erro da tela" + error.message);
 
-      setState(() {
-        this._isLoading = false;
-      });
+      setState(() {});
     });
   }
 
@@ -109,7 +96,6 @@ class _musicianProfileState extends State<musicianProfile> {
     });
   }
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -120,7 +106,12 @@ class _musicianProfileState extends State<musicianProfile> {
     });
 
     _getUserProfiles();
-    _selectProfile(); //se der merda, foi essa linha.
+  }
+
+  @override
+  void dispose() {
+    this._disposer();
+    super.dispose();
   }
 
   @override
@@ -178,13 +169,9 @@ class _musicianProfileState extends State<musicianProfile> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: <Widget>[
-                          EventCardMusician(),
-                          EventCardMusician(),
-                          EventCardMusician(),
-                          EventCardMusician(),
-                          EventCardMusician(),
-                          EventCardMusician(),
-                          EventCardMusician(),
+                          EventCardMusician(
+                            title: "Sem eventos",
+                          ),
                         ],
                       ),
                     ),
@@ -208,7 +195,8 @@ class _musicianProfileState extends State<musicianProfile> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => createpostview()),
+                              MaterialPageRoute(
+                                  builder: (context) => createpostview()),
                             );
                           },
                           readOnly: true,
