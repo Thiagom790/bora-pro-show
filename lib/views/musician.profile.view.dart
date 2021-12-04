@@ -14,6 +14,7 @@ import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.post.view.dart';
 import 'package:tcc_bora_show/views/event.detail.musician.view.dart';
+import 'package:tcc_bora_show/views/musician.profile.edit.view.dart';
 import 'package:tcc_bora_show/widgets/dismissible.card.widget.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.musician.widget.dart';
@@ -241,7 +242,18 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
                   ),
                 ],
               ),
-              MusicianSummaryWidget(profileModel: profileModel),
+              MusicianSummaryWidget(
+                profileModel: profileModel,
+                onPressedButton: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MusicianProfileEdit(),
+                    ),
+                  );
+                },
+                buttonTitle: "Editar Perfil",
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(

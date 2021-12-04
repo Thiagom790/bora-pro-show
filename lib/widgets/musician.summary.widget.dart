@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
-import 'package:tcc_bora_show/views/musician.profile.edit.view.dart';
 
 class MusicianSummaryWidget extends StatelessWidget {
   final ProfileModel profileModel;
+  final void Function()? onPressedButton;
+  final String buttonTitle;
 
-  MusicianSummaryWidget({required this.profileModel});
+  MusicianSummaryWidget({
+    required this.profileModel,
+    required this.onPressedButton,
+    required this.buttonTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +62,10 @@ class MusicianSummaryWidget extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        "Editar Perfil",
+                        this.buttonTitle,
                         style: TextStyle(fontSize: 15),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MusicianProfileEdit()),
-                        );
-                      },
+                      onPressed: this.onPressedButton,
                     ),
                   ),
                 ],

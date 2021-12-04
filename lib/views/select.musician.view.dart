@@ -25,7 +25,7 @@ class _SelectMusicianViewState extends State<SelectMusicianView> {
 
   Future<List<ProfileModel>> _selectMusicians() async {
     try {
-      String musicianName = _searchController.text.trim();
+      String musicianName = _searchController.text.trim().toLowerCase();
       final listMusicians = await _eventController.selectMusiciansProfiles();
 
       if (musicianName.isNotEmpty) {
