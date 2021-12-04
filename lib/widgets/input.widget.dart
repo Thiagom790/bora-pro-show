@@ -12,6 +12,7 @@ class InputWidget extends StatelessWidget {
   final void Function()? onTap;
   final void Function(String)? onChange;
   final Color? borderColor;
+  final EdgeInsets padding;
 
   const InputWidget({
     Key? key,
@@ -25,6 +26,7 @@ class InputWidget extends StatelessWidget {
     this.onChange,
     this.readOnly = false,
     this.borderColor,
+    this.padding = const EdgeInsets.only(bottom: 10),
   }) : super(key: key);
 
   OutlineInputBorder? get borderSide {
@@ -39,7 +41,7 @@ class InputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: this.padding,
       child: TextFormField(
         style: TextStyle(color: AppColors.textLight, fontSize: 20),
         controller: controller,
