@@ -1,7 +1,37 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepository {
   final _reference = FirebaseAuth.instance;
+  final _googleReference = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  GoogleSignIn get googleReference {
+    return this._googleReference;
+  }
+
+  Future<UserCredential> signGoogle(GoogleSignInAccount? user) async {
+    try {
+      if (user == null) {
+        throw "Usuario Nulo";
+      }
+
+      final googleAuth = await user.authentication;
+
+      final credentials = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await _reference.signInWithCredential(credentials);
+    } catch (e) {
+      throw e;
+    }
+  }
 
   Future<void> logout() async {
     try {

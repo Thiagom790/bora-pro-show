@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/auth.controller.dart';
 import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/view-models/auth.viewmodel.dart';
+import 'package:tcc_bora_show/view-models/user.viewmodel.dart';
 import 'package:tcc_bora_show/views/register.view.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
@@ -24,6 +26,8 @@ class _SigninViewState extends State<SigninView> {
   final AuthController _controller = AuthController();
 
   late AuthStore _store;
+
+  late GoogleSignIn _googleRefs;
 
   final AuthViewModel _model = AuthViewModel();
 
@@ -68,10 +72,40 @@ class _SigninViewState extends State<SigninView> {
     });
   }
 
+  Future<UserViewModel> signGoogle() async {
+    try {
+      final user = await this._googleRefs.signIn();
+      final credentials = await _controller.siginGoogle(user);
+
+      final authModel = AuthViewModel();
+      authModel.uid = credentials.user!.uid;
+      authModel.email = credentials.user!.email!;
+      authModel.city = "";
+      authModel.phoneNumber = "";
+      authModel.name = credentials.user!.displayName!;
+
+      return await _controller.handleGoogleAuth(authModel);
+    } catch (e) {
+      print("Erro: " + e.toString());
+      throw e;
+    }
+  }
+
+  void handleGoogleLogin() {
+    signGoogle().then((data) {
+      _store.changeAuth(userIsAuth: data.isAuth);
+    }).catchError((error) {
+      setState(() {
+        _errorMessage = error.toString();
+      });
+    });
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _store = Provider.of<AuthStore>(context);
+    _googleRefs = _controller.getGoogleReference();
   }
 
   @override
@@ -126,6 +160,11 @@ class _SigninViewState extends State<SigninView> {
                   title: "Login",
                   onPress: _login,
                   isBusy: _model.busy,
+                ),
+                LargeButtonWidget(
+                  title: "Login Google",
+                  onPress: handleGoogleLogin,
+                  color: Colors.red,
                 ),
                 Text(
                   this._errorMessage,
