@@ -6,6 +6,7 @@ import 'package:tcc_bora_show/view-models/auth.viewmodel.dart';
 import 'package:tcc_bora_show/views/register.view.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
 import 'package:tcc_bora_show/widgets/large.button.widget.dart';
+import 'package:tcc_bora_show/views/reset.password.view.dart';
 
 class SigninView extends StatefulWidget {
   @override
@@ -118,6 +119,31 @@ class _SigninViewState extends State<SigninView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RegisterView()),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: GestureDetector(
+                    child: RichText(
+                      textAlign: TextAlign.right,
+                      text: TextSpan(
+                        text: "Esqueceu a senha? ",
+                        style: TextStyle(fontSize: 18),
+                        children: [
+                          TextSpan(
+                            text: "Resetar senha!",
+                            style: TextStyle(color: Colors.blue),
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ResetPasswordView()),
                       );
                     },
                   ),
