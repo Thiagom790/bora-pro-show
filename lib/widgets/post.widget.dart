@@ -87,24 +87,24 @@ class Postwidget extends StatelessWidget {
                   ],
                 ),
               ),
-              TextButton(
-                onPressed: commentOnTap,
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Icon(
-                        Icons.comment,
-                        color: AppColors.textLight,
-                      ),
-                    ),
-                    Text(
-                      "${this.postModel.numComments}",
-                      style: TextStyle(color: AppColors.textLight),
-                    )
-                  ],
-                ),
-              ),
+              // TextButton(
+              //   onPressed: commentOnTap,
+              //   child: Row(
+              //     children: <Widget>[
+              //       Padding(
+              //         padding: const EdgeInsets.only(right: 5),
+              //         child: Icon(
+              //           Icons.comment,
+              //           color: AppColors.textLight,
+              //         ),
+              //       ),
+              //       Text(
+              //         "${this.postModel.numComments}",
+              //         style: TextStyle(color: AppColors.textLight),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

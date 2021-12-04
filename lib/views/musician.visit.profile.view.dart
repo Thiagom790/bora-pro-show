@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
 import 'package:tcc_bora_show/controllers/post.controller.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
 import 'package:tcc_bora_show/models/post.model.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
+import 'package:tcc_bora_show/store/profile.store.dart';
 import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.musician.widget.dart';
@@ -23,6 +25,8 @@ class MusicianVisitProfileView extends StatefulWidget {
 
 class _MusicianVisitProfileViewState extends State<MusicianVisitProfileView> {
   late String _musicianID;
+  // store
+  late ProfileStore _store;
   // Perfil
   final _profileController = ProfileController();
   late ProfileModel _profileModel;
@@ -32,6 +36,7 @@ class _MusicianVisitProfileViewState extends State<MusicianVisitProfileView> {
   // Post
   final _postController = PostController();
   List<PostModel> _listPosts = [];
+  bool _userFollowMusician = false;
 
   @override
   void initState() {
@@ -39,9 +44,16 @@ class _MusicianVisitProfileViewState extends State<MusicianVisitProfileView> {
     _musicianID = widget.musicianID;
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = Provider.of<ProfileStore>(context);
+  }
+
   Future<void> _selectProfile() async {
     try {
-      _profileModel = await _profileController.currentProfile();
+      String musicianID = _musicianID;
+      _profileModel = await _profileController.selectProfile(musicianID);
     } catch (e) {
       throw e;
     }
@@ -69,13 +81,59 @@ class _MusicianVisitProfileViewState extends State<MusicianVisitProfileView> {
     }
   }
 
+  Future<void> _getUserFollowMusician() async {
+    try {
+      final musicianID = _musicianID;
+      final userID = _store.id;
+      final userFollowMusician = await _postController.userFollowMusician(
+        userID: userID,
+        musicianID: musicianID,
+      );
+
+      this._userFollowMusician = userFollowMusician;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> _loadScreen() async {
     try {
       await _selectListEvents();
       await _selectProfile();
       await _selectPostMusician();
+      await _getUserFollowMusician();
     } catch (e) {
       throw e;
+    }
+  }
+
+  Future<void> followMusician() async {
+    try {
+      final userID = _store.id;
+      final musicianID = this._musicianID;
+
+      await _postController.followMusician(
+          userID: userID, musicianID: musicianID);
+
+      setState(() {});
+    } catch (e) {
+      print("Erro ao seguir musico");
+    }
+  }
+
+  Future<void> unFollowMusician() async {
+    try {
+      final userID = _store.id;
+      final musicianID = this._musicianID;
+
+      await _postController.unFollowMusician(
+        userID: userID,
+        musicianID: musicianID,
+      );
+
+      setState(() {});
+    } catch (e) {
+      print("Erro ao deixar de seguir musico");
     }
   }
 
@@ -129,8 +187,11 @@ class _MusicianVisitProfileViewState extends State<MusicianVisitProfileView> {
               children: <Widget>[
                 MusicianSummaryWidget(
                   profileModel: this._profileModel,
-                  buttonTitle: "Seguir Perfil",
-                  onPressedButton: () {},
+                  buttonTitle:
+                      this._userFollowMusician ? "Parar de Seguir" : "Seguir",
+                  onPressedButton: this._userFollowMusician
+                      ? this.unFollowMusician
+                      : this.followMusician,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
