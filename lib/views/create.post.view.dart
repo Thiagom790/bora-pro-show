@@ -25,27 +25,69 @@ class _createpostviewState extends State<createpostview> {
         title: Text("Novo Post"),
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                InputWidget(
-                  onTap: () {},
-                  maxLines: 30,
-                  placeholder: "No que está pensando?",
-                  readOnly: false,
-                  controller: postController,
+                Container(
+                  margin: EdgeInsets.all(20),
+                  child: CircleAvatar(
+                    radius: 80,
+                    backgroundImage: AssetImage("assets/tiaguinho.jpg"),
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.red,
+                  ),
+                  width: 70,
+                  height: 70,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: AppColors.container,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ]),
+                Text(
+                  "Thiago Marques",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 35),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Publicar",
+                      style: TextStyle(
+                        color: AppColors.textLight,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.buttonPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            InputWidget(
+              onTap: () {},
+              maxLines: 19,
+              placeholder: "No que está pensando?",
+              readOnly: false,
+              controller: postController,
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-            canvasColor: AppColors.background,
+            canvasColor: AppColors.container,
             primaryColor: Colors.white,
+            buttonColor: Colors.white,
             textTheme: Theme.of(context)
                 .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.yellow))),
+                .copyWith(caption: new TextStyle(color: Colors.white))),
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -55,7 +97,8 @@ class _createpostviewState extends State<createpostview> {
                 label: 'Adicionar Vídeo'),
           ],
           //currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
+          selectedItemColor: AppColors.textAccent,
+
           onTap: _onItemTapped,
         ),
       ),
