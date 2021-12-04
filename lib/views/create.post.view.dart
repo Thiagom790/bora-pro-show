@@ -1,21 +1,135 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tcc_bora_show/controllers/post.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/models/post.model.dart';
+import 'package:tcc_bora_show/store/profile.store.dart';
+import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
+import 'package:tcc_bora_show/widgets/loading.widget.dart';
+import 'package:tcc_bora_show/widgets/text.button.widget.dart';
 
-class createpostview extends StatefulWidget {
-  const createpostview({Key? key}) : super(key: key);
+class Createpostview extends StatefulWidget {
+  const Createpostview({Key? key}) : super(key: key);
 
   @override
-  _createpostviewState createState() => _createpostviewState();
+  _CreatepostviewState createState() => _CreatepostviewState();
 }
 
-class _createpostviewState extends State<createpostview> {
-  final postController = TextEditingController();
+class _CreatepostviewState extends State<Createpostview> {
+  late ProfileStore _store;
+  final _textController = TextEditingController();
+  final _postController = PostController();
+  bool _isLoading = false;
+  bool _isError = false;
+  String _msg = "";
 
-  void _onItemTapped(int index) {
-    setState(() {
-      //_selectedIndex = index;
+  Future<void> _createPost() async {
+    final text = _textController.text;
+    final musicianName = _store.name;
+    final musicianID = _store.id;
+    final date = DateTime.now();
+    final post = new PostModel(
+      text: text,
+      musicianName: musicianName,
+      id: musicianID,
+      dateTime: date,
+    );
+
+    try {
+      await _postController.addPost(post);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  void _handleCreatePost() {
+    this._createPost().then((_) {
+      Navigator.pop(context);
+    }).catchError((error) {
+      setState(() {
+        this._isError = true;
+        this._msg = error.toString();
+      });
     });
+
+    setState(() {
+      this._isLoading = true;
+    });
+  }
+
+  Widget get body {
+    if (this._isLoading) {
+      return LoadingWidget();
+    } else if (_isError) {
+      return ErrorCustomWidget(errorTitle: this._msg);
+    }
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 35,
+                backgroundColor: AppColors.container,
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage("assets/tiaguinho.jpg"),
+                ),
+              ),
+              Text(
+                "Thiago Marques",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              ),
+              ElevatedButton(
+                onPressed: this._handleCreatePost,
+                child: Text(
+                  "Publicar",
+                  style: TextStyle(
+                    color: AppColors.textLight,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: AppColors.buttonPrimary,
+                ),
+              ),
+            ],
+          ),
+          InputWidget(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            maxLines: 19,
+            placeholder: "No que está pensando?",
+            controller: _textController,
+          ),
+          Container(
+            child: Row(
+              children: <Widget>[
+                TextButtonWidget(
+                  title: "Imagem",
+                  icon: Icons.image,
+                  onPress: () {},
+                ),
+                TextButtonWidget(
+                  title: "Video",
+                  icon: Icons.video_call,
+                  onPress: () {},
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _store = Provider.of<ProfileStore>(context);
   }
 
   @override
@@ -24,84 +138,7 @@ class _createpostviewState extends State<createpostview> {
       appBar: AppBar(
         title: Text("Novo Post"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(20),
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundImage: AssetImage("assets/tiaguinho.jpg"),
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Colors.red,
-                  ),
-                  width: 70,
-                  height: 70,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.container,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                Text(
-                  "Thiago Marques",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 35),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Publicar",
-                      style: TextStyle(
-                        color: AppColors.textLight,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor: AppColors.buttonPrimary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            InputWidget(
-              onTap: () {},
-              maxLines: 19,
-              placeholder: "No que está pensando?",
-              readOnly: false,
-              controller: postController,
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: new Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: AppColors.container,
-            primaryColor: Colors.white,
-            buttonColor: Colors.white,
-            textTheme: Theme.of(context)
-                .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.white))),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.image), label: 'Adicionar Imagem'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.music_video_outlined),
-                label: 'Adicionar Vídeo'),
-          ],
-          //currentIndex: _selectedIndex,
-          selectedItemColor: AppColors.textAccent,
-
-          onTap: _onItemTapped,
-        ),
-      ),
+      body: body,
     );
   }
 }

@@ -226,7 +226,7 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => createpostview()),
+                    MaterialPageRoute(builder: (context) => Createpostview()),
                   );
                 },
               ),
