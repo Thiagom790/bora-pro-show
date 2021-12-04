@@ -4,6 +4,7 @@ class PostModel {
   late int _dateTime;
   late String text;
   late int numLikes;
+  late int numComments;
   late String pathPhoto;
 
   PostModel({
@@ -11,6 +12,7 @@ class PostModel {
     this.musicianName = "",
     this.text = "",
     this.numLikes = 0,
+    this.numComments = 0,
     this.pathPhoto = "",
     DateTime? dateTime,
   }) : _dateTime = dateTime != null
@@ -35,6 +37,7 @@ class PostModel {
     this.text = map['text'];
     this.numLikes = map['numLikes'];
     this.pathPhoto = map['pathPhoto'];
+    this.numComments = map['numComments'];
   }
 
   Map<String, dynamic> toMap() {
@@ -45,6 +48,7 @@ class PostModel {
       'text': this.text,
       'numLikes': this.numLikes,
       'pathPhoto': this.pathPhoto,
+      'numComments': this.numComments,
     };
   }
 }
