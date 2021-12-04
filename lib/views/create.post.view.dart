@@ -48,6 +48,7 @@ class _CreatepostviewState extends State<Createpostview> {
       Navigator.pop(context);
     }).catchError((error) {
       setState(() {
+        this._isLoading = false;
         this._isError = true;
         this._msg = error.toString();
       });
