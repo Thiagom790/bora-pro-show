@@ -15,4 +15,12 @@ class PostController {
       throw e;
     }
   }
+
+  Future<List<PostModel>> selectPostsMusician(String musicianID) async {
+    try {
+      return await this._repositoryPost.selectPostsMusician(musicianID);
+    } catch (e) {
+      throw e;
+    }
+  }
 }
