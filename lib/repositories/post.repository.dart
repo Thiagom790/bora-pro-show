@@ -13,7 +13,15 @@ class PostRepository {
     }
   }
 
-  PostModel _buildListPost(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+  Future<void> removePost(String postID) async {
+    try {
+      await _reference.doc(postID).delete();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  PostModel _buildPost(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     final postMap = doc.data();
     postMap['id'] = doc.id;
 
@@ -27,7 +35,7 @@ class PostRepository {
 
       final documents = snapshots.docs;
 
-      final list = documents.map(_buildListPost).toList();
+      final list = documents.map(_buildPost).toList();
 
       return list;
     } catch (e) {

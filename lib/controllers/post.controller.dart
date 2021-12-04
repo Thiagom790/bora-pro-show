@@ -16,6 +16,14 @@ class PostController {
     }
   }
 
+  Future<void> removePost(String postID) async {
+    try {
+      return await this._repositoryPost.removePost(postID);
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<PostModel>> selectPostsMusician(String musicianID) async {
     try {
       return await this._repositoryPost.selectPostsMusician(musicianID);

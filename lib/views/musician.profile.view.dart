@@ -86,13 +86,23 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
     }
   }
 
+  Future<void> _removePost(String postID) async {
+    try {
+      await this._postController.removePost(postID);
+    } catch (e) {
+      print("Erro dentro musician profile no remove post: " + e.toString());
+    } finally {
+      setState(() {});
+    }
+  }
+
   // Contrução de widgets
   List<Widget> get postsWidgets {
     return this._listPosts.map((post) {
       return DismissibleCardWidget(
         child: Postwidget(postModel: post),
         keyValue: post.id,
-        onDismissToLeft: () {},
+        onDismissToLeft: () => _removePost(post.id),
       );
     }).toList();
   }
