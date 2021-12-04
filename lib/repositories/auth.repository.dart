@@ -58,4 +58,14 @@ class AuthRepository {
     }
     return returnValue;
   }
+
+  Future<void> resetPassword (String email) async {
+    try{
+     await _reference.sendPasswordResetEmail(email: email);
+    }
+    catch(e){
+      throw e;
+    }
+  }
+
 }

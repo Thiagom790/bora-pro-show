@@ -25,6 +25,15 @@ class AuthController {
     return _authRepository.isAuth();
   }
 
+  Future<void> resetPassword (String email) async {
+    try{
+      await _authRepository.resetPassword(email);
+    }
+    catch(e){
+      throw e;
+    }
+  }
+
   Future<UserViewModel> login(AuthViewModel model) async {
     model.busy = true;
     final email = model.email;
