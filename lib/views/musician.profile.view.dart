@@ -3,8 +3,10 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:tcc_bora_show/controllers/auth.controller.dart';
 import 'package:tcc_bora_show/controllers/event.controller.dart';
+import 'package:tcc_bora_show/controllers/post.controller.dart';
 import 'package:tcc_bora_show/controllers/profile.controller.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/models/post.model.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/store/auth.store.dart';
 import 'package:tcc_bora_show/store/profile.store.dart';
@@ -12,6 +14,7 @@ import 'package:tcc_bora_show/view-models/management.event.viewmodel.dart';
 import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 import 'package:tcc_bora_show/views/create.post.view.dart';
 import 'package:tcc_bora_show/views/event.detail.musician.view.dart';
+import 'package:tcc_bora_show/widgets/dismissible.card.widget.dart';
 import 'package:tcc_bora_show/widgets/error.custom.widger.dart';
 import 'package:tcc_bora_show/widgets/event.card.musician.widget.dart';
 import 'package:tcc_bora_show/widgets/input.widget.dart';
@@ -40,6 +43,8 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
   late AuthStore _authStore;
   final _eventController = EventController();
   List<ManagementEventViewModel> _listEvents = [];
+  final _postController = PostController();
+  List<PostModel> _listPosts = [];
 
   Future<void> _selectProfile() async {
     try {
@@ -60,13 +65,36 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
     }
   }
 
+  Future<void> _selectPostMusician() async {
+    try {
+      final musicianID = _profileStore.id;
+      final listPosts = await _postController.selectPostsMusician(musicianID);
+
+      this._listPosts = listPosts;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> _loadScreen() async {
     try {
       await _selectListEvents();
       await _selectProfile();
+      await _selectPostMusician();
     } catch (e) {
       throw e;
     }
+  }
+
+  // Contrução de widgets
+  List<Widget> get postsWidgets {
+    return this._listPosts.map((post) {
+      return DismissibleCardWidget(
+        child: Postwidget(postModel: post),
+        keyValue: post.id,
+        onDismissToLeft: () {},
+      );
+    }).toList();
   }
 
   List<Widget> get listEventsWidget {
@@ -95,8 +123,7 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
     return list;
   }
 
-  //novas funções a partir daqui
-
+  //Cabeçalho
   Future<void> _getUserProfiles() async {
     try {
       var profiles = await _controller.getUserProfiles();
@@ -227,50 +254,20 @@ class _MusicianProfileViewState extends State<MusicianProfileView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Createpostview()),
-                  );
+                  ).then((_) => setState(() {}));
                 },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  "Postagens",
+                  this._listPosts.length > 0
+                      ? "Postagens"
+                      : "Você ainda não possui postagens ",
                   textAlign: TextAlign.start,
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
               ),
-              Postwidget(
-                profileName: "Thiago",
-                postTime: DateTime.now(),
-                postText:
-                    "Musica Nova Lançada! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum bibendum risus nec lacinia. In hac habitasse platea dictumst. Mauris eget mi non ligula fringilla sodales non ac augue. Quisque vel consectetur odio. Vivamus scelerisque ex sit amet egestas tempus. Etiam vulputate, metus non dignissim rhoncus, nibh ",
-                likeNumber: 999,
-                commentNumber: 224,
-                profileOnTap: () {},
-                likeOnTap: () {},
-                commentOnTap: () {},
-              ),
-              Postwidget(
-                profileName: "Thiago",
-                postTime: DateTime.now(),
-                postText:
-                    "Musica Nova Lançada! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum bibendum risus nec lacinia. In hac habitasse platea dictumst. Mauris eget mi non ligula fringilla sodales non ac augue. Quisque vel consectetur odio. Vivamus scelerisque ex sit amet egestas tempus. Etiam vulputate, metus non dignissim rhoncus, nibh ",
-                likeNumber: 999,
-                commentNumber: 224,
-                profileOnTap: () {},
-                likeOnTap: () {},
-                commentOnTap: () {},
-              ),
-              Postwidget(
-                profileName: "Thiago",
-                postTime: DateTime.now(),
-                postText:
-                    "Musica Nova Lançada! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum bibendum risus nec lacinia. In hac habitasse platea dictumst. Mauris eget mi non ligula fringilla sodales non ac augue. Quisque vel consectetur odio. Vivamus scelerisque ex sit amet egestas tempus. Etiam vulputate, metus non dignissim rhoncus, nibh ",
-                likeNumber: 999,
-                commentNumber: 224,
-                profileOnTap: () {},
-                likeOnTap: () {},
-                commentOnTap: () {},
-              )
+              ...postsWidgets,
             ],
           ),
         );

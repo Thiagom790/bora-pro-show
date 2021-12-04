@@ -32,7 +32,7 @@ class _CreatepostviewState extends State<Createpostview> {
     final post = new PostModel(
       text: text,
       musicianName: musicianName,
-      id: musicianID,
+      musicianID: musicianID,
       dateTime: date,
     );
 

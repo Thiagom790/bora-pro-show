@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_bora_show/core/app.colors.dart';
+import 'package:tcc_bora_show/models/post.model.dart';
 import 'package:tcc_bora_show/utils/date.utils.dart';
 
 class Postwidget extends StatelessWidget {
-  final String profileName;
-  final DateTime postTime;
-  final String postText;
-  final int likeNumber;
-  final int commentNumber;
-  final void Function() profileOnTap;
-  final void Function() likeOnTap;
-  final void Function() commentOnTap;
+  final void Function()? profileOnTap;
+  final void Function()? likeOnTap;
+  final void Function()? commentOnTap;
+  final PostModel postModel;
 
-  Postwidget(
-      {required this.profileName,
-      required this.postTime,
-      required this.postText,
-      required this.likeNumber,
-      required this.commentNumber,
-      required this.profileOnTap,
-      required this.likeOnTap,
-      required this.commentOnTap});
+  Postwidget({
+    this.profileOnTap,
+    this.likeOnTap,
+    this.commentOnTap,
+    required this.postModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +31,7 @@ class Postwidget extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     child: Text(
-                      "${this.profileName}",
+                      "${this.postModel.musicianName}",
                       style: TextStyle(
                         fontSize: 14,
                       ),
@@ -45,7 +39,7 @@ class Postwidget extends StatelessWidget {
                     onTap: profileOnTap,
                   ),
                   Text(
-                    "${dateFormat(this.postTime)}",
+                    "${dateFormat(this.postModel.date)}",
                     style: TextStyle(
                       fontSize: 10,
                       color: AppColors.textLowOppacity,
@@ -57,13 +51,17 @@ class Postwidget extends StatelessWidget {
           ),
         ),
         Container(
+          constraints: BoxConstraints(
+            minWidth: double.infinity,
+            minHeight: 100,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: AppColors.container,
           ),
           padding: EdgeInsets.all(10),
           child: Text(
-            "${this.postText}",
+            "${this.postModel.text}",
             style: TextStyle(
               fontSize: 12,
             ),
@@ -83,7 +81,7 @@ class Postwidget extends StatelessWidget {
                       height: 30,
                     ),
                     Text(
-                      "${this.likeNumber}",
+                      "${this.postModel.numLikes}",
                       style: TextStyle(color: AppColors.textLight),
                     ),
                   ],
@@ -101,7 +99,7 @@ class Postwidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${this.commentNumber}",
+                      "${this.postModel.numComments}",
                       style: TextStyle(color: AppColors.textLight),
                     )
                   ],
