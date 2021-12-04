@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tcc_bora_show/models/profile.model.dart';
 import 'package:tcc_bora_show/models/user.model.dart';
 import 'package:tcc_bora_show/repositories/auth.repository.dart';
@@ -17,8 +19,67 @@ class AuthController {
     _profileRepository = ProfileRepository();
   }
 
+  GoogleSignIn getGoogleReference() {
+    return _authRepository.googleReference;
+  }
+
   Future<void> logout() async {
     await _authRepository.logout();
+  }
+
+  Future<UserCredential> siginGoogle(GoogleSignInAccount? user) async {
+    try {
+      return await _authRepository.signGoogle(user);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<UserViewModel> handleGoogleAuth(AuthViewModel model) async {
+    try {
+      final hasUser = await _profileRepository.hasUser(model.uid);
+
+      if (hasUser) {
+        return new UserViewModel(
+          uid: model.uid,
+          isAuth: true,
+        );
+      }
+
+      final String name = model.name;
+      final String email = model.email;
+      final String phone = model.phoneNumber;
+      final String role = 'user';
+      final String city = '';
+
+      // create your firts profile
+      final profile = ProfileModel(
+        name: name,
+        userUid: model.uid,
+        role: role,
+        city: city,
+        phoneNumber: phone,
+      );
+
+      final profileID = await _profileRepository.create(profile);
+
+      //create user in firestore
+      final user = UserModel(
+        email: email,
+        currentUidProfile: profileID,
+        uid: model.uid,
+      );
+      await _userRepository.create(user);
+
+      return new UserViewModel(
+        currentUidProfile: profileID,
+        isAuth: true,
+        role: role,
+        uid: model.uid,
+      );
+    } catch (e) {
+      throw e;
+    }
   }
 
   bool userIsAuth() {

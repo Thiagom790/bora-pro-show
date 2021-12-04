@@ -5,6 +5,15 @@ import 'package:tcc_bora_show/view-models/profile.viewmodel.dart';
 class ProfileRepository {
   final _reference = FirebaseFirestore.instance.collection("profiles");
 
+  Future<bool> hasUser(String uid) async {
+    try {
+      final user = await select(uid);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<String> create(ProfileModel model) async {
     try {
       final refs = await _reference.add(model.toMap());

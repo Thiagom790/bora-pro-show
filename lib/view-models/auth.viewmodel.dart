@@ -5,4 +5,5 @@ class AuthViewModel {
   String city = '';
   String phoneNumber = '';
   bool busy = false;
+  String uid = "";
 }
