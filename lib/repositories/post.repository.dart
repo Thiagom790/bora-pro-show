@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tcc_bora_show/models/post.model.dart';
 
-class PostRepositoryDart {
+class PostRepository {
   final _reference = FirebaseFirestore.instance.collection('posts');
 
   Future<String> addPost(PostModel post) async {
