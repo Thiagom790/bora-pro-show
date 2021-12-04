@@ -17,9 +17,10 @@ class ProfilePopupMenuWidget extends StatelessWidget {
   }) : super(key: key);
 
   PopupMenuItem<ProfileViewModel> _createItem(ProfileViewModel profile) {
-    IconData icon = Icons.people;
-    if(profile.role == "musician") icon = Icons.music_note_outlined;
-    if(profile.role == "organizer") icon = Icons.work;
+    IconData icon = Icons.add;
+    if (profile.role == "musician") icon = Icons.music_note_outlined;
+    if (profile.role == "organizer") icon = Icons.work;
+    if (profile.role == "user") icon = Icons.person;
 
     return PopupMenuItem(
       child: Row(
@@ -29,7 +30,10 @@ class ProfilePopupMenuWidget extends StatelessWidget {
             profile.name,
             style: TextStyle(color: AppColors.textLight),
           ),
-          Icon(icon, color: Colors.white,),
+          Icon(
+            icon,
+            color: Colors.white,
+          ),
         ],
       ),
       value: profile,
