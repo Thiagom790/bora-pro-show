@@ -15,7 +15,6 @@ import 'package:tcc_bora_show/widgets/large.button.widget.dart';
 import 'package:tcc_bora_show/widgets/loading.widget.dart';
 import 'package:tcc_bora_show/widgets/profile.popupmenu.widget.dart';
 
-
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
@@ -81,7 +80,6 @@ class _ProfileViewState extends State<ProfileView> {
         id: data.id,
       );
 
-
       setState(() {
         this._isLoading = false;
       });
@@ -95,7 +93,6 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void _selectProfile() async {
-
     profileModel = await _controller.selectProfile(_profileStore.id);
     this._phoneNumberController.text = this.profileModel.phoneNumber;
     this._cityController.text = this.profileModel.city;
@@ -103,8 +100,6 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       this._selectedEventGenre = this.profileModel.musicGenre;
     });
-
-
   }
 
   void _logout() {
@@ -206,23 +201,30 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        ProfilePopupMenuWidget(
-                          profiles: this._profiles,
-                          defaultProfile: this._defaultProfile,
-                          onSelect: this._onSelectProfile,
-                          onCreateProfile: this._createNewProfile,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.logout,
-                            color: AppColors.textLight,
+                    constraints: BoxConstraints(minWidth: double.infinity),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          ProfilePopupMenuWidget(
+                            profiles: this._profiles,
+                            defaultProfile: this._defaultProfile,
+                            onSelect: this._onSelectProfile,
+                            onCreateProfile: this._createNewProfile,
                           ),
-                          onPressed: this._logout,
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.logout,
+                                color: AppColors.textLight,
+                              ),
+                              onPressed: this._logout,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -310,7 +312,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   LargeButtonWidget(
                       title: "Salvar Mudanças",
-                      onPress: (){
+                      onPress: () {
                         ProfileModel _profile = new ProfileModel();
                         _profile.id = profileModel.id;
                         _profile.name = _nameController.text;
@@ -320,29 +322,28 @@ class _ProfileViewState extends State<ProfileView> {
                         _profile.rating = profileModel.rating;
                         _profile.userUid = profileModel.userUid;
                         _profile.musicGenre = profileModel.musicGenre;
-                        try{
+                        try {
                           _controller.updateProfile(_profile);
                           showDialog(
                               context: context,
-                              builder: (BuildContext context){
+                              builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: new Text("Sucesso!"),
-                                  content: new Text("Mudanças Salvas com sucesso."),
-                                  actions: <Widget> [
+                                  content:
+                                      new Text("Mudanças Salvas com sucesso."),
+                                  actions: <Widget>[
                                     new TextButton(
                                         child: new Text("Fechar"),
-                                        onPressed: (){Navigator.of(context).pop();}
-                                    ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
                                   ],
                                 );
-                              }
-                          );
-
-                        }catch (e){
+                              });
+                        } catch (e) {
                           throw e;
                         }
-                      }
-                  ),
+                      }),
                 ],
               ),
             ),

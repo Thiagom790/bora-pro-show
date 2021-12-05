@@ -115,7 +115,7 @@ class _MusicianVisitProfileViewState extends State<MusicianVisitProfileView> {
       await _postController.followMusician(
           userID: userID, musicianID: musicianID);
 
-      setState(() {});
+      Navigator.pop(context);
     } catch (e) {
       print("Erro ao seguir musico");
     }
